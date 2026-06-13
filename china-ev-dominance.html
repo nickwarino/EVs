@@ -533,6 +533,57 @@ html[data-theme="dark"] .quiz-reveal .ra{color:#e8a39d}
 .quiz-bars .qb .qt{height:14px;border-radius:7px;background:var(--rule);flex:1;position:relative;overflow:hidden}
 .quiz-bars .qb .qf{position:absolute;left:0;top:0;height:100%;border-radius:7px;width:0;transition:width .8s ease}
 
+/* ---------- closing scorecard ---------- */
+.verdict{max-width:var(--maxwide);margin:40px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.vcard{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:22px 22px}
+.vcard .vc-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.vcard h4{font-size:18px;font-weight:800;line-height:1.2}
+.vc-rate{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:20px;white-space:nowrap}
+.vc-rate.commanding{background:var(--china);color:#fff}
+.vc-rate.strong{background:#c2a043;color:#322811}
+.vc-rate.contested{background:#8d97a2;color:#fff}
+.vc-meter{height:7px;border-radius:4px;background:var(--rule);overflow:hidden;margin-bottom:13px}
+.vc-meter i{display:block;height:100%;width:0;border-radius:4px;transition:width 1.3s cubic-bezier(.22,1,.3,1)}
+.in-view .vc-meter i{width:var(--w)}
+.vcard p{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-soft);margin:0 0 9px}
+.vcard .vc-cav{font-family:var(--sans);font-size:12px;line-height:1.5;color:var(--ink-faint);border-top:1px dashed var(--rule);padding-top:9px}
+.vcard .vc-cav b{color:var(--ink-soft);font-weight:700}
+
+/* ---------- mine-to-showroom journey ---------- */
+.journey{position:relative;margin:34px 0 10px;overflow-x:auto;padding:10px 4px 14px}
+.journey-track{position:relative;display:flex;min-width:660px;align-items:flex-start}
+.journey-line{position:absolute;left:6%;right:6%;top:34px;height:4px;background:var(--rule);border-radius:2px}
+.journey-fill{position:absolute;left:6%;top:34px;height:4px;width:0;background:linear-gradient(90deg,var(--china-deep),var(--china));border-radius:2px;transition:width 3s ease}
+.jstage{flex:1;text-align:center;position:relative;padding:0 6px;z-index:1}
+.jstage .jdot{width:64px;height:64px;border-radius:50%;background:var(--paper);border:3px solid var(--rule);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px;transition:border-color .4s,transform .4s,box-shadow .4s}
+.jstage.lit .jdot{border-color:var(--china);transform:scale(1.06);box-shadow:0 6px 20px -8px rgba(181,52,44,.5)}
+.jstage .jpct{font-family:var(--serif);font-size:24px;font-weight:800;color:var(--ink-faint);line-height:1;transition:color .4s}
+.jstage.lit .jpct{color:var(--china)}
+.jstage .jname{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink);margin-top:5px}
+.jstage .jdesc{font-family:var(--sans);font-size:11px;color:var(--ink-faint);margin-top:3px;line-height:1.4}
+
+/* ---------- animated hero shimmer ---------- */
+.hero::before{content:"";position:absolute;top:-40%;left:-30%;width:80%;height:180%;background:radial-gradient(ellipse at center,rgba(181,52,44,.16),transparent 60%);filter:blur(20px);animation:heroDrift 14s ease-in-out infinite;pointer-events:none}
+@keyframes heroDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(60%,12%)}}
+@media(prefers-reduced-motion:reduce){.hero::before{animation:none}}
+
+/* anatomy hotspot pulse */
+#anatSvg .map-node .dot{animation:anatPulse 2.4s ease-in-out infinite}
+@keyframes anatPulse{0%,100%{stroke-width:2}50%{stroke-width:5}}
+@media(prefers-reduced-motion:reduce){#anatSvg .map-node .dot{animation:none}}
+
+/* ---------- print ---------- */
+@media print{
+  #tocBtn,#toc,#themeToggle,#progress,.scrollcue,.race-controls,.race-btn,.cmp-tabs,.quiz-actions,.ref-speeds{display:none!important}
+  .hero{min-height:auto;padding:40px 24px;background:#fff!important;color:#111!important}
+  .hero h1,.hero-stat .n{color:#111!important}
+  body{font-size:12pt}
+  figure.viz,.vcard,.cav,.padbox,.cmp-card{break-inside:avoid}
+  .method{background:#fff!important;color:#111!important}
+  .srcs a{color:#111!important}
+  a{color:inherit!important;text-decoration:none!important}
+}
+
 /* reveal-on-scroll baseline */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
 .reveal.in-view{opacity:1;transform:none}
@@ -596,6 +647,7 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <a href="#machine" data-sec="machine"><i>6</i> The Machine</a>
   <a href="#grid-sec" data-sec="grid-sec"><i>7</i> The Grid</a>
   <a href="#caveat-sec" data-sec="caveat-sec"><i>8</i> The Counter-Case</a>
+  <a href="#verdict-sec" data-sec="verdict-sec"><i>✦</i> The Verdict</a>
   <a href="#method" data-sec="method"><i>§</i> Methodology</a>
 </nav>
 
@@ -606,10 +658,10 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <p class="deck">From the lithium refinery to the showroom floor, the numbers behind Beijing's — and BYD's — command of the defining industry of the decade.</p>
   <div class="byline">Compiled from <b>26 sources</b> · <b>22 claims</b> survived adversarial fact-checking · IEA, SEC filings, CPCA, CSIS, BloombergNEF</div>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="n"><i>~75%</i></div><div class="l">of the world's EVs<br>built in China, 2025</div></div>
-    <div class="hero-stat"><div class="n">2.26M <span style="font-size:.5em;color:#8a847a">vs</span> 1.64M</div><div class="l">BYD vs Tesla<br>2025 BEV sales</div></div>
-    <div class="hero-stat"><div class="n"><i>&gt;80%</i></div><div class="l">of global battery<br>cell production</div></div>
-    <div class="hero-stat"><div class="n">$84<span style="font-size:.45em;color:#8a847a">/kWh</span></div><div class="l">China pack price —<br>EU pays 56% more</div></div>
+    <div class="hero-stat"><div class="n"><i><span data-count="75" data-prefix="~" data-suffix="%">0</span></i></div><div class="l">of the world's EVs<br>built in China, 2025</div></div>
+    <div class="hero-stat"><div class="n"><span data-count="2.26" data-decimals="2" data-suffix="M">0</span> <span style="font-size:.5em;color:#8a847a">vs</span> <span data-count="1.64" data-decimals="2" data-suffix="M">0</span></div><div class="l">BYD vs Tesla<br>2025 BEV sales</div></div>
+    <div class="hero-stat"><div class="n"><i><span data-count="80" data-prefix="&gt;" data-suffix="%">0</span></i></div><div class="l">of global battery<br>cell production</div></div>
+    <div class="hero-stat"><div class="n"><span data-count="84" data-prefix="$">0</span><span style="font-size:.45em;color:#8a847a">/kWh</span></div><div class="l">China pack price —<br>EU pays 56% more</div></div>
   </div>
   <div class="scrollcue">Scroll ↓</div>
 </header>
@@ -832,6 +884,24 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <div class="prose">
     <p class="lede reveal">Market share can be lost in a model cycle. What China controls beneath the car cannot. The International Energy Agency now identifies China as the <strong>dominant refiner for 19 of the 20</strong> energy minerals it tracks, with an average market share near <strong>70%</strong> — and concentration is <em>rising</em>, not falling.<sup class="fn"><a href="#src-2">2</a></sup> Every battery chemistry, every traction motor, every cathode powder routes through Chinese industrial capacity at some point between the mine and the showroom.</p>
   </div>
+
+  <figure class="viz reveal" id="journeyFig" style="background:var(--paper)">
+    <div class="f-kicker">The Journey — Mine to Showroom</div>
+    <div class="f-title">Follow the material, and China is at every step</div>
+    <div class="f-sub">A lithium atom's path from the ground to your driveway — and China's share at each stage.</div>
+    <div class="journey">
+      <div class="journey-track" id="journeyTrack">
+        <div class="journey-line"></div><div class="journey-fill" id="journeyFill"></div>
+        <div class="jstage" data-i="0"><div class="jdot">⛏️</div><div class="jpct">~70%</div><div class="jname">Mining</div><div class="jdesc">rare-earth mining; major in lithium &amp; graphite</div></div>
+        <div class="jstage" data-i="1"><div class="jdot">⚗️</div><div class="jpct">~70%</div><div class="jname">Refining</div><div class="jdesc">#1 refiner for 19 of 20 minerals</div></div>
+        <div class="jstage" data-i="2"><div class="jdot">🧪</div><div class="jpct">85–90%</div><div class="jname">Materials</div><div class="jdesc">~85% cathode · &gt;90% anode</div></div>
+        <div class="jstage" data-i="3"><div class="jdot">🔋</div><div class="jpct">&gt;80%</div><div class="jname">Cells</div><div class="jdesc">of the world's battery cells</div></div>
+        <div class="jstage" data-i="4"><div class="jdot">🚗</div><div class="jpct">~75%</div><div class="jname">The car</div><div class="jdesc">of all EVs built in China</div></div>
+        <div class="jstage" data-i="5"><div class="jdot">🚢</div><div class="jpct">1M+</div><div class="jname">Export</div><div class="jdesc">BYD units shipped on its own fleet</div></div>
+      </div>
+    </div>
+    <figcaption>Shares as detailed in Fig. 3 and the battery panel below. The point: vertical control isn't one chokepoint — it's the whole chain, mine to ship.</figcaption>
+  </figure>
 
   <figure class="viz reveal">
     <div class="f-kicker">Fig. 3 — The Chokepoints</div>
@@ -1191,11 +1261,40 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <p style="margin-top:18px">The honest version of the argument leans on the zero-mileage scandal plus the verified export-inventory overhang (counterpoint iii above) — not the old graveyard imagery. And note the limit of even the strong version: padding inflates <em>domestic sales reports</em>. It does not touch the supply-chain pillar — the &gt;80% of cells, 90% of anode material and 93% of magnets are measured at the factory and refinery, not from sales filings.<sup class="fn"><a href="#src-14">14</a>,<a href="#src-15">15</a>,<a href="#src-16">16</a></sup></p>
   </div>
 
+  <figure class="viz reveal" id="warFig">
+    <div class="f-kicker">Fig. 8 — The Cost of Winning</div>
+    <div class="f-title">Revenue quadrupled — then the price war bit profits</div>
+    <div class="f-sub">BYD revenue (bars) vs. net profit margin (line), 2021–2025. Volume soared; margin peaked in 2024, then fell as the price war cut deep.</div>
+    <div class="linechart"><svg id="warChart" viewBox="0 0 900 380" role="img" aria-label="BYD revenue and net margin 2021-2025"></svg></div>
+    <figcaption>Revenue rose from RMB 216B (2021) to RMB 804B (2025); net profit fell 19% in 2025 to RMB 32.3B as net margin slipped from 5.2% to ~4.0%. The squeeze deepened in Q1 2026 (net profit −55% YoY). Context: 227 models cut prices in China in 2024 (avg −8.3%), the average car price fell ~11% in two years, dealers lost ~RMB 178B in 2024, and in Feb 2026 regulators banned selling cars below cost. Sources: BYD filings via StockAnalysis/Macrotrends<sup class="fn"><a href="#src-27">27</a></sup>; CnEVPost (price cuts, Q1 2026)<sup class="fn"><a href="#src-28">28</a></sup>; price-war economics<sup class="fn"><a href="#src-29">29</a></sup>.</figcaption>
+  </figure>
+
   <div class="prose">
     <p class="reveal">Note what the counter-case does <em>not</em> touch. Tariffs, price wars and quarterly reversals contest the <em>showroom</em>. None of them moves the refinery layer: the 19-of-20 minerals, the 90% of anode material, the 93% of magnets.<sup class="fn"><a href="#src-2">2</a>,<a href="#src-8">8</a></sup> Quarterly leadership is volatile. The structural dominance, on the verified evidence, is not.</p>
   </div>
   <div class="divider reveal">· · ·</div>
   <div class="pull reveal" style="border:none;padding-left:0;text-align:center;font-size:clamp(26px,3.4vw,34px)">The car race can still swing.<br>The supply chain already finished.</div>
+</section>
+
+<!-- ============================== THE VERDICT ============================== -->
+<section class="chapter" id="verdict-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">In Sum · The Scorecard</div>
+    <h2>The Verdict, Dimension by Dimension</h2>
+  </div>
+  <div class="prose">
+    <p class="reveal">Pulling the whole argument together: China and BYD lead on every front this report examined — but the <em>kind</em> of lead differs. Upstream, it is structural and, on the evidence, locked in. At the showroom, it is commanding yet genuinely contestable. Each card rates the lead and names the honest caveat.</p>
+  </div>
+  <div class="verdict reveal">
+    <div class="vcard"><div class="vc-top"><h4>Market dominance</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>BYD is the world's #1 BEV seller (2.26M in 2025); China builds ~75% of all EVs.</p><div class="vc-cav"><b>But:</b> Tesla retook the quarterly BEV lead in Q1 2026 — full-year 2026 is contested.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>Supply chain</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:96%;background:var(--china)"></i></div><p>&gt;80% of cells, ~85% of cathode, &gt;90% of anode material, 93% of rare-earth magnets.</p><div class="vc-cav"><b>But:</b> Western capacity is being built — though the IEA still sees ~⅔ battery dominance in 2035.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>Financial scale</h4><span class="vc-rate strong">Strong</span></div><div class="vc-meter"><i style="--w:76%;background:#c2a043"></i></div><p>Out-earns Tesla on both revenue (~$116B) and net profit ($4.7B).</p><div class="vc-cav"><b>But:</b> profit fell 19% as the price war squeezed net margin to 4.1%.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>Value per dollar</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>The Seal undercuts the Model 3 ~28% at home; a ~$10k Seagull has no Western rival.</p><div class="vc-cav"><b>But:</b> export markups and tariffs erase much of the edge outside China.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>System integration</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:88%;background:var(--china)"></i></div><p>Cells, cathode chemistry, chips, software — even the ships — built in-house.</p><div class="vc-cav"><b>But:</b> top-tier ADAS compute still leans on NVIDIA / Horizon silicon.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>Charging &amp; infrastructure</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>65% of the world's public chargers, megawatt charging, 3-minute battery swap.</p><div class="vc-cav"><b>But:</b> charger utilization is under 10% — much of the network loses money.</div></div>
+    <div class="vcard"><div class="vc-top"><h4>Global reach</h4><span class="vc-rate strong">Strong &amp; rising</span></div><div class="vc-meter"><i style="--w:74%;background:#c2a043"></i></div><p>1M+ exports; Chinese groups own Volvo, Lotus, Polestar, MG and more.</p><div class="vc-cav"><b>But:</b> walled out of the US; EU, Canada and Mexico tariffs bite.</div></div>
+    <div class="vcard" style="border-color:var(--china)"><div class="vc-top"><h4>Overall</h4><span class="vc-rate commanding">Structural lead</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>The upstream lead — minerals, batteries, the factory floor — is deep and durable. The downstream lead is real but contestable.</p><div class="vc-cav"><b>Bottom line:</b> the car race can still swing; the supply chain already finished.</div></div>
+  </div>
 </section>
 
 </article>
@@ -1246,6 +1345,9 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <li id="src-24"><a href="https://cnevpost.com/2025/12/30/catl-reaches-1020-choco-swap-stations-raises-2026-target/">CnEVPost — CATL Choco-Swap network &amp; Sinopec 10,000-station plan</a><span class="q">Secondary</span></li>
       <li id="src-25"><a href="https://electrek.co/2025/03/17/byd-confirms-1000v-super-e-platform-fast-charging-400km-5-minutes/">Electrek — BYD 1,000V Super e-Platform, 400 km in 5 min</a><span class="q">Secondary</span></li>
       <li id="src-26"><a href="https://chinaevhome.com/2026/01/26/chinas-nev-fleet-tops-43-9-million-by-end-2025-penetration-exceeds-12-1/">ChinaEVHome / MPS — China's NEV fleet tops 43.9M; 366M total car parc, end-2025</a><span class="q">Secondary</span></li>
+      <li id="src-27"><a href="https://stockanalysis.com/quote/otc/BYDDF/financials/">StockAnalysis / Macrotrends — BYD annual revenue, net profit &amp; margins, 2021–2025</a><span class="q">Filings</span></li>
+      <li id="src-28"><a href="https://cnevpost.com/2025/01/06/china-auto-market-227-models-price-cuts-2024/">CnEVPost — 227 China models cut prices in 2024 (avg −8.3%); BYD Q1 2026 results</a><span class="q">Secondary</span></li>
+      <li id="src-29"><a href="https://asianews.network/relentless-cycle-of-price-wars-eroding-profits-of-chinese-automakers/">Asia News Network — price-war economics: dealer losses, margin compression</a><span class="q">Secondary</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
       <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
@@ -1797,8 +1899,8 @@ function runCounter(el){
   }
   PARTS.forEach(p=>{
     const g=el('g',{class:'map-node',transform:'translate('+p.x+','+p.y+')'});
-    g.appendChild(el('circle',{class:'dot',r:16,style:'fill:#b5342c;fill-opacity:.92;stroke:#fff;stroke-width:2'}));
-    const tx=el('text',{'text-anchor':'middle',y:5,style:'fill:#fff;font-weight:800;stroke:none'});tx.textContent=p.n;g.appendChild(tx);
+    g.appendChild(el('circle',{class:'dot',r:20,style:'fill:#b5342c;fill-opacity:.92;stroke:#fff;stroke-width:2'}));
+    const tx=el('text',{'text-anchor':'middle',y:6,style:'fill:#fff;font-weight:800;stroke:none'});tx.textContent=p.n;g.appendChild(tx);
     g.onclick=()=>sel(p,g); svg.appendChild(g);
   });
   sel(PARTS[0]);
@@ -1850,6 +1952,48 @@ function runCounter(el){
   });
   sel(PARENTS.geely);
 })();
+
+/* ---------- price-war combo chart ---------- */
+(function(){
+  const svg=document.getElementById('warChart'); if(!svg) return;
+  const NS='http://www.w3.org/2000/svg';
+  const YEARS=[2021,2022,2023,2024,2025], REV=[216,424,602,777,804], MAR=[1.4,3.9,5.0,5.2,4.0];
+  const W=900,H=380,pl=56,pr=54,pt=26,pb=44, iw=W-pl-pr, ih=H-pt-pb, revMax=900, marMax=6;
+  const xC=i=>pl+(iw/YEARS.length)*(i+0.5), yR=v=>pt+(1-v/revMax)*ih, yM=v=>pt+(1-v/marMax)*ih;
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  [0,300,600,900].forEach(v=>{svg.appendChild(el('line',{x1:pl,y1:yR(v),x2:W-pr,y2:yR(v),class:'lc-grid'}));const t=el('text',{x:pl-8,y:yR(v)+4,'text-anchor':'end',class:'lc-tick'});t.textContent='¥'+v+'B';svg.appendChild(t);});
+  [0,2,4,6].forEach(v=>{const t=el('text',{x:W-pr+8,y:yM(v)+4,'text-anchor':'start',class:'lc-tick'});t.textContent=v+'%';svg.appendChild(t);});
+  const bw=(iw/YEARS.length)*0.46;
+  REV.forEach((v,i)=>{
+    svg.appendChild(el('rect',{x:xC(i)-bw/2,y:yR(v),width:bw,height:yR(0)-yR(v),rx:4,style:'fill:#b5342c;fill-opacity:.82'}));
+    const t=el('text',{x:xC(i),y:yR(v)-9,'text-anchor':'middle',class:'lc-lbl'});t.textContent='¥'+v+'B';svg.appendChild(t);
+    const yr=el('text',{x:xC(i),y:H-16,'text-anchor':'middle',class:'lc-tick'});yr.textContent=YEARS[i];svg.appendChild(yr);
+  });
+  const d='M'+MAR.map((m,i)=>xC(i)+' '+yM(m)).join(' L ');
+  svg.appendChild(el('path',{class:'lc-line',d:d,pathLength:'1',style:'stroke:#c2a043'}));
+  MAR.forEach((m,i)=>{svg.appendChild(el('circle',{class:'lc-dot',cx:xC(i),cy:yM(m),r:4,style:'fill:#c2a043;opacity:1'}));
+    if(i>=3){const t=el('text',{x:xC(i),y:yM(m)-12,'text-anchor':'middle',class:'lc-lbl',style:'fill:#a8842c'});t.textContent=m.toFixed(1)+'%';svg.appendChild(t);}});
+  // legend
+  svg.appendChild(el('rect',{x:pl,y:6,width:13,height:13,rx:2,style:'fill:#b5342c;fill-opacity:.82'}));
+  const l1=el('text',{x:pl+19,y:16,class:'lc-tick'});l1.textContent='Revenue (RMB bn)';svg.appendChild(l1);
+  svg.appendChild(el('line',{x1:pl+150,y1:12,x2:pl+178,y2:12,style:'stroke:#c2a043;stroke-width:3'}));
+  const l2=el('text',{x:pl+184,y:16,class:'lc-tick'});l2.textContent='Net margin (%)';svg.appendChild(l2);
+})();
+
+/* ---------- mine-to-showroom journey ---------- */
+(function(){
+  const fig=document.getElementById('journeyFig'); if(!fig) return;
+  const fill=document.getElementById('journeyFill');
+  const stages=[].slice.call(fig.querySelectorAll('.jstage'));
+  let done=false;
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{
+    if(e.isIntersecting&&!done){done=true;fill.style.width='88%';stages.forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),300+i*430));io.disconnect();}
+  });},{threshold:0.3});
+  io.observe(fig);
+})();
+
+/* ---------- hero count-up ---------- */
+setTimeout(function(){try{document.querySelectorAll('.hero [data-count]').forEach(runCounter);}catch(e){}},1200);
 
 /* ---------- floating table of contents ---------- */
 (function(){
