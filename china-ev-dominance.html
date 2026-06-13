@@ -589,6 +589,39 @@ html[data-theme="dark"] .quiz-reveal .ra{color:#e8a39d}
   a{color:inherit!important;text-decoration:none!important}
 }
 
+/* ---------- adoption map legend ---------- */
+.scale-legend{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-faint)}
+.scale-bar{height:12px;width:min(260px,50vw);border-radius:6px;background:linear-gradient(90deg,#efe6d6,#e0a89f,#c2554c,#8f231d)}
+
+/* ---------- Nordic advantage cards ---------- */
+.nordic-grid{max-width:var(--maxwide);margin:30px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:18px}
+.ncard{background:var(--paper-warm);border:1px solid var(--rule);border-top:4px solid #2e6e4e;border-radius:9px;padding:22px 22px}
+.ncard .nhead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ncard .nflag{font-size:26px;line-height:1}
+.ncard h4{font-size:18px;font-weight:800;line-height:1.15}
+.ncard .nrole{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2e6e4e;margin-bottom:11px}
+.ncard p{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-soft);margin:0 0 9px}
+.ncard .ncav{font-family:var(--sans);font-size:12px;line-height:1.5;color:var(--ink-faint);border-top:1px dashed var(--rule);padding-top:9px}
+.ncard .ncav b{color:var(--ink-soft);font-weight:700}
+
+/* ---------- coda: three models ---------- */
+.coda-models{max-width:var(--maxwide);margin:40px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+@media(max-width:760px){.coda-models{grid-template-columns:1fr}}
+.cmodel{background:var(--paper);padding:26px 22px}
+.cmodel .cm-flag{font-size:24px;margin-bottom:8px}
+.cmodel h4{font-size:17px;font-weight:800;margin-bottom:3px}
+.cmodel .cm-sys{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.cmodel.us{border-top:4px solid var(--west-deep)}
+.cmodel.cn{border-top:4px solid var(--china)}
+.cmodel.no{border-top:4px solid #2e6e4e}
+.cmodel.us .cm-sys{color:var(--west-deep)}
+.cmodel.cn .cm-sys{color:var(--china)}
+.cmodel.no .cm-sys{color:#2e6e4e}
+.cmodel p{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-soft);margin:0 0 10px}
+.cmodel .cm-verdict{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink)}
+.coda-credit{max-width:var(--max);margin:30px auto 0;font-family:var(--sans);font-size:12.5px;line-height:1.6;color:var(--ink-faint);border-left:3px solid var(--rule);padding-left:16px}
+.coda-credit a{color:var(--china)}
+
 /* reveal-on-scroll baseline */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
 .reveal.in-view{opacity:1;transform:none}
@@ -652,7 +685,9 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <a href="#machine" data-sec="machine"><i>6</i> The Machine</a>
   <a href="#grid-sec" data-sec="grid-sec"><i>7</i> The Grid</a>
   <a href="#caveat-sec" data-sec="caveat-sec"><i>8</i> The Counter-Case</a>
+  <a href="#other-sec" data-sec="other-sec"><i>9</i> The Other Model</a>
   <a href="#verdict-sec" data-sec="verdict-sec"><i>✦</i> The Verdict</a>
+  <a href="#coda-sec" data-sec="coda-sec"><i>∞</i> Coda</a>
   <a href="#method" data-sec="method"><i>§</i> Methodology</a>
 </nav>
 
@@ -1281,6 +1316,48 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <div class="pull reveal" style="border:none;padding-left:0;text-align:center;font-size:clamp(26px,3.4vw,34px)">The car race can still swing.<br>The supply chain already finished.</div>
 </section>
 
+<!-- ============================== CH 9: THE OTHER MODEL ============================== -->
+<section class="chapter" id="other-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Nine · The Other Model</div>
+    <h2>The Other Way: How the Nordics Did It</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">The West's most serious answer to China isn't in Detroit or Wolfsburg. It's in Oslo and Helsinki. The Nordics could never match China on scale — there are only about 27 million of them — so they did something else: they finished the transition <em>first</em>, and did it on clean power, by democratic consent. In 2025, <strong>95.9% of Norway's new cars were fully electric</strong>, up from 54% in 2020 — the highest adoption rate on Earth, on a grid that is ~88% hydro.<sup class="fn"><a href="#src-30">30</a></sup></p>
+  </div>
+
+  <figure class="viz reveal" style="background:var(--paper)" id="adoptFig">
+    <div class="f-kicker">Fig. 9a — Adoption, 2020 → 2025</div>
+    <div class="f-title">Who actually went electric</div>
+    <div class="f-sub">Share of new cars that are battery-electric. <strong>Color = how electric; circle size = annual volume.</strong> Toggle the year; tap a market.</div>
+    <div class="cmp-tabs" id="adoptTabs"></div>
+    <div class="map-wrap" style="margin-top:16px">
+      <div class="map-grid">
+        <div class="map-svg-box"><svg class="map-svg" id="adoptSvg" viewBox="0 0 1000 470" role="img" aria-label="World map of EV adoption share 2020 vs 2025"></svg></div>
+        <div class="map-detail" id="adoptDetail"></div>
+      </div>
+      <div class="scale-legend"><span>0%</span><span class="scale-bar"></span><span>100% BEV</span></div>
+    </div>
+    <figcaption>BEV-only share of new-car sales (battery-electric, excluding plug-in hybrids), so figures are comparable. China's <em>combined</em> NEV share is ~54% (incl. plug-in hybrids); its BEV-only share is ~33% — but on a market 30× the Nordics'. Circle size reflects annual EV volume. The split this map makes visible: the Nordics are <strong>deep-red but tiny</strong> (highest share), China is <strong>huge but mid-red</strong> (biggest volume). Sources: OFV, ACEA, ICCT, CPCA, SMMT, IEA GEVO 2026.<sup class="fn"><a href="#src-34">34</a></sup></figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal"><strong>So is it the #2 EV market?</strong> By volume, no — not close. After China (~12.9M EVs), the #2 is <em>Europe as a bloc</em> (~2.6M battery-electric), and the #2 single country is the United States (~1.6M). All five Nordic countries combined sold about <strong>431,000 BEVs — fewer than Germany alone (545,000), and roughly 3% of China's volume</strong>.<sup class="fn"><a href="#src-33">33</a></sup> But volume is the wrong yardstick for 27 million people. Normalize for size, and the Nordics aren't #2 — on adoption they're #1, and on the <em>completeness</em> of the transition, from clean power to near-total electrification, theirs is arguably the most impressive performance anywhere.</p>
+  </div>
+
+  <div class="nordic-grid reveal">
+    <div class="ncard"><div class="nhead"><span class="nflag">🇳🇴</span><h4>Norway</h4></div><div class="nrole">The consumer end, solved</div><p>~96% of new cars electric, EVs now outnumber diesels on the road, ~88% hydro power, and &gt;24,000 public chargers (~10,000 fast). Three decades of tax incentives, built by democratic consensus.</p><div class="ncav"><b>Caveat:</b> the VAT exemption is being phased out from 2027 — the incentives that built it are now being dialed back.</div></div>
+    <div class="ncard"><div class="nhead"><span class="nflag">🇫🇮</span><h4>Finland</h4></div><div class="nrole">The supply end — the West's best shot</div><p>The closest thing the West has to China's upstream chain: Terrafame makes battery-grade nickel &amp; cobalt sulphate (operating), Umicore runs the largest cobalt refinery outside China, and Keliber lithium + the Easpring cathode plant are being built — on a 95%-fossil-free grid.<sup class="fn"><a href="#src-31">31</a></sup></p><div class="ncav"><b>Caveat:</b> Keliber's refinery is deferred on weak lithium prices, and the flagship cathode plant is <strong>70% owned by China's Beijing Easpring</strong>.</div></div>
+    <div class="ncard"><div class="nhead"><span class="nflag">🇸🇪</span><h4>Sweden</h4></div><div class="nrole">The industrial bet — and its limits</div><p>Home to fossil-free "green steel" (HYBRIT, Stegra) for low-carbon car bodies, and to Volvo and Polestar.</p><div class="ncav"><b>Caveat:</b> <strong>Northvolt</strong> — Europe's would-be battery champion — went bankrupt (the largest in modern Swedish history) and was sold to a US startup; Volvo (Geely-owned) saw 2025 operating profit nearly wiped out.<sup class="fn"><a href="#src-32">32</a></sup></div></div>
+    <div class="ncard"><div class="nhead"><span class="nflag">🇩🇰</span><h4>Denmark</h4></div><div class="nrole">The clean-power backbone</div><p>BEVs passed 60% of new sales in 2025, powered by the world's highest wind share — about 60% of Danish electricity. EVs charged on a grid that's already overwhelmingly renewable.</p><div class="ncav"><b>Caveat:</b> like the others, a small market whose influence is as a model, not a manufacturing force.</div></div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">And here is the twist that ties the whole story together: even the West's best answer runs partly on Chinese capital and technology. Finland's flagship cathode plant is majority-Chinese-owned; Volvo and Polestar are controlled by Geely; Sweden's home-grown battery champion collapsed. The Nordic model proves a clean, democratic EV economy is <em>possible</em> — but not yet that the West can build one without China somewhere in the chain.</p>
+  </div>
+  <div class="pull reveal">"China built the biggest electric-car economy. The Nordics built the most complete one — for a thirtieth of the people, on the cleanest power, by vote."</div>
+</section>
+
 <!-- ============================== THE VERDICT ============================== -->
 <section class="chapter" id="verdict-sec">
   <div class="chapter-head reveal">
@@ -1299,6 +1376,32 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="vcard"><div class="vc-top"><h4>Charging &amp; infrastructure</h4><span class="vc-rate commanding">Commanding</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>65% of the world's public chargers, megawatt charging, 3-minute battery swap.</p><div class="vc-cav"><b>But:</b> charger utilization is under 10% — much of the network loses money.</div></div>
     <div class="vcard"><div class="vc-top"><h4>Global reach</h4><span class="vc-rate strong">Strong &amp; rising</span></div><div class="vc-meter"><i style="--w:74%;background:#c2a043"></i></div><p>1M+ exports; Chinese groups own Volvo, Lotus, Polestar, MG and more.</p><div class="vc-cav"><b>But:</b> walled out of the US; EU, Canada and Mexico tariffs bite.</div></div>
     <div class="vcard" style="border-color:var(--china)"><div class="vc-top"><h4>Overall</h4><span class="vc-rate commanding">Structural lead</span></div><div class="vc-meter"><i style="--w:90%;background:var(--china)"></i></div><p>The upstream lead — minerals, batteries, the factory floor — is deep and durable. The downstream lead is real but contestable.</p><div class="vc-cav"><b>Bottom line:</b> the car race can still swing; the supply chain already finished.</div></div>
+  </div>
+</section>
+
+<!-- ============================== CODA ============================== -->
+<section class="chapter" id="coda-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Coda · The Bigger Picture</div>
+    <h2>Two Ways to Make a Future</h2>
+  </div>
+  <div class="coda">
+    <div class="prose">
+      <p class="lede reveal">Step back from the cars. The defining industry of the decade was won not by the freest market, but by the two most deliberately <em>governed</em> economies on Earth — sitting at opposite ends of the democratic spectrum. The same race, run on three different operating systems:</p>
+    </div>
+
+    <div class="coda-models reveal">
+      <div class="cmodel us"><div class="cm-flag">🇺🇸</div><h4>United States</h4><div class="cm-sys">The market model</div><p>Light-touch and stop-start: the IRA's incentives switched on, then tariffs went up and EV credits were repealed. The state mostly deferred to the market.</p><div class="cm-verdict">The freest hand — the weakest result. A distant third, walled off behind tariffs.</div></div>
+      <div class="cmodel cn"><div class="cm-flag">🇨🇳</div><h4>China</h4><div class="cm-sys">Authoritarian state capitalism</div><p>Decades of industrial policy, planning, subsidies and state-channeled credit — with ferocious private competition underneath. Built the supply chain <em>and</em> the cars.</p><div class="cm-verdict">Dominance — without democracy, and at the cost of a brutal price war.</div></div>
+      <div class="cmodel no"><div class="cm-flag">🇳🇴</div><h4>The Nordics</h4><div class="cm-sys">Democratic market socialism</div><p>High-tax, high-public-investment, union-dense, consensus-planned. Produced the world's fastest adoption and cleanest grids — by vote, not decree.</p><div class="cm-verdict">Dominance's cousin — achieved with <em>more</em> democracy, not less.</div></div>
+    </div>
+
+    <div class="prose">
+      <p class="reveal">The lesson reads two opposite ways at once: <strong>deliberate state direction beat laissez-faire</strong> in the industry that mattered most this decade — and it did so whether the state was authoritarian or impeccably democratic. China and the Nordics are wildly different political economies, but they share the conviction the US has spent forty years arguing against: that governments should actively <em>build</em> the future, not merely clear the way for it.</p>
+      <p class="reveal">The honest qualifications matter, and they cut both ways. This is a spectrum, not a binary — the US does industrial policy too (the IRA, the CHIPS Act); the contrast is degree and consistency. "Most successful" is a claim about translating state direction into industrial and social outcomes, not about every metric — the US still leads the innovation frontier and on aggregate wealth. And each winning model carries real costs: China's overcapacity, debt and the margin-destroying price war (and the absence of democracy); the Nordics' small scale, their reliance on global markets, Northvolt's collapse, and the fact that even their supply chain leans on Chinese capital. But the through-line holds. The country that bet the market would sort out the electric car came third. The two that planned for it came first — one without democracy, one with more of it.</p>
+    </div>
+
+    <div class="coda-credit reveal">The framing of China and the Nordics as two state-directed alternatives to the American market model draws on Nick Warino's <a href="https://www.peoplespolicyproject.org/projects/nordic-state-innovation/"><em>The Nordic Model Invents the Goods</em></a> (People's Policy Project, 2022), which argues that egalitarian, state-active economies are not less innovative but more.<sup class="fn"><a href="#src-35">35</a></sup></div>
   </div>
 </section>
 
@@ -1353,6 +1456,12 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <li id="src-27"><a href="https://stockanalysis.com/quote/otc/BYDDF/financials/">StockAnalysis / Macrotrends — BYD annual revenue, net profit &amp; margins, 2021–2025</a><span class="q">Filings</span></li>
       <li id="src-28"><a href="https://cnevpost.com/2025/01/06/china-auto-market-227-models-price-cuts-2024/">CnEVPost — 227 China models cut prices in 2024 (avg −8.3%); BYD Q1 2026 results</a><span class="q">Secondary</span></li>
       <li id="src-29"><a href="https://asianews.network/relentless-cycle-of-price-wars-eroding-profits-of-chinese-automakers/">Asia News Network — price-war economics: dealer losses, margin compression</a><span class="q">Secondary</span></li>
+      <li id="src-30"><a href="https://www.cnbc.com/2026/01/02/evs-norway-new-car-sales-hit-96percent-electric-in-2025-as-tesla-dominates.html">CNBC — Norway's new-car sales 96% electric in 2025</a><span class="q">Secondary</span></li>
+      <li id="src-31"><a href="https://www.mineralsgroup.fi/">Finnish Minerals Group / Sibanye-Keliber / Easpring — Finland's battery pipeline</a><span class="q">Primary</span></li>
+      <li id="src-32"><a href="https://www.cnbc.com/2025/03/12/ailing-swedish-ev-battery-firm-northvolt-files-for-bankruptcy.html">CNBC — Northvolt files for bankruptcy (sold to Lyten, 2026)</a><span class="q">Secondary</span></li>
+      <li id="src-33"><a href="https://www.electrive.com/2026/01/27/eu-wide-new-electric-car-registrations-rise-by-30/">ACEA / Rho Motion / electrive — 2025 EV volumes: Europe #2, US, Nordics</a><span class="q">Secondary</span></li>
+      <li id="src-34"><a href="https://theicct.org/publication/european-market-monitor-cars-and-vans-2025/">ICCT / IEA GEVO 2026 / national agencies — EV adoption shares by market</a><span class="q">Primary</span></li>
+      <li id="src-35"><a href="https://www.peoplespolicyproject.org/projects/nordic-state-innovation/">Nick Warino — <em>The Nordic Model Invents the Goods</em>, People's Policy Project (2022)</a><span class="q">Analysis</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
       <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
@@ -1983,6 +2092,50 @@ function runCounter(el){
   const l1=el('text',{x:pl+19,y:16,class:'lc-tick'});l1.textContent='Revenue (RMB bn)';svg.appendChild(l1);
   svg.appendChild(el('line',{x1:pl+150,y1:12,x2:pl+178,y2:12,style:'stroke:#c2a043;stroke-width:3'}));
   const l2=el('text',{x:pl+184,y:16,class:'lc-tick'});l2.textContent='Net margin (%)';svg.appendChild(l2);
+})();
+
+/* ---------- adoption map (2020/2025) ---------- */
+(function(){
+  const svg=document.getElementById('adoptSvg'); if(!svg) return;
+  const tabsEl=document.getElementById('adoptTabs'), detail=document.getElementById('adoptDetail'), NS='http://www.w3.org/2000/svg';
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  const N=[
+    {id:'no',name:'Norway',x:516,y:74,r:8,a:54,b:96,d:'World’s highest: 96% of new cars BEV in 2025, up from 54% in 2020. ~88% hydro grid.'},
+    {id:'se',name:'Sweden',x:540,y:67,r:8,a:5,b:35,d:'~35% BEV (63% incl. plug-in hybrids). Home to Volvo and the failed Northvolt.'},
+    {id:'fi',name:'Finland',x:566,y:62,r:7,a:4,b:34,d:'~34% BEV. The West’s most complete mines-to-battery pipeline, on a 95% fossil-free grid.'},
+    {id:'dk',name:'Denmark',x:524,y:90,r:7,a:4,b:65,d:'~65% BEV in 2025, charged largely on wind (~60% of Danish power).'},
+    {id:'is',name:'Iceland',x:446,y:64,r:4,a:23,b:38,d:'~38% (volatile after incentive changes); ~100% renewable grid.'},
+    {id:'nl',name:'Netherlands',x:508,y:99,r:9,a:20,b:40,d:'~40% BEV — an early European adoption leader.'},
+    {id:'uk',name:'United Kingdom',x:492,y:95,r:12,a:7,b:23,d:'23.4% BEV in 2025; December hit 32%.'},
+    {id:'de',name:'Germany',x:532,y:108,r:14,a:7,b:19,d:'19% BEV (545k units) — Europe’s largest single national market.'},
+    {id:'fr',name:'France',x:506,y:120,r:11,a:7,b:20,d:'~20% BEV; December 2025 reached 24%.'},
+    {id:'cn',name:'China',x:792,y:128,r:30,a:4,b:33,d:'~33% BEV — but its combined NEV share (incl. plug-in hybrids) is ~54%, on a market 30× the Nordics. Biggest volume on Earth by far.'},
+    {id:'us',name:'United States',x:228,y:138,r:20,a:2,b:8,d:'~8% BEV — and falling after federal EV credits expired in late 2025.'},
+    {id:'jp',name:'Japan',x:883,y:126,r:13,a:1,b:2,d:'~2% BEV. Hybrids still dominate; battery-electric adoption has stalled.'},
+    {id:'in',name:'India',x:717,y:184,r:11,a:1,b:4,d:'~4% of passenger cars — small share, fast growth (+77% in 2025).'},
+    {id:'au',name:'Australia',x:872,y:300,r:9,a:1,b:8,d:'~8% BEV (13% incl. plug-ins); first year above 100k BEVs.'},
+    {id:'br',name:'Brazil',x:358,y:262,r:9,a:1,b:4,d:'~4% BEV (≈9% including hybrids) — a fast-growing BYD export market.'}
+  ];
+  const STOPS=[[0,239,230,214],[20,224,168,159],[45,194,85,76],[70,143,35,29],[100,90,20,16]];
+  function color(s){let a=STOPS[0],b=STOPS[STOPS.length-1];for(let i=0;i<STOPS.length-1;i++){if(s>=STOPS[i][0]&&s<=STOPS[i+1][0]){a=STOPS[i];b=STOPS[i+1];break;}}const f=(s-a[0])/((b[0]-a[0])||1);return 'rgb('+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+','+Math.round(a[3]+(b[3]-a[3])*f)+')';}
+  let year=1;
+  const nodes={};
+  for(let gx=0;gx<=1000;gx+=125){svg.appendChild(el('line',{x1:gx,y1:0,x2:gx,y2:470,class:'grat'}));}
+  for(let gy=0;gy<=470;gy+=78){svg.appendChild(el('line',{x1:0,y1:gy,x2:1000,y2:gy,class:'grat'}));}
+  function paint(){N.forEach(n=>{const s=year?n.b:n.a;nodes[n.id].setAttribute('style','fill:'+color(s)+';stroke:#fff;stroke-width:1.5');});}
+  function sel(n,g){
+    svg.querySelectorAll('.map-node').forEach(x=>x.classList.remove('sel')); if(g)g.classList.add('sel');
+    detail.innerHTML='<span class="md-tier" style="background:'+color(n.b)+'">'+n.name+'</span><h4>'+n.name+'</h4>'
+      +'<div class="md-stat">2020: <b>'+n.a+'%</b> &nbsp;→&nbsp; 2025: <b style="color:var(--china)">'+n.b+'%</b> BEV</div><p>'+n.d+'</p>';
+  }
+  N.forEach(n=>{
+    const g=el('g',{class:'map-node',transform:'translate('+n.x+','+n.y+')'});
+    const c=el('circle',{class:'dot',r:n.r}); g.appendChild(c);
+    if(n.r>=11){const tx=el('text',{'text-anchor':'middle',y:n.r+15,style:'font-size:13px'});tx.textContent=n.name.split(' ')[0];g.appendChild(tx);}
+    g.onclick=()=>sel(n,g); svg.appendChild(g); nodes[n.id]=c;
+  });
+  ['2020','2025'].forEach((y,i)=>{const b=document.createElement('button');b.className='cmp-tab'+(i===1?' on':'');b.textContent=y;b.onclick=()=>{year=i;tabsEl.querySelectorAll('.cmp-tab').forEach((t,k)=>t.classList.toggle('on',k===i));paint();};tabsEl.appendChild(b);});
+  paint(); sel(N[0]);
 })();
 
 /* ---------- mine-to-showroom journey ---------- */
