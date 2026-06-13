@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How China Won the Electric Car — A Data Investigation</title>
 <meta name="description" content="The verified evidence behind China's and BYD's dominance of the global EV market, supply chain, and value-per-dollar race. Updated June 2026.">
+<meta name="theme-color" content="#100c0c">
+<link rel="canonical" href="https://nickwarino.github.io/EVs/china-ev-dominance.html">
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="A Data Investigation">
+<meta property="og:title" content="How China Won the Electric Car">
+<meta property="og:description" content="From the lithium refinery to the showroom floor — the verified numbers behind China's and BYD's command of the global EV industry. 22 claims, adversarially fact-checked.">
+<meta property="og:url" content="https://nickwarino.github.io/EVs/china-ev-dominance.html">
+<meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/2023_BYD_Seal_front.jpg">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How China Won the Electric Car">
+<meta name="twitter:description" content="The verified data on China's and BYD's dominance of the global EV market and supply chain.">
+<meta name="twitter:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/2023_BYD_Seal_front.jpg">
+<!-- Inline SVG favicon: red roundel + charge bolt -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23b5342c'/%3E%3Cpath d='M18 5 L9 18 h6 l-2 9 9-13 h-6 z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;0,6..72,800;1,6..72,400&family=Libre+Franklin:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -173,6 +189,26 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .in-view .col .val{opacity:1}
 .colchart-wrap{padding:50px 0 40px}
 
+/* ---------- bar chart race ---------- */
+.race{position:relative}
+.race-stage{position:relative;height:430px;margin:8px 0 6px}
+@media(max-width:640px){.race-stage{height:380px}}
+.race-bar{position:absolute;left:0;height:38px;display:flex;align-items:center;border-radius:0 5px 5px 0;transition:transform .8s cubic-bezier(.4,0,.2,1),width .8s cubic-bezier(.4,0,.2,1),opacity .5s;will-change:transform,width;overflow:visible}
+.race-bar .rb-name{position:absolute;right:calc(100% + 10px);font-family:var(--sans);font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.race-bar .rb-val{position:absolute;left:calc(100% + 10px);font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+.race-bar .rb-logo{font-size:15px;margin-left:10px;filter:saturate(0) brightness(0) invert(1);opacity:.9}
+@media(max-width:640px){.race-bar .rb-name{font-size:11px;right:calc(100% + 6px)}.race-bar .rb-val{font-size:11px;left:calc(100% + 6px)}}
+.race-year{position:absolute;right:14px;bottom:8px;font-family:var(--serif);font-size:clamp(64px,12vw,128px);font-weight:800;color:var(--rule);z-index:0;letter-spacing:-.03em;pointer-events:none;line-height:1}
+.race-controls{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.race-btn{font-family:var(--sans);font-size:13px;font-weight:700;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:30px;padding:9px 20px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.race-btn:hover{border-color:var(--china);color:var(--china)}
+.race-scrub{flex:1;min-width:160px;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:var(--rule);outline:none;cursor:pointer}
+.race-scrub::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--china);cursor:pointer;border:2px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.race-scrub::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--china);cursor:pointer;border:2px solid var(--paper)}
+.race-ymarks{display:flex;justify-content:space-between;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink-faint);margin-top:8px;padding:0 2px}
+.race-ymarks span{cursor:pointer;padding:2px 4px;transition:color .2s}
+.race-ymarks span.on{color:var(--china)}
+
 /* ---------- horizontal share bars ---------- */
 .hbars{display:flex;flex-direction:column;gap:20px}
 .hbar{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:18px;align-items:center}
@@ -200,6 +236,40 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .rung .bar.b-old{background:#c8ccd2}
 .rung .bar.b-mid{background:#9aa3ad}
 .rung .bar.b-byd{background:linear-gradient(90deg,var(--china-deep),var(--china))}
+
+/* ---------- value comparator ---------- */
+.cmp{max-width:var(--maxwide);margin:60px auto}
+.cmp-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.cmp-tab{font-family:var(--sans);font-size:13px;font-weight:600;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft);border-radius:30px;padding:9px 18px;cursor:pointer;transition:all .2s}
+.cmp-tab:hover{border-color:var(--china)}
+.cmp-tab.on{background:var(--china);color:#fff;border-color:var(--china)}
+.cmp-tab .seg-sub{display:block;font-size:10.5px;font-weight:500;opacity:.7;letter-spacing:.02em}
+.cmp-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+@media(max-width:640px){.cmp-cards{grid-template-columns:1fr}}
+.cmp-card{border:1px solid var(--rule);border-radius:8px;padding:26px 24px;background:var(--paper);position:relative;transition:opacity .35s,transform .35s}
+.cmp-card.byd{border-top:4px solid var(--china)}
+.cmp-card.rival{border-top:4px solid var(--west-deep)}
+.cmp-card .brandtag{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.cmp-card.byd .brandtag{color:var(--china)}
+.cmp-card.rival .brandtag{color:var(--west-deep)}
+.cmp-card .model{font-size:24px;font-weight:800;line-height:1.15;margin-bottom:2px}
+.cmp-card .seg{font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);margin-bottom:18px}
+.cmp-card .price{font-family:var(--serif);font-size:38px;font-weight:800;line-height:1;color:var(--ink)}
+.cmp-card .price small{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-faint);display:block;margin-top:4px}
+.cmp-specs{margin:20px 0 16px;border-top:1px solid var(--rule)}
+.cmp-specs .sr{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);font-family:var(--sans)}
+.cmp-specs .sr .k{font-size:12.5px;color:var(--ink-faint)}
+.cmp-specs .sr .val{font-size:16px;font-weight:700;color:var(--ink)}
+.cmp-specs .sr.ppm{background:linear-gradient(90deg,transparent,rgba(181,52,44,.06));margin:0 -6px;padding:11px 6px;border-bottom:none}
+.cmp-specs .sr.ppm .val{font-size:18px}
+.cmp-specs .sr.win .val{color:var(--china-deep)}
+.cmp-specs .sr.win .val::after{content:" ★";font-size:11px;color:var(--gold)}
+.cmp-feats{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cmp-feats span{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink-soft);background:var(--paper-warm);border:1px solid var(--rule);border-radius:20px;padding:4px 10px}
+.cmp-verdict{margin-top:20px;padding:18px 22px;background:var(--paper-warm);border:1px solid var(--rule);border-left:4px solid var(--gold);border-radius:6px;font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--ink-soft)}
+.cmp-verdict b{color:var(--ink)}
+.cmp-vbar{height:8px;border-radius:5px;background:var(--rule);margin-top:10px;position:relative;overflow:hidden}
+.cmp-vbar i{position:absolute;left:0;top:0;height:100%;border-radius:5px;transition:width .6s}
 
 /* ---------- ledger (financial face-off) ---------- */
 .ledger{max-width:var(--maxwide);margin:60px auto;border:1px solid var(--rule);border-radius:6px;overflow:hidden;font-family:var(--sans)}
@@ -279,6 +349,30 @@ svg.donut{width:200px;height:200px}
 .padbox .pb-cell p{font-size:13.5px;line-height:1.65;margin:0;color:var(--ink-soft)}
 .padbox .pb-stat{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--china);display:block;margin:2px 0 6px}
 
+/* ---------- world access map ---------- */
+.map-wrap{max-width:var(--maxwide);margin:30px auto 0}
+.map-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
+@media(max-width:760px){.map-grid{grid-template-columns:1fr}}
+.map-svg-box{background:var(--paper-warm);border:1px solid var(--rule);border-radius:8px;padding:10px;overflow:hidden}
+html[data-theme="dark"] .map-svg-box{background:#10100f}
+.map-svg{width:100%;height:auto;display:block}
+.map-svg .grat{stroke:var(--rule);stroke-width:.6;fill:none;opacity:.6}
+.map-svg .land{fill:var(--rule);opacity:.32}
+.map-node{cursor:pointer;transition:transform .2s}
+.map-node circle.dot{transition:stroke-width .2s,r .2s}
+.map-node:hover circle.dot{stroke:var(--ink);stroke-width:2.5}
+.map-node.sel circle.dot{stroke:var(--ink);stroke-width:3}
+.map-node text{font-family:var(--sans);font-size:11px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round}
+html[data-theme="dark"] .map-node text{stroke:#10100f}
+.map-detail{background:var(--paper-warm);border:1px solid var(--rule);border-radius:8px;padding:24px 22px;min-height:230px}
+.map-detail .md-tier{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:14px}
+.map-detail h4{font-size:24px;font-weight:800;margin-bottom:4px}
+.map-detail .md-stat{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-faint);margin-bottom:14px}
+.map-detail p{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin:0}
+.map-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.map-legend .lg{display:inline-flex;align-items:center;gap:7px}
+.map-legend .dot{width:13px;height:13px;border-radius:50%}
+
 /* ---------- counterpoint cards ---------- */
 .caveats{max-width:var(--maxwide);margin:50px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
 .cav{background:var(--paper-warm);border:1px solid var(--rule);border-top:4px solid var(--west-deep);border-radius:6px;padding:26px 24px}
@@ -322,11 +416,51 @@ svg.donut{width:200px;height:200px}
 /* reveal-on-scroll baseline */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
 .reveal.in-view{opacity:1;transform:none}
+
+/* ---------- theme toggle button ---------- */
+#themeToggle{position:fixed;top:16px;right:18px;z-index:950;width:42px;height:42px;border-radius:50%;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px -6px rgba(0,0,0,.3);transition:transform .2s,background .3s,color .3s,border-color .3s}
+#themeToggle:hover{transform:scale(1.1) rotate(-12deg)}
+@media(max-width:1100px){#themeToggle{top:12px;right:12px;width:38px;height:38px;font-size:16px}}
+
+/* ---------- DARK THEME ---------- */
+html[data-theme="dark"]{
+  --ink:#ece8e0; --ink-soft:#bdb7ac; --ink-faint:#8f8a80;
+  --paper:#15120f; --paper-warm:#1d1815; --rule:#322c27;
+  --china-soft:#3a201d; --west:#6b7681; --west-deep:#aab3bd;
+}
+html[data-theme="dark"] body{background:#15120f}
+html[data-theme="dark"] ::selection{background:#5a2a25}
+html[data-theme="dark"] .hbar .track{background:#2a2420}
+html[data-theme="dark"] .donut .ring-bg{stroke:#2a2420}
+html[data-theme="dark"] .col.tesla{background:linear-gradient(180deg,#5b6670 0%,#454e57 100%)}
+html[data-theme="dark"] .rung .bar.b-old{background:#3e3a35}
+html[data-theme="dark"] .rung .bar.b-mid{background:#5b6670}
+html[data-theme="dark"] .padbox{background:#211a14;border-color:#3a2f22}
+html[data-theme="dark"] .padbox .pb-grid,html[data-theme="dark"] .padbox .pb-cell{border-color:#3a2f22}
+html[data-theme="dark"] .cav{background:var(--paper-warm)}
+html[data-theme="dark"] .badge{background:#16241c;border-color:#2c4636}
+html[data-theme="dark"] .badge.med{background:#241f14;border-color:#46402c}
+html[data-theme="dark"] figure.photo .frame{background:#0c0a08}
+html[data-theme="dark"] .bignum{background:var(--paper)}
+html[data-theme="dark"] .lrow:nth-child(odd){background:#1d1815}
+html[data-theme="dark"] .lrow{background:var(--paper)}
+html[data-theme="dark"] .asym-col{background:var(--paper)}
+html[data-theme="dark"] .ledger-note{background:var(--paper)}
+html[data-theme="dark"] .prose p{color:var(--ink)}
+html[data-theme="dark"] .prose p.lede::first-letter{color:var(--china)}
+html[data-theme="dark"] .race-btn,html[data-theme="dark"] .cmp-tab{background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .map-detail{background:var(--paper-warm)}
+html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero already dark */
 </style>
+<script>
+/* set theme before paint to avoid flash */
+(function(){try{var t=localStorage.getItem('ev-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 </head>
 <body>
 
 <div id="progress"></div>
+<button id="themeToggle" aria-label="Toggle dark mode" title="Toggle light/dark">🌙</button>
 
 <nav id="dots" aria-label="Chapters">
   <a href="#hero" data-sec="hero"><span>Top</span></a>
@@ -400,6 +534,21 @@ svg.donut{width:200px;height:200px}
       </div>
     </div>
     <figcaption>BEV-only comparison; BYD additionally sold ~2.3M plug-in hybrids for ~4.6M total NEVs in 2025. Sources: Tesla SEC 8-K delivery report; BYD production &amp; sales filing; CnEVPost, Electrek, CNBC. Verified 3–0 across five constituent claims. Note: Tesla retook the <em>quarterly</em> BEV lead in Q1 2026 as BYD's domestic sales fell ~25% — see Chapter 7.</figcaption>
+  </figure>
+
+  <figure class="viz reveal" id="raceFig">
+    <div class="f-kicker">Fig. 1b — The Race, Animated</div>
+    <div class="f-title">Global pure-electric (BEV) sales by manufacturer, 2021 → 2025</div>
+    <div class="f-sub">Watch the order change. Press play, scrub the years, or tap a year below.</div>
+    <div class="race">
+      <div class="race-stage" id="raceStage"><div class="race-year" id="raceYear">2021</div></div>
+      <div class="race-ymarks" id="raceMarks"></div>
+      <div class="race-controls">
+        <button class="race-btn" id="racePlay">▶ Play</button>
+        <input type="range" class="race-scrub" id="raceScrub" min="0" max="100" value="0">
+      </div>
+    </div>
+    <figcaption>Units = battery-electric only (PHEVs excluded). Manufacturer <em>groups</em>: Geely Holding includes Volvo/Polestar/Zeekr; SAIC includes the Wuling JV. Firm figures for BYD, Tesla, VW, BMW; SAIC/Geely 2024–25 are estimates (±5%) derived from EV-Volumes group shares. Sources: EV-Volumes / CleanTechnica / InsideEVs league tables, company filings. The crossover — Tesla leading 2021–24, BYD seizing #1 in 2025, Geely surging from ~100k to ~1.2M — is well-supported.</figcaption>
   </figure>
 
   <div class="prose">
@@ -496,6 +645,22 @@ svg.donut{width:200px;height:200px}
   <div class="prose">
     <p class="reveal">The export story marks a structural shift, not a volume blip. In 2021, Chinese-made EVs sold abroad were mostly <em>foreign</em> brands — Teslas and Dacias built in Shanghai. By 2025, <strong>80% were Chinese brands</strong>. China stopped being the West's contract factory and became its competitor, with BYD alone shipping <strong>1,046,083</strong> vehicles overseas — up roughly 150% in a single year.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-4">4</a></sup> <span class="badge">Verified 3–0</span></p>
   </div>
+
+  <figure class="viz reveal" style="background:var(--paper)">
+    <div class="f-kicker">Interactive — The Tariff Map</div>
+    <div class="f-title">Where the world lets Chinese EVs in</div>
+    <div class="f-sub">Tap any market. The door is wide open across the Global South and shut hardest where the incumbents are strongest.</div>
+    <div class="map-wrap">
+      <div class="map-grid">
+        <div class="map-svg-box">
+          <svg class="map-svg" id="accessMap" viewBox="0 0 1000 480" role="img" aria-label="World map of market access for Chinese EVs"></svg>
+        </div>
+        <div class="map-detail" id="mapDetail"></div>
+      </div>
+      <div class="map-legend" id="mapLegend"></div>
+    </div>
+    <figcaption>Status as of mid-2026. Tariff/regulatory positions from IEA GEVO 2026, CSIS, the Globe and Mail, Electrive, Atlantic Council and government announcements. Node size roughly reflects EV-market importance, position is schematic. The US figure combines a 100%+ tariff with the connected-vehicle rule; "easing" reflects Canada's early-2026 quota deal.</figcaption>
+  </figure>
 </section>
 
 <!-- ============================== CH 3: SUPPLY CHAIN ============================== -->
@@ -621,6 +786,18 @@ svg.donut{width:200px;height:200px}
     <div class="bignum"><div class="n neutral" data-count="55" data-prefix="&gt;" data-suffix="%">0</div><div class="l">of EV batteries deployed globally in 2025 were LFP — the chemistry BYD's Blade pack made mainstream (&lt;10% in 2020)</div></div>
     <div class="bignum"><div class="n" data-count="68" data-suffix="%">0</div><div class="l">cheaper: the ADAS-equipped Seagull vs. BYD's own driver-assistance price floor a year earlier</div></div>
   </div>
+
+  <figure class="viz reveal" style="background:var(--paper)">
+    <div class="f-kicker">Interactive — Head to Head</div>
+    <div class="f-title">More car per pound: BYD vs. the West</div>
+    <div class="f-sub">Same market (UK), same segment. Pick a class and see what your money buys. The ★ marks the better value on price-per-mile-of-range.</div>
+    <div class="cmp">
+      <div class="cmp-tabs" id="cmpTabs"></div>
+      <div class="cmp-cards" id="cmpCards"></div>
+      <div class="cmp-verdict" id="cmpVerdict"></div>
+    </div>
+    <figcaption>UK entry-trim OTR prices before grants, WLTP range, as of 2026. £/mile = price ÷ WLTP range (lower is better). Note the honest split: rivals win value in the cheaper classes, but BYD's Seal beats the Tesla Model 3 on £/mile <em>despite</em> costing more — a bigger battery and 79 extra miles of range. Sources: EV-Database UK, manufacturer UK sites, Carwow, Auto Express. Some figures approximate; the Atto 3 shown is the 2026 Atto 3 Evo.</figcaption>
+  </figure>
 </section>
 
 <!-- ============================== CH 6: THE MACHINE ============================== -->
@@ -759,6 +936,20 @@ svg.donut{width:200px;height:200px}
 </footer>
 
 <script>
+/* ---------- theme toggle ---------- */
+(function(){
+  const btn=document.getElementById('themeToggle');
+  const root=document.documentElement;
+  function sync(){btn.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
+  sync();
+  btn.onclick=()=>{
+    const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('ev-theme',next);}catch(e){}
+    sync();
+  };
+})();
+
 /* ---------- scroll progress ---------- */
 const prog = document.getElementById('progress');
 addEventListener('scroll', () => {
@@ -799,6 +990,8 @@ function activate(root){
   });
   // counters
   root.querySelectorAll('[data-count]').forEach(runCounter);
+  // bar chart race auto-start
+  if(root.id==='raceFig' && window.__startRace) window.__startRace();
 }
 
 function runCounter(el){
@@ -820,6 +1013,213 @@ function runCounter(el){
   }
   requestAnimationFrame(frame);
 }
+
+/* ---------- bar chart race ---------- */
+(function(){
+  const stage=document.getElementById('raceStage');
+  if(!stage) return;
+  const yearEl=document.getElementById('raceYear');
+  const playBtn=document.getElementById('racePlay');
+  const scrub=document.getElementById('raceScrub');
+  const marksEl=document.getElementById('raceMarks');
+  const YEARS=[2021,2022,2023,2024,2025], MAX=2400000, LAST=YEARS.length-1;
+  const M=[
+    {n:'BYD',c:'#b5342c',v:[320810,913052,1570388,1764992,2256714]},
+    {n:'Tesla',c:'#7d8893',v:[936172,1314330,1808581,1789226,1636129]},
+    {n:'Geely',c:'#3f7d8c',v:[100000,383936,589932,922000,1200000]},
+    {n:'VW Group',c:'#4a6fa5',v:[452900,572100,742703,744794,983000]},
+    {n:'SAIC',c:'#8a6cb0',v:[609730,671725,748159,824000,900000]},
+    {n:'BMW',c:'#5b6670',v:[103855,215755,376183,426594,442056]},
+    {n:'Hyundai-Kia',c:'#c08a3e',v:[216562,360000,516000,396573,507000]},
+    {n:'Mercedes',c:'#6b8f71',v:[99300,117800,240600,185100,197300]},
+    {n:'GAC Aion',c:'#b07a6c',v:[120155,271156,480000,392210,350000]},
+    {n:'Xpeng',c:'#5aa0a8',v:[0,0,0,190068,429445]},
+    {n:'Xiaomi',c:'#d08a4a',v:[0,0,0,0,411837]},
+    {n:'NIO',c:'#7088c0',v:[0,0,0,221970,326028]}
+  ];
+  const bars={};
+  function fmt(v){return v>=1e6?(v/1e6).toFixed(2)+'M':Math.round(v/1e3)+'k';}
+  function mkBar(m){
+    const el=document.createElement('div');el.className='race-bar';el.style.background=m.c;
+    el.innerHTML='<span class="rb-name">'+m.n+'</span><span class="rb-val"></span>';
+    el.style.opacity=0;stage.appendChild(el);return el;
+  }
+  function render(t){
+    const i=Math.min(Math.floor(t),LAST), f=t-i, j=Math.min(i+1,LAST);
+    const rows=M.map(m=>({n:m.n,c:m.c,val:m.v[i]+(m.v[j]-m.v[i])*f}))
+                .filter(o=>o.val>1000).sort((a,b)=>b.val-a.val).slice(0,8);
+    const sw=stage.clientWidth, gutter=sw<560?92:135, valSpace=58, avail=sw-gutter-valSpace;
+    const slot=stage.clientHeight/8;
+    const shown={};
+    rows.forEach((o,rank)=>{
+      let b=bars[o.n]||(bars[o.n]=mkBar(M.find(x=>x.n===o.n)));
+      b.style.width=Math.max(3,avail*o.val/MAX)+'px';
+      b.style.left=gutter+'px';
+      b.style.transform='translateY('+(rank*slot+(slot-38)/2)+'px)';
+      b.style.opacity=1;b.style.zIndex=20-rank;
+      b.querySelector('.rb-val').textContent=fmt(o.val);
+      shown[o.n]=1;
+    });
+    Object.keys(bars).forEach(n=>{if(!shown[n])bars[n].style.opacity=0;});
+    yearEl.textContent=YEARS[Math.round(t)];
+    marksEl.querySelectorAll('span').forEach((s,k)=>s.classList.toggle('on',k===Math.round(t)));
+  }
+  // year marks
+  YEARS.forEach((y,k)=>{const s=document.createElement('span');s.textContent=y;s.onclick=()=>{stop();animateTo(k);};marksEl.appendChild(s);});
+  let t=0, raf=null, playing=false, started=false;
+  function frame(now){
+    if(!playing){raf=null;return;}
+    const dt=(now-frame.last)||16; frame.last=now;
+    t+=dt/1500;
+    if(t>=LAST){t=LAST;playing=false;playBtn.textContent='↻ Replay';}
+    render(t); scrub.value=t/LAST*100;
+    if(playing)raf=requestAnimationFrame(frame);else raf=null;
+  }
+  function play(){
+    if(t>=LAST)t=0;
+    playing=true;playBtn.textContent='❚❚ Pause';frame.last=0;
+    if(!raf)raf=requestAnimationFrame(frame);
+  }
+  function stop(){playing=false;playBtn.textContent='▶ Play';}
+  function animateTo(targetIdx){ // smooth glide to a year
+    playing=true;playBtn.textContent='❚❚ Pause';frame.last=0;
+    const dir=targetIdx>t?1:-1;
+    function g(now){
+      const dt=(now-g.last)||16; g.last=now;
+      t+=dir*dt/1200;
+      if((dir>0&&t>=targetIdx)||(dir<0&&t<=targetIdx)){t=targetIdx;playing=false;playBtn.textContent=(t>=LAST)?'↻ Replay':'▶ Play';render(t);scrub.value=t/LAST*100;return;}
+      render(t);scrub.value=t/LAST*100;
+      if(playing)requestAnimationFrame(g);
+    }
+    requestAnimationFrame(g);
+  }
+  playBtn.onclick=()=>{playing?stop():play();};
+  scrub.oninput=()=>{stop();t=scrub.value/100*LAST;render(t);};
+  addEventListener('resize',()=>render(t));
+  window.__startRace=function(){if(started)return;started=true;setTimeout(play,500);};
+  render(0);
+})();
+
+/* ---------- value comparator ---------- */
+(function(){
+  const tabsEl=document.getElementById('cmpTabs'), cardsEl=document.getElementById('cmpCards'), verdEl=document.getElementById('cmpVerdict');
+  if(!tabsEl) return;
+  const DATA=[
+    {seg:'City car',sub:'~£19k class',
+     byd:{m:'BYD Dolphin Surf',s:'A-segment city EV',price:18650,range:137,z:11.1,kwh:30,f:['Rotating 10.1" touchscreen','Vehicle-to-Load','Vegan leather + climate']},
+     rival:{m:'Hyundai Inster',s:'A-segment city EV',price:23495,range:203,z:11.7,kwh:42,f:['Heat pump standard','Sliding rear seats','Vehicle-to-Load']}},
+    {seg:'Supermini',sub:'hatch class',
+     byd:{m:'BYD Dolphin',s:'B-segment hatch',price:26195,range:211,z:12.3,kwh:44.9,f:['LFP Blade battery','e-Platform 3.0','Vehicle-to-Load']},
+     rival:{m:'MG4',s:'C-segment hatch',price:23495,range:219,z:7.7,kwh:50.8,f:['Rear-wheel drive','Strong dynamics','Vehicle-to-Load']}},
+    {seg:'Compact SUV',sub:'family class',
+     byd:{m:'BYD Atto 3 Evo',s:'C-segment SUV',price:38990,range:317,z:5.5,kwh:74.8,f:['800V, 220kW charging','LFP Blade battery','10–80% in ~25 min']},
+     rival:{m:'Kia Niro EV',s:'C-segment SUV',price:35745,range:285,z:7.8,kwh:64.8,f:['Heat pump','Relaxion front seats','Vehicle-to-Load']}},
+    {seg:'Sedan',sub:'Model 3 rival',
+     byd:{m:'BYD Seal',s:'D-segment sedan',price:45730,range:354,z:5.9,kwh:82.5,f:['Cell-to-body Blade','Heat pump','Premium audio']},
+     rival:{m:'Tesla Model 3',s:'D-segment sedan',price:37990,range:275,z:6.2,kwh:60,f:['15.4" display','Autopilot','Heated/ventilated seats']}}
+  ];
+  const VERDICTS=[
+    'The <b>Inster</b> is pricier up front but its bigger battery wins on £/mile — proof the value gap is real both ways. BYD still sets the floor on sticker price.',
+    'The <b>MG4</b> (also a Chinese-owned brand, SAIC) is cheaper, far quicker and longer-ranged — the toughest matchup for BYD, and a reminder the value pressure is broadly Chinese, not BYD alone.',
+    'Near-tie on value: the <b>BYD Atto 3 Evo</b> edges the Niro on £/mile and adds an 800V architecture and a 0–62 nearly 2.5s quicker, for ~£3k more.',
+    'The headline result: the <b>BYD Seal</b> costs £7,740 more than the Model 3 yet still beats it on £/mile — an 82.5kWh battery and 79 extra miles of range. More car, less per mile.'
+  ];
+  let active=0;
+  const fmtP=v=>'£'+v.toLocaleString('en-GB');
+  function ppm(c){return c.price/c.range;}
+  function cardHTML(c,cls,best){
+    const p=ppm(c), win=(cls==='byd')===best?'win':'';
+    return '<div class="cmp-card '+cls+'">'
+      +'<div class="brandtag">'+(cls==='byd'?'BYD':'The rival')+'</div>'
+      +'<div class="model">'+c.m+'</div><div class="seg">'+c.s+'</div>'
+      +'<div class="price">'+fmtP(c.price)+'<small>starting, UK OTR</small></div>'
+      +'<div class="cmp-specs">'
+        +'<div class="sr"><span class="k">WLTP range</span><span class="val">'+c.range+' mi</span></div>'
+        +'<div class="sr"><span class="k">0–62 mph</span><span class="val">'+c.z+'s</span></div>'
+        +'<div class="sr"><span class="k">Usable battery</span><span class="val">'+c.kwh+' kWh</span></div>'
+        +'<div class="sr ppm '+win+'"><span class="k">£ per mile of range</span><span class="val">£'+p.toFixed(0)+'</span></div>'
+      +'</div>'
+      +'<div class="cmp-feats">'+c.f.map(x=>'<span>'+x+'</span>').join('')+'</div>'
+    +'</div>';
+  }
+  function render(i){
+    const d=DATA[i];
+    const bydBest=ppm(d.byd)<=ppm(d.rival);
+    cardsEl.style.opacity=0;
+    setTimeout(()=>{
+      cardsEl.innerHTML=cardHTML(d.byd,'byd',bydBest)+cardHTML(d.rival,'rival',bydBest);
+      cardsEl.style.opacity=1;
+    },180);
+    verdEl.innerHTML=VERDICTS[i];
+    tabsEl.querySelectorAll('.cmp-tab').forEach((t,k)=>t.classList.toggle('on',k===i));
+  }
+  DATA.forEach((d,i)=>{const b=document.createElement('button');b.className='cmp-tab';b.innerHTML=d.seg+'<span class="seg-sub">'+d.sub+'</span>';b.onclick=()=>{active=i;render(i);};tabsEl.appendChild(b);});
+  render(0);
+})();
+
+/* ---------- world access map ---------- */
+(function(){
+  const svg=document.getElementById('accessMap');
+  if(!svg) return;
+  const detail=document.getElementById('mapDetail'), legendEl=document.getElementById('mapLegend');
+  const NS='http://www.w3.org/2000/svg';
+  const TIERS={
+    home:{c:'#b5342c',label:'Home market'},
+    barred:{c:'#3d4751',label:'Effectively barred'},
+    wall:{c:'#c08a3e',label:'High tariff wall'},
+    easing:{c:'#7b8a3e',label:'Easing / quota'},
+    open:{c:'#2e6e4e',label:'Open & growing'}
+  };
+  // schematic equirectangular-ish positions on a 1000x480 canvas
+  const N=[
+    {id:'cn',name:'China',x:792,y:150,r:24,tier:'home',stat:'World’s #1 — home base',d:'BYD’s home and the world’s largest EV market. ~16M of the world’s ~22M EVs are built here; BYD led 2025 with 27.2% of NEV sales.'},
+    {id:'us',name:'United States',x:222,y:150,r:21,tier:'barred',stat:'100%+ tariff + software ban',d:'A 100% EV tariff plus a 25% auto tariff (over 125% combined), and the Connected Vehicle Rule bars Chinese-linked software (MY2027) and hardware (2030) — even if built on US soil. Effectively closed.'},
+    {id:'ca',name:'Canada',x:210,y:104,r:13,tier:'easing',stat:'100% → 6.1% on a quota',d:'Matched the US at 100% in Oct 2024, then eased in early 2026 to 6.1% on a 49,000-unit quota (rising to 70,000 by 2030) in a canola-for-EVs deal. BYD launches there late 2026.'},
+    {id:'mx',name:'Mexico',x:200,y:198,r:11,tier:'wall',stat:'Tariff raised to 50%',d:'Raised tariffs on Chinese EVs from 20% to 50% effective January 2026, partly under US pressure to close the “back door” into North America.'},
+    {id:'br',name:'Brazil',x:360,y:300,r:15,tier:'open',stat:'Big market, tariffs phasing in',d:'A booming BYD market with a local factory in Bahia, though import tariffs are being gradually restored (toward 35% by mid-2026). Still one of BYD’s largest export destinations.'},
+    {id:'uk',name:'United Kingdom',x:486,y:104,r:12,tier:'open',stat:'No EV tariff — wide open',d:'No tariff barrier. BYD, MG and others sell freely; the UK is among the most open major Western markets and a key BYD beachhead in Europe.'},
+    {id:'eu',name:'European Union',x:524,y:116,r:18,tier:'wall',stat:'Countervailing duties to 2029',d:'EU countervailing duties (up to ~35% on top of 10%) since 2024, held to end-2029, kept Chinese imports under 20% of EV sales — prompting BYD/others to build plants in Hungary and Türkiye.'},
+    {id:'tr',name:'Türkiye',x:590,y:142,r:10,tier:'wall',stat:'40% tariff → local plant deal',d:'Imposed a 40% tariff, then secured a $1B BYD factory commitment — the classic “build here to sell here” outcome of a tariff wall.'},
+    {id:'in',name:'India',x:712,y:196,r:14,tier:'wall',stat:'High barriers, BYD limited',d:'Steep import duties and investment restrictions keep Chinese brands at the margin; BYD sells in small volumes and faces government scrutiny on local investment.'},
+    {id:'th',name:'Thailand & SE Asia',x:778,y:212,r:14,tier:'open',stat:'Local plants, waivers expiring',d:'A core BYD export and manufacturing hub (BYD, Thailand plant in Rayong). Duty waivers largely expired Dec 2025, but the region remains broadly open and fast-growing.'},
+    {id:'id',name:'Indonesia',x:822,y:262,r:11,tier:'open',stat:'Open, BYD investing',d:'Open market with BYD investing in local assembly; nickel-rich and courted heavily by Chinese automakers and battery makers.'},
+    {id:'au',name:'Australia',x:866,y:322,r:14,tier:'open',stat:'No tariff — booming',d:'No tariff on Chinese EVs. BYD and MG have surged; one of the clearest cases of Chinese brands winning an open developed market on price and kit.'},
+    {id:'gulf',name:'Gulf / UAE',x:648,y:188,r:10,tier:'open',stat:'Wide open',d:'Open, fast-growing luxury and fleet demand; BYD and other Chinese brands expanding rapidly with few trade barriers.'},
+    {id:'za',name:'Africa',x:566,y:330,r:11,tier:'open',stat:'Emerging, mostly open',d:'Largely open and price-sensitive — a natural fit for low-cost Chinese EVs as charging and demand build out.'}
+  ];
+  // simple schematic land masses (rough blobs) for context
+  const LAND=[
+    'M150,70 Q210,55 270,95 Q255,160 215,210 Q175,200 160,150 Z',
+    'M300,230 Q345,250 365,300 Q355,365 320,360 Q300,300 300,230 Z',
+    'M470,80 Q540,70 560,120 Q540,150 500,150 Q470,120 470,80 Z',
+    'M520,170 Q600,170 590,250 Q560,360 540,350 Q505,250 520,170 Z',
+    'M620,90 Q780,70 880,140 Q860,210 760,210 Q660,180 620,140 Z',
+    'M780,250 Q840,250 850,300 Q900,330 860,355 Q800,340 780,300 Z'
+  ];
+  // graticule
+  for(let gx=0;gx<=1000;gx+=125){const l=document.createElementNS(NS,'line');l.setAttribute('x1',gx);l.setAttribute('y1',0);l.setAttribute('x2',gx);l.setAttribute('y2',480);l.setAttribute('class','grat');svg.appendChild(l);}
+  for(let gy=0;gy<=480;gy+=80){const l=document.createElementNS(NS,'line');l.setAttribute('x1',0);l.setAttribute('y1',gy);l.setAttribute('x2',1000);l.setAttribute('y2',gy);l.setAttribute('class','grat');svg.appendChild(l);}
+  LAND.forEach(d=>{const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class','land');svg.appendChild(p);});
+  function select(n,node){
+    svg.querySelectorAll('.map-node').forEach(g=>g.classList.remove('sel'));
+    if(node)node.classList.add('sel');
+    const t=TIERS[n.tier];
+    detail.innerHTML='<span class="md-tier" style="background:'+t.c+'">'+t.label+'</span>'
+      +'<h4>'+n.name+'</h4><div class="md-stat">'+n.stat+'</div><p>'+n.d+'</p>';
+  }
+  N.forEach(n=>{
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','map-node');g.setAttribute('transform','translate('+n.x+','+n.y+')');
+    const c=document.createElementNS(NS,'circle');c.setAttribute('class','dot');c.setAttribute('r',n.r);
+    c.setAttribute('fill',TIERS[n.tier].c);c.setAttribute('fill-opacity','.88');c.setAttribute('stroke','#fff');c.setAttribute('stroke-width','1.5');
+    g.appendChild(c);
+    if(n.r>=12){const tx=document.createElementNS(NS,'text');tx.setAttribute('text-anchor','middle');tx.setAttribute('y',n.r+13);tx.textContent=n.name.split(' ')[0];g.appendChild(tx);}
+    g.onclick=()=>select(n,g);
+    svg.appendChild(g);
+  });
+  // legend
+  Object.keys(TIERS).forEach(k=>{const s=document.createElement('span');s.className='lg';s.innerHTML='<span class="dot" style="background:'+TIERS[k].c+'"></span>'+TIERS[k].label;legendEl.appendChild(s);});
+  select(N[0]);
+})();
 
 /* ---------- side-nav active state ---------- */
 const secs = [...document.querySelectorAll('[id]')].filter(el =>

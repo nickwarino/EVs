@@ -22,9 +22,17 @@ Researched via an automated deep-research pipeline: the question was decomposed 
 
 Primary sources include the IEA *Global EV Outlook 2026* and *Critical Minerals Outlook 2025*, Tesla's SEC 8-K, BYD's FY2025 annual report, CPCA registration data, CSIS, and BloombergNEF.
 
+## Interactive features
+
+- **Animated bar-chart race** — global BEV sales by manufacturer, 2021→2025, with play/scrub controls (watch BYD seize #1)
+- **Value-per-dollar comparator** — pick a segment and compare a BYD model against its Western rival on price, range, 0–62 and £-per-mile
+- **The Tariff Map** — a clickable world map of how open each market is to Chinese EVs
+- **Dark mode** — toggle in the top-right, remembers your choice
+- Scroll-triggered charts, an animated financial ledger, and counters throughout
+
 ## Tech
 
-A single self-contained `.html` file: vanilla JavaScript, CSS animations, `IntersectionObserver` scroll reveals, and SVG/CSS charts. No frameworks, no external data, no build.
+Two files, zero dependencies: `china-ev-dominance.html` (the feature) and `index.html` (a redirect landing with social-preview tags). Vanilla JavaScript, CSS animations, `IntersectionObserver` scroll reveals, hand-built SVG/CSS charts, Open Graph/Twitter cards, and an inline SVG favicon. No frameworks, no build step, no external data — only Google Fonts and the four attributed Wikimedia photos are fetched.
 
 ---
 
