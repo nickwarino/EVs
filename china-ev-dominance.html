@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How China Won the Electric Car — A Data Investigation</title>
+<meta name="description" content="The verified evidence behind China's and BYD's dominance of the global EV market, supply chain, and value-per-dollar race. Updated June 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;0,6..72,800;1,6..72,400&family=Libre+Franklin:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#121212;
+  --ink-soft:#444;
+  --ink-faint:#777;
+  --paper:#ffffff;
+  --paper-warm:#faf9f6;
+  --rule:#e5e2dc;
+  --china:#b5342c;
+  --china-deep:#8f231d;
+  --china-soft:#f5e3e1;
+  --west:#9aa3ad;
+  --west-deep:#5b6670;
+  --gold:#a8842c;
+  --green:#2e6e4e;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --sans:"Libre Franklin", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --max:680px;
+  --maxwide:980px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);
+  color:var(--ink);
+  background:var(--paper);
+  font-size:19px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--china-soft)}
+
+/* ---------- progress bar ---------- */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--china);width:0%;z-index:1000;transition:width .1s linear}
+
+/* ---------- side nav dots ---------- */
+#dots{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:14px}
+#dots a{width:9px;height:9px;border-radius:50%;background:#d4d0c8;display:block;transition:all .25s;position:relative}
+#dots a.active{background:var(--china);transform:scale(1.45)}
+#dots a span{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+#dots a:hover span{opacity:1}
+@media(max-width:1100px){#dots{display:none}}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;
+  background:radial-gradient(ellipse 120% 80% at 50% -10%, #2a1414 0%, #100c0c 55%, #0a0808 100%);
+  color:#f4f1ea;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 120%, rgba(181,52,44,.22), transparent 55%);
+}
+.kicker{
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.28em;
+  text-transform:uppercase;color:#c98a85;margin-bottom:28px;
+  opacity:0;animation:fadeUp 1s .2s forwards;
+}
+.hero h1{
+  font-size:clamp(44px,7.5vw,92px);font-weight:800;line-height:1.02;
+  letter-spacing:-.02em;max-width:13ch;
+  opacity:0;animation:fadeUp 1.1s .45s forwards;
+}
+.hero h1 em{font-style:italic;font-weight:500;color:#e0b3ae}
+.hero .deck{
+  font-size:clamp(18px,2.2vw,23px);font-weight:400;line-height:1.55;color:#bdb6ab;
+  max-width:620px;margin-top:30px;font-style:italic;
+  opacity:0;animation:fadeUp 1.1s .75s forwards;
+}
+.hero .byline{
+  font-family:var(--sans);font-size:13px;color:#8a847a;margin-top:38px;letter-spacing:.04em;
+  opacity:0;animation:fadeUp 1s 1s forwards;
+}
+.hero .byline b{color:#cfc9be;font-weight:600}
+.hero-stats{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0 56px;margin-top:64px;
+  opacity:0;animation:fadeUp 1.2s 1.25s forwards;
+}
+.hero-stat{padding:10px 0;min-width:150px}
+.hero-stat .n{font-family:var(--serif);font-size:clamp(34px,4vw,48px);font-weight:700;color:#f4ede2;line-height:1.1}
+.hero-stat .n i{font-style:normal;color:#d4756e}
+.hero-stat .l{font-family:var(--sans);font-size:11.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#8a847a;margin-top:6px}
+.scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-family:var(--sans);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#6b655c;animation:bob 2.4s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,9px)}}
+
+/* ---------- article scaffolding ---------- */
+article{background:var(--paper)}
+section.chapter{padding:100px 24px 40px}
+.chapter-head{max-width:var(--max);margin:0 auto 8px}
+.ch-kicker{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--china);display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.ch-kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+h2{font-size:clamp(32px,4.6vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.015em;margin-bottom:26px}
+.prose{max-width:var(--max);margin:0 auto}
+.prose p{margin-bottom:26px;color:#222}
+.prose p.lede::first-letter{
+  float:left;font-size:74px;line-height:.82;font-weight:700;
+  padding:8px 10px 0 0;color:var(--china);
+}
+.prose a{color:inherit;text-decoration-color:#c9aba8;text-underline-offset:3px}
+sup.fn{font-family:var(--sans);font-size:11px;font-weight:600}
+sup.fn a{color:var(--china);text-decoration:none}
+.note{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-faint);border-left:3px solid var(--rule);padding-left:16px;margin:30px 0}
+.badge{
+  display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--green);
+  border:1px solid #cfe0d6;background:#f2f8f4;border-radius:20px;padding:2px 9px;
+  vertical-align:2px;margin-left:6px;white-space:nowrap;
+}
+.badge.med{color:var(--gold);border-color:#e6d9b8;background:#faf6ea}
+
+.pull{
+  max-width:var(--max);margin:54px auto;padding:0 0 0 28px;border-left:4px solid var(--china);
+  font-size:clamp(24px,3vw,30px);font-style:italic;font-weight:500;line-height:1.4;color:var(--ink);
+}
+.pull .attr{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:14px}
+
+/* ---------- big number callouts ---------- */
+.bignum-row{max-width:var(--maxwide);margin:56px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.bignum{background:var(--paper);padding:30px 26px;text-align:left}
+.bignum .n{font-size:clamp(40px,4.5vw,56px);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--china)}
+.bignum .n.neutral{color:var(--ink)}
+.bignum .l{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-soft);margin-top:12px;line-height:1.5}
+
+/* ---------- figure scaffolding ---------- */
+figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm);border:1px solid var(--rule);border-radius:6px;padding:38px 38px 30px}
+@media(max-width:640px){figure.viz{padding:26px 18px 22px}}
+.viz .f-kicker{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--china);margin-bottom:8px}
+.viz .f-title{font-size:24px;font-weight:700;line-height:1.25;margin-bottom:6px}
+.viz .f-sub{font-family:var(--sans);font-size:13.5px;color:var(--ink-faint);margin-bottom:30px}
+.viz figcaption{font-family:var(--sans);font-size:12px;color:var(--ink-faint);margin-top:24px;padding-top:16px;border-top:1px solid var(--rule);line-height:1.6}
+
+/* legend */
+.legend{display:flex;gap:22px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:24px;flex-wrap:wrap}
+.legend .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+
+/* ---------- column (vertical bar) chart ---------- */
+.colchart{display:flex;align-items:flex-end;justify-content:center;gap:clamp(28px,7vw,90px);height:330px;padding-bottom:10px}
+.colgroup{display:flex;gap:14px;align-items:flex-end;height:100%;position:relative}
+.colgroup .year{position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink)}
+.col{width:clamp(54px,9vw,92px);border-radius:4px 4px 0 0;position:relative;height:0;transition:height 1.4s cubic-bezier(.22,1,.3,1)}
+.col.byd{background:linear-gradient(180deg,var(--china) 0%,var(--china-deep) 100%)}
+.col.tesla{background:linear-gradient(180deg,#aeb6bf 0%,#7d8893 100%)}
+.col .val{position:absolute;top:-46px;left:50%;transform:translateX(-50%);font-family:var(--sans);font-size:14px;font-weight:700;white-space:nowrap;color:var(--ink);opacity:0;transition:opacity .6s 1s}
+.col .delta{display:block;font-size:11px;font-weight:600;text-align:center}
+.col .delta.up{color:var(--green)}
+.col .delta.down{color:var(--china)}
+.in-view .col .val{opacity:1}
+.colchart-wrap{padding:50px 0 40px}
+
+/* ---------- horizontal share bars ---------- */
+.hbars{display:flex;flex-direction:column;gap:20px}
+.hbar{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:18px;align-items:center}
+@media(max-width:560px){.hbar{grid-template-columns:1fr;gap:6px}}
+.hbar .lab{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.35;text-align:right}
+@media(max-width:560px){.hbar .lab{text-align:left}}
+.hbar .lab small{display:block;font-weight:400;color:var(--ink-faint);font-size:11.5px}
+.hbar .track{height:30px;background:#efece6;border-radius:4px;position:relative;overflow:visible}
+.hbar .fill{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--china-deep),var(--china));position:relative;transition:width 1.5s cubic-bezier(.22,1,.3,1)}
+.hbar .fill.gold{background:linear-gradient(90deg,#8a6c20,var(--gold))}
+.hbar .fill .pct{position:absolute;right:-8px;top:50%;transform:translate(100%,-50%);font-family:var(--sans);font-size:13.5px;font-weight:800;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .5s 1.1s}
+.hbar .fill.inside .pct{right:10px;transform:translateY(-50%);color:#fff}
+.in-view .hbar .fill .pct{opacity:1}
+
+/* ---------- price ladder ---------- */
+.ladder{display:flex;flex-direction:column;gap:18px;margin-top:10px}
+.rung{display:grid;grid-template-columns:minmax(160px,260px) 1fr;gap:18px;align-items:center}
+@media(max-width:560px){.rung{grid-template-columns:1fr;gap:6px}}
+.rung .lab{font-family:var(--sans);font-size:13.5px;font-weight:600;text-align:right;line-height:1.4}
+@media(max-width:560px){.rung .lab{text-align:left}}
+.rung .lab small{display:block;font-weight:400;color:var(--ink-faint);font-size:11.5px}
+.rung .bar{height:44px;border-radius:5px;width:0;transition:width 1.4s cubic-bezier(.22,1,.3,1);position:relative;display:flex;align-items:center}
+.rung .bar .tag{position:absolute;right:-10px;transform:translateX(100%);font-family:var(--sans);font-weight:800;font-size:15px;white-space:nowrap;opacity:0;transition:opacity .5s 1s}
+.in-view .rung .bar .tag{opacity:1}
+.rung .bar.b-old{background:#c8ccd2}
+.rung .bar.b-mid{background:#9aa3ad}
+.rung .bar.b-byd{background:linear-gradient(90deg,var(--china-deep),var(--china))}
+
+/* ---------- ledger (financial face-off) ---------- */
+.ledger{max-width:var(--maxwide);margin:60px auto;border:1px solid var(--rule);border-radius:6px;overflow:hidden;font-family:var(--sans)}
+.ledger .lhead{display:grid;grid-template-columns:1.3fr 1fr 1fr;background:var(--ink);color:#f4f1ea}
+.ledger .lhead div{padding:18px 20px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ledger .lhead .co-byd{color:#e8a39d}
+.ledger .lhead .co-tsla{color:#b9c2cb}
+.lrow{display:grid;grid-template-columns:1.3fr 1fr 1fr;border-top:1px solid var(--rule);background:var(--paper)}
+.lrow:nth-child(odd){background:var(--paper-warm)}
+.lrow div{padding:16px 20px;font-size:15px}
+.lrow .metric{font-weight:600;color:var(--ink-soft);font-size:13.5px}
+.lrow .metric small{display:block;font-weight:400;color:var(--ink-faint);font-size:11.5px;margin-top:2px}
+.lrow .v{font-family:var(--serif);font-size:21px;font-weight:700}
+.lrow .v .chg{font-family:var(--sans);font-size:11.5px;font-weight:700;margin-left:8px;vertical-align:2px}
+.chg.up{color:var(--green)}
+.chg.down{color:var(--china)}
+.lrow .v.win{color:var(--china-deep);position:relative}
+.lrow .v.win::after{content:"●";font-size:8px;color:var(--china);margin-left:7px;vertical-align:3px}
+@media(max-width:640px){
+  .ledger .lhead div,.lrow div{padding:12px 10px}
+  .lrow .v{font-size:16px}
+  .lrow .metric{font-size:12px}
+}
+.ledger-note{display:flex;justify-content:flex-end;gap:6px;font-family:var(--sans);font-size:11px;color:var(--ink-faint);padding:10px 20px;background:var(--paper);border-top:1px solid var(--rule)}
+
+/* ---------- duo (before/after) ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:var(--maxwide);margin:0 auto}
+@media(max-width:700px){.duo{grid-template-columns:1fr}}
+.donut-card{text-align:center;padding:10px 0}
+.donut-card .dl{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:14px}
+.donut-card .ds{font-family:var(--sans);font-size:12px;color:var(--ink-faint);margin-top:4px}
+svg.donut{width:200px;height:200px}
+.donut .ring-bg{fill:none;stroke:#efece6;stroke-width:20}
+.donut .ring-fg{fill:none;stroke:var(--china);stroke-width:20;stroke-linecap:butt;transform:rotate(-90deg);transform-origin:center;stroke-dasharray:0 502.65;transition:stroke-dasharray 1.6s cubic-bezier(.22,1,.3,1)}
+.donut text{font-family:var(--serif);font-weight:800;font-size:44px;fill:var(--ink)}
+.donut text.sm{font-family:var(--sans);font-weight:600;font-size:11px;fill:var(--ink-faint)}
+
+/* ---------- counterpoint cards ---------- */
+.caveats{max-width:var(--maxwide);margin:50px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.cav{background:var(--paper-warm);border:1px solid var(--rule);border-top:4px solid var(--west-deep);border-radius:6px;padding:26px 24px}
+.cav .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--west-deep);font-style:italic}
+.cav h4{font-family:var(--sans);font-size:15px;font-weight:700;margin:8px 0 10px;line-height:1.35}
+.cav p{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin:0}
+
+/* ---------- integration flow ---------- */
+.chain{max-width:var(--maxwide);margin:50px auto;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;justify-content:center}
+.link-card{flex:1;min-width:150px;max-width:200px;background:var(--paper-warm);border:1px solid var(--rule);padding:22px 18px;text-align:center;position:relative;margin:0 14px 14px 0}
+.link-card::after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--china);font-size:18px;font-weight:700;z-index:2}
+.link-card:last-child::after{display:none}
+.link-card .ic{font-size:26px;margin-bottom:10px}
+.link-card h5{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:7px}
+.link-card p{font-family:var(--sans);font-size:11.5px;line-height:1.55;color:var(--ink-faint);margin:0}
+
+/* ---------- divider ---------- */
+.divider{max-width:var(--max);margin:30px auto 0;text-align:center;color:#c4beb2;font-size:22px;letter-spacing:14px}
+
+/* ---------- methodology / sources ---------- */
+.method{background:#100e0d;color:#cfc9be;padding:90px 24px 70px;margin-top:90px}
+.method .inner{max-width:var(--maxwide);margin:0 auto}
+.method h3{font-size:32px;color:#f4f1ea;font-weight:800;margin-bottom:18px}
+.method p{font-family:var(--sans);font-size:14px;line-height:1.75;max-width:720px;margin-bottom:18px}
+.mstats{display:flex;gap:46px;flex-wrap:wrap;margin:40px 0 50px}
+.mstat .n{font-size:42px;font-weight:800;color:#f4f1ea}
+.mstat .n i{font-style:normal;color:#d4756e}
+.mstat .l{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8a847a;margin-top:4px}
+.srcs{columns:2;column-gap:50px;font-family:var(--sans);font-size:13px;line-height:1.7}
+@media(max-width:700px){.srcs{columns:1}}
+.srcs li{margin-bottom:12px;break-inside:avoid;color:#9d978c}
+.srcs a{color:#d8d2c6;text-decoration:none;border-bottom:1px solid #4a443c}
+.srcs a:hover{color:#fff;border-color:#a8635d}
+.srcs .q{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b655c;margin-left:6px}
+.refuted-box{border:1px dashed #4a443c;border-radius:6px;padding:24px;margin:44px 0;max-width:760px}
+.refuted-box h6{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#d4756e;margin-bottom:14px}
+.refuted-box li{font-family:var(--sans);font-size:13px;color:#9d978c;margin:0 0 10px 18px;line-height:1.6}
+.refuted-box s{color:#6b655c}
+.endline{font-family:var(--sans);font-size:11.5px;color:#6b655c;margin-top:60px;padding-top:24px;border-top:1px solid #2c2925;letter-spacing:.04em}
+
+/* reveal-on-scroll baseline */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
+.reveal.in-view{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="dots" aria-label="Chapters">
+  <a href="#hero" data-sec="hero"><span>Top</span></a>
+  <a href="#crown" data-sec="crown"><span>The Crown</span></a>
+  <a href="#factory" data-sec="factory"><span>The Factory</span></a>
+  <a href="#chain-sec" data-sec="chain-sec"><span>The Supply Chain</span></a>
+  <a href="#money" data-sec="money"><span>The Money</span></a>
+  <a href="#value" data-sec="value"><span>The Value</span></a>
+  <a href="#machine" data-sec="machine"><span>The Machine</span></a>
+  <a href="#caveat-sec" data-sec="caveat-sec"><span>The Caveats</span></a>
+  <a href="#method" data-sec="method"><span>Methodology</span></a>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero" id="hero">
+  <div class="kicker">A Data Investigation · June 2026</div>
+  <h1>How China Won <em>the Electric Car</em></h1>
+  <p class="deck">From the lithium refinery to the showroom floor, the numbers behind Beijing's — and BYD's — command of the defining industry of the decade.</p>
+  <div class="byline">Compiled from <b>26 sources</b> · <b>22 claims</b> survived adversarial fact-checking · IEA, SEC filings, CPCA, CSIS, BloombergNEF</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="n"><i>~75%</i></div><div class="l">of the world's EVs<br>built in China, 2025</div></div>
+    <div class="hero-stat"><div class="n">2.26M <span style="font-size:.5em;color:#8a847a">vs</span> 1.64M</div><div class="l">BYD vs Tesla<br>2025 BEV sales</div></div>
+    <div class="hero-stat"><div class="n"><i>&gt;80%</i></div><div class="l">of global battery<br>cell production</div></div>
+    <div class="hero-stat"><div class="n">$84<span style="font-size:.45em;color:#8a847a">/kWh</span></div><div class="l">China pack price —<br>EU pays 56% more</div></div>
+  </div>
+  <div class="scrollcue">Scroll ↓</div>
+</header>
+
+<article>
+
+<!-- ============================== CH 1: THE CROWN ============================== -->
+<section class="chapter" id="crown">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter One · Market Dominance</div>
+    <h2>The Crown Changes Hands</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">For a decade, the electric car had one undisputed king. That era ended on January 2, 2026, when the full-year numbers landed: BYD sold <strong>2,256,714</strong> battery-electric vehicles in 2025 — up 27.9% — while Tesla delivered <strong>1,636,129</strong>, down 8.6% in its second consecutive annual decline. The gap: more than <strong>620,000 cars</strong>. For the first time in history, the world's best-selling pure-electric carmaker is Chinese.<sup class="fn"><a href="#src-3">3</a>,<a href="#src-4">4</a>,<a href="#src-5">5</a></sup> <span class="badge">Verified 3–0</span></p>
+    <p class="reveal">The collapse was steepest at the finish line. Tesla's Q4 2025 deliveries fell to <strong>418,227</strong> — down 15.6% year-over-year, missing consensus.<sup class="fn"><a href="#src-3">3</a></sup> And the crown was not narrowly won: just one year earlier, in 2024, Tesla had clung to the annual title by fewer than 25,000 units (1,789,226 vs 1,764,992). In twelve months, a near-tie became a rout.</p>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 1 — The Overtake</div>
+    <div class="f-title">Global battery-electric vehicle sales, BYD vs Tesla</div>
+    <div class="f-sub">Full calendar years. BYD: passenger BEV wholesale. Tesla: deliveries.</div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--china)"></span>BYD (BEV only)</span>
+      <span><span class="sw" style="background:#8d97a2"></span>Tesla</span>
+    </div>
+    <div class="colchart-wrap">
+      <div class="colchart" id="crownChart">
+        <div class="colgroup">
+          <div class="col byd" data-h="78"><div class="val">1,764,992</div></div>
+          <div class="col tesla" data-h="79"><div class="val">1,789,226</div></div>
+          <div class="year">2024</div>
+        </div>
+        <div class="colgroup">
+          <div class="col byd" data-h="100"><div class="val">2,256,714 <span class="delta up">▲ 27.9%</span></div></div>
+          <div class="col tesla" data-h="72"><div class="val">1,636,129 <span class="delta down">▼ 8.6%</span></div></div>
+          <div class="year">2025</div>
+        </div>
+      </div>
+    </div>
+    <figcaption>BEV-only comparison; BYD additionally sold ~2.3M plug-in hybrids for ~4.6M total NEVs in 2025. Sources: Tesla SEC 8-K delivery report; BYD production &amp; sales filing; CnEVPost, Electrek, CNBC. Verified 3–0 across five constituent claims. Note: Tesla retook the <em>quarterly</em> BEV lead in Q1 2026 as BYD's domestic sales fell ~25% — see Chapter 7.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal">At home, the rout is more lopsided still. BYD finished 2025 as China's <strong>#1 automaker overall</strong> — not just in EVs — with 14.7% of the entire passenger-car market, ahead of Geely (11.0%) and every foreign brand. In China's NEV market it held <strong>27.2% retail share (3.48 million units)</strong>. Tesla? Fifth place, with 4.9% — 625,698 units, down 4.8% — having slipped from third the year before.<sup class="fn"><a href="#src-7">7</a></sup> <span class="badge">Verified 3–0</span></p>
+  </div>
+
+  <div class="pull reveal">"In twelve months, a near-tie became a rout. The world's largest car market no longer has a foreign company in its top four."</div>
+</section>
+
+<!-- ============================== CH 2: THE FACTORY ============================== -->
+<section class="chapter" id="factory">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Two · Production &amp; Exports</div>
+    <h2>The Factory of the World, Electrified</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">One company is the headline; one country is the story. Of the nearly <strong>22 million</strong> electric cars produced worldwide in 2025, China built roughly <strong>16 million — about 75%</strong>. Chinese factories produced 20% more EVs than Chinese buyers purchased, and the surplus poured outward: exports doubled to a record <strong>2.5 million+ units</strong>, roughly 40% of all global EV trade.<sup class="fn"><a href="#src-1">1</a></sup> <span class="badge">Verified 3–0</span></p>
+  </div>
+
+  <div class="duo reveal" style="margin-top:54px">
+    <figure class="viz" style="margin:0">
+      <div class="f-kicker">Fig. 2a — Production</div>
+      <div class="f-title">Where the world's EVs were built, 2025</div>
+      <div class="f-sub">Share of ~22M electric cars produced globally (incl. PHEVs)</div>
+      <div class="donut-card">
+        <svg class="donut" viewBox="0 0 200 200">
+          <circle class="ring-bg" cx="100" cy="100" r="80"/>
+          <circle class="ring-fg" cx="100" cy="100" r="80" data-pct="75"/>
+          <text x="100" y="98" text-anchor="middle">75%</text>
+          <text class="sm" x="100" y="122" text-anchor="middle">MADE IN CHINA</text>
+        </svg>
+        <div class="dl">~16M of ~22M vehicles</div>
+        <div class="ds">IEA Global EV Outlook 2026</div>
+      </div>
+    </figure>
+    <figure class="viz" style="margin:0">
+      <div class="f-kicker">Fig. 2b — Conquest of the Global South</div>
+      <div class="f-title">Chinese share of EV sales outside the US &amp; Europe</div>
+      <div class="f-sub">Chinese imports as share of electric-car sales in the rest of the world</div>
+      <div class="donut-card">
+        <svg class="donut" viewBox="0 0 200 200">
+          <circle class="ring-bg" cx="100" cy="100" r="80"/>
+          <circle class="ring-fg" cx="100" cy="100" r="80" data-pct="55"/>
+          <text x="100" y="98" text-anchor="middle">55%</text>
+          <text class="sm" x="100" y="122" text-anchor="middle">UP FROM ~10% IN 2021</text>
+        </svg>
+        <div class="dl">5.5× share gain in four years</div>
+        <div class="ds">IEA Global EV Outlook 2026</div>
+      </div>
+    </figure>
+  </div>
+
+  <div class="bignum-row reveal">
+    <div class="bignum"><div class="n" data-count="2.5" data-suffix="M+" data-decimals="1">0</div><div class="l">Chinese EV exports in 2025 — <strong>doubled</strong> year-over-year to a record</div></div>
+    <div class="bignum"><div class="n" data-count="940" data-suffix="K">0</div><div class="l">Chinese-made EVs sold in Europe in 2025, up ~50% despite tariffs</div></div>
+    <div class="bignum"><div class="n" data-count="80" data-suffix="%">0</div><div class="l">of Chinese-made EVs sold overseas are now <strong>Chinese brands</strong> — up from &lt;40% in 2021</div></div>
+    <div class="bignum"><div class="n" data-count="1046083" data-format="comma">0</div><div class="l">BYD's own 2025 exports — past 1M for the first time, up <strong>~150%</strong></div></div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">The export story marks a structural shift, not a volume blip. In 2021, Chinese-made EVs sold abroad were mostly <em>foreign</em> brands — Teslas and Dacias built in Shanghai. By 2025, <strong>80% were Chinese brands</strong>. China stopped being the West's contract factory and became its competitor, with BYD alone shipping <strong>1,046,083</strong> vehicles overseas — up roughly 150% in a single year.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-4">4</a></sup> <span class="badge">Verified 3–0</span></p>
+  </div>
+</section>
+
+<!-- ============================== CH 3: SUPPLY CHAIN ============================== -->
+<section class="chapter" id="chain-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Three · The Supply Chain</div>
+    <h2>Owning Everything Beneath the Car</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">Market share can be lost in a model cycle. What China controls beneath the car cannot. The International Energy Agency now identifies China as the <strong>dominant refiner for 19 of the 20</strong> energy minerals it tracks, with an average market share near <strong>70%</strong> — and concentration is <em>rising</em>, not falling.<sup class="fn"><a href="#src-2">2</a></sup> Every battery chemistry, every traction motor, every cathode powder routes through Chinese industrial capacity at some point between the mine and the showroom.</p>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 3 — The Chokepoints</div>
+    <div class="f-title">China's share of the global EV supply chain, layer by layer</div>
+    <div class="f-sub">2025 production / processing shares. Hover any bar for sourcing.</div>
+    <div class="hbars" id="chainBars">
+      <div class="hbar"><div class="lab">Battery cell production<small>&gt;4 TWh global capacity; EU &amp; US ~6–7% each</small></div><div class="track"><div class="fill inside" data-w="81" title="IEA GEVO 2026; CSIS. Verified 3–0"><span class="pct">&gt;80%</span></div></div></div>
+      <div class="hbar"><div class="lab">Cathode active material<small>the most valuable part of the cell</small></div><div class="track"><div class="fill inside" data-w="85" title="IEA GEVO 2026. Verified 3–0"><span class="pct">~85%</span></div></div></div>
+      <div class="hbar"><div class="lab">Anode active material</div><div class="track"><div class="fill inside" data-w="91" title="IEA GEVO 2026. Verified 3–0"><span class="pct">&gt;90%</span></div></div></div>
+      <div class="hbar"><div class="lab">Purified phosphoric acid<small>essential for LFP batteries</small></div><div class="track"><div class="fill inside" data-w="75" title="IEA Critical Minerals Outlook 2025. Verified 3–0"><span class="pct">75%</span></div></div></div>
+      <div class="hbar"><div class="lab">High-purity manganese sulphate</div><div class="track"><div class="fill inside" data-w="95" title="IEA Critical Minerals Outlook 2025. Verified 3–0"><span class="pct">95%</span></div></div></div>
+      <div class="hbar"><div class="lab">Rare-earth mining</div><div class="track"><div class="fill inside" data-w="70" title="CSIS, Oct 2025. Verified 3–0"><span class="pct">~70%</span></div></div></div>
+      <div class="hbar"><div class="lab">Rare-earth separation &amp; processing</div><div class="track"><div class="fill inside" data-w="90" title="CSIS, Oct 2025. Verified 3–0"><span class="pct">90%</span></div></div></div>
+      <div class="hbar"><div class="lab">Rare-earth magnet manufacturing<small>the heart of every EV traction motor</small></div><div class="track"><div class="fill inside" data-w="93" title="CSIS, Oct 2025. Verified 3–0"><span class="pct">93%</span></div></div></div>
+      <div class="hbar"><div class="lab">Mineral refining, avg. across 19 of 20<small>IEA-tracked energy minerals where China is #1</small></div><div class="track"><div class="fill inside gold" data-w="70" title="IEA Critical Minerals Outlook 2025. Verified 3–0"><span class="pct">~70%</span></div></div></div>
+    </div>
+    <figcaption>Sources: IEA Global EV Outlook 2026<sup class="fn"><a href="#src-1">1</a></sup>; IEA Global Critical Minerals Outlook 2025<sup class="fn"><a href="#src-2">2</a></sup>; rare-earth rows from CSIS, Oct 2025<sup class="fn"><a href="#src-8">8</a></sup>. All bars verified 3–0 by independent fact-check panels. Concentration is increasing: the top-3 refiners' average share rose from 82% (2020) to 86% (2024), with ~90% of recent supply growth coming from the single top supplier.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal">The chemistry of the modern EV was effectively chosen in China. Lithium-iron-phosphate (LFP) batteries — cheaper, safer, cobalt-free, and pioneered commercially by BYD's Blade pack — grew from under 10% of the global EV battery market in 2020 to <strong>over 55% in 2025</strong>.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-2">2</a></sup> The world standardized on the battery China is best at making — and China supplies 75% of the purified phosphoric acid it requires.</p>
+    <p class="reveal">Nor is this a lead the West expects to erase. Even in the IEA's own forward scenarios, China still supplies <strong>~90% of anode material, ~75% of cathode material, and two-thirds of all batteries in 2035</strong> — a decade from now, after every announced Western gigafactory is counted.<sup class="fn"><a href="#src-1">1</a></sup> <span class="badge">Verified 3–0</span></p>
+  </div>
+
+  <div class="pull reveal">"Market share can be lost in a model cycle. The refinery layer cannot. Even the IEA's 2035 scenario leaves two-thirds of the world's batteries in Chinese hands."</div>
+</section>
+
+<!-- ============================== CH 4: THE MONEY ============================== -->
+<section class="chapter" id="money">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Four · The Financials</div>
+    <h2>The Money: Bigger Top Line, Bigger Bottom Line</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">BYD first out-earned Tesla on revenue in 2024 — $107&nbsp;billion to $97.7&nbsp;billion. In 2025 the gap widened in both directions: BYD grew to <strong>RMB&nbsp;804&nbsp;billion (~$116B)</strong> while Tesla posted its <strong>first-ever annual revenue decline</strong>, to $94.8&nbsp;billion. And despite fighting the most brutal price war in automotive history at home, BYD's net profit of <strong>$4.7&nbsp;billion still exceeded Tesla's $3.8&nbsp;billion</strong> — which had fallen 46%.<sup class="fn"><a href="#src-10">10</a>,<a href="#src-11">11</a>,<a href="#src-12">12</a></sup></p>
+  </div>
+
+  <div class="ledger reveal">
+    <div class="lhead"><div>FY 2025</div><div class="co-byd">BYD</div><div class="co-tsla">TESLA</div></div>
+    <div class="lrow"><div class="metric">Revenue<small>BYD: RMB 803.97B converted</small></div><div class="v win">~$116B<span class="chg up">+3.5%</span></div><div class="v">$94.8B<span class="chg down">−3%</span></div></div>
+    <div class="lrow"><div class="metric">Net income<small>BYD attributable · Tesla GAAP</small></div><div class="v win">$4.72B<span class="chg down">−19%</span></div><div class="v">$3.79B<span class="chg down">−46%</span></div></div>
+    <div class="lrow"><div class="metric">Vehicles sold<small>BYD: all NEV · Tesla: deliveries</small></div><div class="v win">4,602,436<span class="chg up">+7.7%</span></div><div class="v">1,636,129<span class="chg down">−9%</span></div></div>
+    <div class="lrow"><div class="metric">Automotive gross margin</div><div class="v win">20.5%</div><div class="v">18.0%<small style="font-family:var(--sans);font-size:11px;color:var(--ink-faint)"> (total GAAP)</small></div></div>
+    <div class="lrow"><div class="metric">R&amp;D spend<small>BYD: RMB 63.4B, +17% YoY</small></div><div class="v win">$9.2B</div><div class="v">—</div></div>
+    <div class="lrow"><div class="metric">Engineers on staff</div><div class="v win">&gt;120,000</div><div class="v">—</div></div>
+    <div class="ledger-note">● = leader · BYD figures: FY2025 annual report (Mar 27, 2026) · Tesla figures: SEC 8-K (Jan 28, 2026) · Company filings, not adversarially fact-checked — see methodology</div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">The structural advantage sits below the income statement. According to BloombergNEF's December 2025 survey, a battery pack in China costs <strong>$84 per kWh</strong> — North America pays 44% more, Europe 56% more. With the pack still the single most expensive component of an EV, a ~30% battery-cost advantage is a head start no Western assembly-line efficiency can claw back.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-9">9</a></sup> <span class="badge">Verified 3–0</span></p>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 4 — The Cost Moat</div>
+    <div class="f-title">Average lithium-ion battery pack price by region</div>
+    <div class="f-sub">BloombergNEF survey, December 2025 ($/kWh)</div>
+    <div class="ladder">
+      <div class="rung"><div class="lab">China<small>home of &gt;80% of cell production</small></div><div class="bar b-byd" data-w="53"><span class="tag">$84 /kWh</span></div></div>
+      <div class="rung"><div class="lab">North America</div><div class="bar b-mid" data-w="76"><span class="tag">≈$121 &nbsp;(+44%)</span></div></div>
+      <div class="rung"><div class="lab">Europe</div><div class="bar b-old" data-w="83"><span class="tag">≈$131 &nbsp;(+56%)</span></div></div>
+    </div>
+    <figcaption>Regional pack-price averages reflect chemistry mix (China is majority-LFP) and manufacturing scale, not identical-cell teardowns. Sources: BloombergNEF Dec 2025; corroborates IEA's ~30% Chinese battery cost advantage. Verified 3–0.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================== CH 5: VALUE ============================== -->
+<section class="chapter" id="value">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Five · Product &amp; Value</div>
+    <h2>More Car per Dollar</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">Dominance upstream becomes generosity downstream. In February 2025, BYD announced that <strong>"God's Eye,"</strong> its highway-and-city driver-assistance suite, would roll out across its <em>entire</em> lineup — an initial 21 models spanning BYD, Denza, Fangcheng Bao and Yangwang — running on its in-house Xuanji&nbsp;A3 chipset alongside NVIDIA Orin and Horizon Robotics compute.<sup class="fn"><a href="#src-6">6</a></sup> <span class="badge med">Verified 2–1</span></p>
+    <p class="reveal">The shock was the price. God's Eye&nbsp;C comes <strong>at no extra cost on the Seagull</strong>, a city EV starting at ¥69,800 — about <strong>$9,555</strong>. Before that announcement, the cheapest car in China with comparable L2+ assistance was the Leapmotor B10 at ¥109,800 (~$15,140), and BYD's own ADAS floor had been ¥216,000 (~$30,000). In one keynote, BYD cut the price of admission to advanced driver assistance by roughly two-thirds.<sup class="fn"><a href="#src-6">6</a></sup></p>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 5 — Democratizing the Robot Chauffeur</div>
+    <div class="f-title">Cheapest car with advanced (L2+) driver assistance in China</div>
+    <div class="f-sub">Starting MSRP at time of God's Eye launch, February 2025</div>
+    <div class="ladder">
+      <div class="rung"><div class="lab">BYD's prior ADAS floor<small>2024</small></div><div class="bar b-old" data-w="82"><span class="tag">¥216,000 &nbsp;(~$30,000)</span></div></div>
+      <div class="rung"><div class="lab">Leapmotor B10<small>previous market floor</small></div><div class="bar b-mid" data-w="42"><span class="tag">¥109,800 &nbsp;(~$15,140)</span></div></div>
+      <div class="rung"><div class="lab">BYD Seagull + God's Eye C<small>ADAS included, no extra cost</small></div><div class="bar b-byd" data-w="26.5"><span class="tag">¥69,800 &nbsp;(~$9,555)</span></div></div>
+    </div>
+    <figcaption>Source: Counterpoint Research (Apr 2025), corroborated by Yicai, S&amp;P Global AutoTech Insight, Fortune. Verified 2–1 (medium confidence — single primary analyst source). The ¥69,800 figure is the Feb 2025 MSRP; price-war discounting later pushed transaction prices lower still. BYD reaffirmed the full-line rollout in Dec 2025 and unveiled a next generation in May 2026.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal">There is no Western analogue. No US or European automaker sells <em>any</em> new EV near $9,500, let alone one with standard advanced driver assistance — the cheapest American EV transacts at roughly three times the Seagull's sticker. Meanwhile the battery beneath it, BYD's LFP Blade, is the same chemistry family that now powers a majority of the world's new EVs, including many Teslas — whose Shanghai-built cars ride on Chinese cells.<sup class="fn"><a href="#src-1">1</a></sup></p>
+  </div>
+
+  <div class="bignum-row reveal">
+    <div class="bignum"><div class="n" data-count="21">0</div><div class="l">models in God's Eye's initial rollout — across four brands, flagship to $9.5K city car</div></div>
+    <div class="bignum"><div class="n neutral" data-count="55" data-prefix="&gt;" data-suffix="%">0</div><div class="l">of EV batteries deployed globally in 2025 were LFP — the chemistry BYD's Blade pack made mainstream (&lt;10% in 2020)</div></div>
+    <div class="bignum"><div class="n" data-count="68" data-suffix="%">0</div><div class="l">cheaper: the ADAS-equipped Seagull vs. BYD's own driver-assistance price floor a year earlier</div></div>
+  </div>
+</section>
+
+<!-- ============================== CH 6: THE MACHINE ============================== -->
+<section class="chapter" id="machine">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Six · System Integration</div>
+    <h2>The Machine That Builds the Machine</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">Why can BYD give away driver assistance on a $9,500 car and still out-earn Tesla? Because almost nothing in that car carries someone else's margin. BYD began life in 1995 as a battery maker; today it makes the cells, the cathode chemistry behind them, the power electronics, its own Xuanji ADAS chipset, the software stack — and it sells the surplus batteries to rivals. Each layer it owns is a markup it doesn't pay.</p>
+  </div>
+
+  <div class="chain reveal">
+    <div class="link-card"><div class="ic">⛏️</div><h5>MINERALS</h5><p>China refines 19 of 20 key energy minerals — incl. 75% of LFP-grade phosphoric acid</p></div>
+    <div class="link-card"><div class="ic">🧪</div><h5>CHEMISTRY</h5><p>~85% of cathode &amp; &gt;90% of anode material made domestically</p></div>
+    <div class="link-card"><div class="ic">🔋</div><h5>CELLS</h5><p>BYD makes its own Blade LFP packs; China holds &gt;80% of global cell output</p></div>
+    <div class="link-card"><div class="ic">🖥️</div><h5>SILICON</h5><p>In-house Xuanji A3 ADAS chipset, plus NVIDIA / Horizon compute tiers</p></div>
+    <div class="link-card"><div class="ic">🚗</div><h5>THE CAR</h5><p>120,000+ engineers; $9.2B annual R&amp;D; 21-model ADAS rollout in one keynote</p></div>
+    <div class="link-card"><div class="ic">🚢</div><h5>EXPORT</h5><p>1.05M BYD vehicles shipped overseas in 2025, up ~150%</p></div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">The integration shows up as speed. BYD spent <strong>RMB&nbsp;63.4&nbsp;billion ($9.2B) on R&amp;D in 2025</strong> — up 17% in a year when its profits fell 19% — and employs more than <strong>120,000 engineers</strong>, with over 42,000 granted patents.<sup class="fn"><a href="#src-10">10</a>,<a href="#src-11">11</a></sup> When it decided every car should have city-capable driver assistance, the rollout took one product cycle, because the chips, cells, software and assembly lines all answer to the same company.</p>
+    <div class="note reveal"><strong>What we did not verify:</strong> several of BYD's most spectacular engineering claims — the 1,000-volt Super-e platform, megawatt "flash" charging, next-generation Blade batteries with 1,000&nbsp;km range, cell-to-body construction, and its roll-on/roll-off car-carrier fleet — are widely reported but did not pass through this report's adversarial fact-check round. They are omitted from the figures above rather than presented as verified fact.</div>
+  </div>
+</section>
+
+<!-- ============================== CH 7: CAVEATS ============================== -->
+<section class="chapter" id="caveat-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Seven · The Counter-Case</div>
+    <h2>What Could Still Go Wrong</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">A credible case states its weaknesses. The verified record contains real ones — all four below passed the same 3–0 fact-check as the dominance claims.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-13">13</a></sup></p>
+  </div>
+
+  <div class="caveats reveal">
+    <div class="cav"><div class="num">i.</div><h4>The price war is eating the home market</h4><p>BYD's China NEV share fell from 34.1% (2024) to 27.2% (2025); its domestic retail sales dropped 6.3% and net profit fell 19%. The export boom is partly a release valve for a margin-crushing war at home.</p></div>
+    <div class="cav"><div class="num">ii.</div><h4>Q1 2026: the crown wobbled</h4><p>China's domestic NEV sales fell almost 25% year-over-year in Q1 2026 (~2.01M units); BYD dropped ~25% and <strong>Tesla retook the quarterly BEV lead</strong>. Annual leadership for 2026 is genuinely contested — even as Chinese EV exports more than doubled again.</p></div>
+    <div class="cav"><div class="num">iii.</div><h4>Inventory is piling up abroad</h4><p>CAAM-reported 2025 exports exceeded actual overseas <em>sales</em> by more than 25% — cars on ships and in lots, not in driveways. Export figures flatter the demand picture.</p></div>
+    <div class="cav"><div class="num">iv.</div><h4>The tariff walls are rising</h4><p>EU countervailing duties (in force to end-2029) held Chinese imports below 20% of EU EV sales. Mexico raised tariffs from 20% to 50% in January 2026. Southeast Asian duty waivers expired in December 2025. The US market remains effectively closed.</p></div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">Note what the counter-case does <em>not</em> touch. Tariffs, price wars and quarterly reversals contest the <em>showroom</em>. None of them moves the refinery layer: the 19-of-20 minerals, the 90% of anode material, the 93% of magnets.<sup class="fn"><a href="#src-2">2</a>,<a href="#src-8">8</a></sup> Quarterly leadership is volatile. The structural dominance, on the verified evidence, is not.</p>
+  </div>
+  <div class="divider reveal">· · ·</div>
+  <div class="pull reveal" style="border:none;padding-left:0;text-align:center;font-size:clamp(26px,3.4vw,34px)">The car race can still swing.<br>The supply chain already finished.</div>
+</section>
+
+</article>
+
+<!-- ============================== METHODOLOGY ============================== -->
+<footer class="method" id="method">
+  <div class="inner">
+    <h3>Methodology &amp; Sources</h3>
+    <p>This report was compiled in June 2026 by an automated deep-research pipeline: the question was decomposed into five angles (market dominance, supply chain, financials, product value, counterpoints), searched in parallel, and the most load-bearing claims were extracted and submitted to independent adversarial verification — three fact-check agents per claim, each instructed to <em>refute</em> it, with two refutations required to kill a claim. Claims shown with a "Verified 3–0" badge passed unanimously; "2–1" claims are labeled medium-confidence.</p>
+    <p>Financial figures in Chapter 4 come directly from BYD's FY2025 annual results (March 27, 2026) and Tesla's Q4/FY2025 update (SEC 8-K, January 28, 2026) and were collected separately from the adversarial round. Definitional notes: IEA "electric car" and Chinese "NEV" figures include plug-in hybrids; the BYD–Tesla crown comparison is BEV-only; BYD reports wholesale, Tesla reports deliveries; Chinese market shares use CPCA retail registrations.</p>
+
+    <div class="mstats">
+      <div class="mstat"><div class="n">26</div><div class="l">Sources fetched</div></div>
+      <div class="mstat"><div class="n">127</div><div class="l">Claims extracted</div></div>
+      <div class="mstat"><div class="n">25</div><div class="l">Adversarially verified</div></div>
+      <div class="mstat"><div class="n"><i>22</i></div><div class="l">Confirmed</div></div>
+      <div class="mstat"><div class="n">3</div><div class="l">Refuted &amp; excluded</div></div>
+    </div>
+
+    <div class="refuted-box">
+      <h6>✗ Claims that failed fact-checking — and were corrected or cut</h6>
+      <ul>
+        <li><s>"China holds 60–90% of processing capacity for lithium, nickel and rare earths"</s> — replaced with the precise IEA figures shown in Fig. 3.</li>
+        <li><s>"BYD sold 2,254,714 BEVs in 2025"</s> — off by 2,000 units; corrected to <strong>2,256,714</strong> per BYD's filing.</li>
+        <li><s>"BYD's total NEV sales reached 4,550,036"</s> — corrected to <strong>4,602,436</strong> per BYD's annual report.</li>
+      </ul>
+    </div>
+
+    <ol class="srcs">
+      <li id="src-1"><a href="https://www.iea.org/reports/global-ev-outlook-2026/manufacturing-and-trade">IEA — Global EV Outlook 2026: Manufacturing &amp; Trade</a><span class="q">Primary</span></li>
+      <li id="src-2"><a href="https://www.iea.org/reports/global-critical-minerals-outlook-2025/executive-summary">IEA — Global Critical Minerals Outlook 2025</a><span class="q">Primary</span></li>
+      <li id="src-3"><a href="https://cnevpost.com/2026/01/02/tesla-q4-2025-global-deliveries/">CnEVPost — Tesla Q4 2025 global deliveries</a><span class="q">Secondary</span></li>
+      <li id="src-4"><a href="https://electrek.co/2026/01/02/byd-crushes-tesla-all-electric-sales-for-2025-secures-global-bev-crown/">Electrek — BYD secures the 2025 global BEV crown</a><span class="q">Secondary</span></li>
+      <li id="src-5"><a href="https://www.cnbc.com/2026/01/02/chinas-byd-to-overtake-tesla-as-worlds-top-ev-seller-for-first-time.html">CNBC — BYD overtakes Tesla as world's top EV seller</a><span class="q">Secondary</span></li>
+      <li id="src-6"><a href="https://counterpointresearch.com/en/insights/byd-eyes-global-adas-revolution-with-gods-eye">Counterpoint Research — BYD's God's Eye ADAS revolution</a><span class="q">Primary analyst</span></li>
+      <li id="src-7"><a href="https://cnevpost.com/2026/01/12/automakers-share-china-nev-market-2025/">CnEVPost — China NEV market shares, full-year 2025 (CPCA)</a><span class="q">Secondary</span></li>
+      <li id="src-8"><a href="https://www.csis.org/analysis/chinas-new-rare-earth-and-magnet-restrictions-threaten-us-defense-supply-chains">CSIS — China's rare-earth &amp; magnet restrictions</a><span class="q">Primary</span></li>
+      <li id="src-9"><a href="https://www.csis.org/analysis/us-china-ev-race-heats-forthcoming-guidance-foreign-entity-concern-rules">CSIS — The US–China EV race &amp; FEOC rules</a><span class="q">Primary</span></li>
+      <li id="src-10"><a href="https://cnevpost.com/2026/03/27/byd-2025-full-year-results/">CnEVPost — BYD FY2025 full-year results</a><span class="q">Secondary</span></li>
+      <li id="src-11"><a href="https://cleantechnica.com/2026/03/30/byd-2025-annual-report-in-context/">CleanTechnica — BYD's 2025 annual report in context</a><span class="q">Analysis</span></li>
+      <li id="src-12"><a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/exhibit991.htm">Tesla — Q4 &amp; FY2025 Update (SEC 8-K, EX-99.1)</a><span class="q">Primary</span></li>
+      <li id="src-13"><a href="https://www.bloomberg.com/news/articles/2026-03-27/byd-delivers-steeper-than-expected-profit-drop-amid-ev-price-war">Bloomberg — BYD's steeper-than-expected profit drop</a><span class="q">Secondary</span></li>
+      <li><a href="https://cnevpost.com/2026/02/04/global-ev-battery-market-share-2025/">CnEVPost — Global EV battery market share 2025</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
+    </ol>
+
+    <div class="endline">Compiled June 12, 2026 · Full-year 2025 is the latest complete data cycle; Q1 2026 developments are noted where verified · Figures in USD converted at rates used by the cited sources · This page is a single self-contained HTML file with no external data dependencies.</div>
+  </div>
+</footer>
+
+<script>
+/* ---------- scroll progress ---------- */
+const prog = document.getElementById('progress');
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive:true});
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in-view');
+      activate(e.target);
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.18, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.reveal, figure.viz, .bignum-row, .ledger, .duo').forEach(el => {
+  el.classList.add('reveal');
+  io.observe(el);
+});
+
+/* ---------- per-element activations ---------- */
+function activate(root){
+  // column charts
+  root.querySelectorAll('.col').forEach(c => {
+    requestAnimationFrame(() => c.style.height = c.dataset.h + '%');
+  });
+  // horizontal bars & ladders
+  root.querySelectorAll('[data-w]').forEach(b => {
+    requestAnimationFrame(() => b.style.width = b.dataset.w + '%');
+  });
+  // donuts
+  root.querySelectorAll('.ring-fg').forEach(r => {
+    const C = 2 * Math.PI * 80;
+    const pct = parseFloat(r.dataset.pct);
+    requestAnimationFrame(() => r.style.strokeDasharray = (C * pct / 100) + ' ' + C);
+  });
+  // counters
+  root.querySelectorAll('[data-count]').forEach(runCounter);
+}
+
+function runCounter(el){
+  const target = parseFloat(el.dataset.count);
+  const decimals = parseInt(el.dataset.decimals || 0);
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const comma = el.dataset.format === 'comma';
+  const dur = 1600;
+  let start = null;
+  function frame(t){
+    if (!start) start = t;
+    const p = Math.min((t - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    let v = target * eased;
+    let txt = comma ? Math.round(v).toLocaleString('en-US') : v.toFixed(decimals);
+    el.innerHTML = prefix + txt + suffix;
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- side-nav active state ---------- */
+const secs = [...document.querySelectorAll('[id]')].filter(el =>
+  document.querySelector('#dots a[data-sec="' + el.id + '"]'));
+const navIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('#dots a').forEach(a => a.classList.remove('active'));
+      const link = document.querySelector('#dots a[data-sec="' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin: '-40% 0px -55% 0px'});
+secs.forEach(s => navIO.observe(s));
+</script>
+</body>
+</html>
