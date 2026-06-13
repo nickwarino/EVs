@@ -270,6 +270,16 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .cmp-verdict b{color:var(--ink)}
 .cmp-vbar{height:8px;border-radius:5px;background:var(--rule);margin-top:10px;position:relative;overflow:hidden}
 .cmp-vbar i{position:absolute;left:0;top:0;height:100%;border-radius:5px;transition:width .6s}
+.cmp-card{position:relative}
+.cmp-card.winner{box-shadow:0 0 0 2px var(--china) inset}
+.win-ribbon{position:absolute;top:0;right:0;background:var(--china);color:#fff;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:0 7px 0 10px}
+.cmp-card.none{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:4px solid var(--west-deep);background:var(--paper-warm)}
+.cmp-card.none .none-mark{font-size:42px;color:var(--west-deep);line-height:1;margin-bottom:8px;opacity:.45}
+.cmp-card.none .none-title{font-family:var(--sans);font-size:16px;font-weight:800;color:var(--west-deep);margin-bottom:10px}
+.cmp-card.none p{font-family:var(--sans);font-size:13.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 16px}
+.cmp-card.none .none-floor{font-family:var(--sans);font-size:12.5px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:11px 15px;line-height:1.5}
+.cmp-tariff{margin-top:14px;font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-soft);background:var(--paper-warm);border:1px solid var(--rule);border-left:4px solid var(--gold);border-radius:6px;padding:14px 18px}
+.cmp-tariff .tf-ic{margin-right:7px}
 
 /* ---------- ledger (financial face-off) ---------- */
 .ledger{max-width:var(--maxwide);margin:60px auto;border:1px solid var(--rule);border-radius:6px;overflow:hidden;font-family:var(--sans)}
@@ -876,15 +886,16 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   </div>
 
   <figure class="viz reveal" style="background:var(--paper)">
-    <div class="f-kicker">Interactive — Head to Head</div>
-    <div class="f-title">More car per pound: BYD vs. the West</div>
-    <div class="f-sub">Same market (UK), same segment. Pick a class and see what your money buys. The ★ marks the better value on price-per-mile-of-range.</div>
+    <div class="f-kicker">Interactive — What Your Money Buys</div>
+    <div class="f-title">More car per dollar — priced at home, where it's real</div>
+    <div class="f-sub">China-market prices, where Tesla and BYD compete head-to-head. In some classes the West has no entry at all. Tap through:</div>
     <div class="cmp">
       <div class="cmp-tabs" id="cmpTabs"></div>
       <div class="cmp-cards" id="cmpCards"></div>
+      <div class="cmp-tariff" id="cmpTariff"></div>
       <div class="cmp-verdict" id="cmpVerdict"></div>
     </div>
-    <figcaption>UK entry-trim OTR prices before grants, WLTP range, as of 2026. £/mile = price ÷ WLTP range (lower is better). Note the honest split: rivals win value in the cheaper classes, but BYD's Seal beats the Tesla Model 3 on £/mile <em>despite</em> costing more — a bigger battery and 79 extra miles of range. Sources: EV-Database UK, manufacturer UK sites, Carwow, Auto Express. Some figures approximate; the Atto 3 shown is the 2026 Atto 3 Evo.</figcaption>
+    <figcaption>China manufacturer guide prices, base trim, pre-subsidy; converted at ¥6.77/$ (June 2026). Range is CLTC (more optimistic than EPA/WLTP). Mid-2026 prices are volatile amid China's price war — snapshots, not quotes. "No Western analogue" means no US/EU automaker offers a comparable model at any price near it; the nearest Western equivalents are noted. Sources: CarNewsChina, CnEVPost, Electrek, Edmunds, manufacturer sites. The earlier UK-price comparison understated the gap because export prices bake in shipping, duties and positioning — see the tariff note under each pairing.</figcaption>
   </figure>
 </section>
 
@@ -1197,60 +1208,74 @@ function runCounter(el){
   render(0);
 })();
 
-/* ---------- value comparator ---------- */
+/* ---------- value comparator (China pricing) ---------- */
 (function(){
-  const tabsEl=document.getElementById('cmpTabs'), cardsEl=document.getElementById('cmpCards'), verdEl=document.getElementById('cmpVerdict');
+  const tabsEl=document.getElementById('cmpTabs'), cardsEl=document.getElementById('cmpCards'),
+        tariffEl=document.getElementById('cmpTariff'), verdEl=document.getElementById('cmpVerdict');
   if(!tabsEl) return;
-  const DATA=[
-    {seg:'City car',sub:'~£19k class',
-     byd:{m:'BYD Dolphin Surf',s:'A-segment city EV',price:18650,range:137,z:11.1,kwh:30,f:['Rotating 10.1" touchscreen','Vehicle-to-Load','Vegan leather + climate']},
-     rival:{m:'Hyundai Inster',s:'A-segment city EV',price:23495,range:203,z:11.7,kwh:42,f:['Heat pump standard','Sliding rear seats','Vehicle-to-Load']}},
-    {seg:'Supermini',sub:'hatch class',
-     byd:{m:'BYD Dolphin',s:'B-segment hatch',price:26195,range:211,z:12.3,kwh:44.9,f:['LFP Blade battery','e-Platform 3.0','Vehicle-to-Load']},
-     rival:{m:'MG4',s:'C-segment hatch',price:23495,range:219,z:7.7,kwh:50.8,f:['Rear-wheel drive','Strong dynamics','Vehicle-to-Load']}},
-    {seg:'Compact SUV',sub:'family class',
-     byd:{m:'BYD Atto 3 Evo',s:'C-segment SUV',price:38990,range:317,z:5.5,kwh:74.8,f:['800V, 220kW charging','LFP Blade battery','10–80% in ~25 min']},
-     rival:{m:'Kia Niro EV',s:'C-segment SUV',price:35745,range:285,z:7.8,kwh:64.8,f:['Heat pump','Relaxion front seats','Vehicle-to-Load']}},
-    {seg:'Sedan',sub:'Model 3 rival',
-     byd:{m:'BYD Seal',s:'D-segment sedan',price:45730,range:354,z:5.9,kwh:82.5,f:['Cell-to-body Blade','Heat pump','Premium audio']},
-     rival:{m:'Tesla Model 3',s:'D-segment sedan',price:37990,range:275,z:6.2,kwh:60,f:['15.4" display','Autopilot','Heated/ventilated seats']}}
+  const M=[
+    {tab:'City EV',sub:'no Western rival',
+     left:{badge:'BYD',m:'Seagull',s:'A00 city hatch · China MSRP',price:'¥69,900',usd:'≈ $10,300',win:true,
+       rows:[['Range','305–405 km CLTC'],['Battery','30–39 kWh'],['Driver assist','Optional LiDAR “God’s Eye”'],['0–50 km/h','~4.9 s']],
+       feats:['12.8" rotating screen','Heated seats','50W wireless charging']},
+     right:{none:true,title:'No Western analogue',body:'No US or European automaker sells <b>any</b> new EV near $10,000 — let alone one offered with LiDAR-grade driver assistance. The cheapest Western EVs cost two to three times as much.',floor:'Cheapest new US EV ≈ $30,000 — about 3× the Seagull'},
+     tariff:'Exported to the UK as the “Dolphin Surf” from ~£18,650 (≈ $24,000) — about <b>2.3× its China price</b>. Not legally sold in the US.',
+     verdict:'The clearest proof of the thesis: an entry city car with available self-driving hardware, for the price of a Western used car. The West has no entry at this point at all.'},
+
+    {tab:'Sedan',sub:'Seal vs Model 3',
+     left:{badge:'BYD',m:'Seal 07 EV',s:'D-segment sedan · China MSRP',price:'¥169,900',usd:'≈ $25,100',win:true,
+       rows:[['Range','705 km CLTC'],['Battery','69 kWh'],['Charging','8C flash — ~400 km in 5 min'],['Driver assist','LiDAR “God’s Eye 5.0” standard']],
+       feats:['In-car fridge','Three-screen cabin + HUD','Blade Battery 2.0']},
+     right:{badge:'Tesla',m:'Model 3',s:'RWD · China MSRP',price:'¥235,500',usd:'≈ $34,800',
+       rows:[['Range','634 km CLTC'],['Battery','62.5 kWh'],['Charging','Supercharger ~250 kW'],['Driver assist','Basic Autopilot']],
+       feats:['15" + rear touchscreen','Ventilated seats','OTA updates']},
+     tariff:'The same Seal sells in the UK from ~£45,730 (≈ $58,000) — more than <b>2× the China price</b>, the gap mostly shipping, duties and positioning. Barred from the US market.',
+     verdict:'Head-to-head in their shared home market, the Seal <b>undercuts the Model 3 by ~28%</b> with more range, standard LiDAR driver assistance, and a fridge.'},
+
+    {tab:'SUV',sub:'Atto 3 vs VW',
+     left:{badge:'BYD',m:'Yuan Plus / Atto 3',s:'C-segment SUV · China MSRP',price:'¥119,900',usd:'≈ $17,700',win:true,
+       rows:[['Range','up to 630 km CLTC'],['Battery','57–69 kWh'],['Charging','flash 10–70% in ~5 min'],['Driver assist','God’s Eye available']],
+       feats:['2nd-gen Blade Battery','Rotating touchscreen','Vehicle-to-Load']},
+     right:{badge:'Volkswagen',m:'ID.4 CROZZ',s:'Pure base · China MSRP',price:'¥149,900',usd:'≈ $22,100',
+       rows:[['Range','448 km CLTC'],['Battery','54 kWh'],['Charging','~135 kW DC'],['Driver assist','IQ.Drive L2']],
+       feats:['5-link rear suspension','Cabin air filtration','Rear-wheel drive']},
+     tariff:'In the UK the Atto 3 starts ~£38,990 (≈ $49,000) — well over <b>2× the China price</b>. No US sales.',
+     verdict:'Even against VW’s own China pricing, BYD <b>undercuts by ~20%</b> with ~40% more range. (We pit it against VW, not the larger Model Y, to keep the segment honest.)'},
+
+    {tab:'Lounge on wheels',sub:'fridge·TV·sofa',
+     left:{badge:'Xpeng',m:'X9',s:'Flagship MPV · China MSRP',price:'¥359,800',usd:'≈ $53,100',win:true,
+       rows:[['Range','up to ~700 km'],['Charging','800V platform'],['Driver assist','XNGP city + highway, standard'],['Rear seats','Zero-gravity, 10-pt massage']],
+       feats:['10.8 L cabin fridge','21.4" ceiling screen','In-car karaoke']},
+     right:{none:true,title:'No Western analogue under ~$105k',body:'No Western automaker offers a fridge <em>plus</em> a reclining massage rear lounge <em>plus</em> a rear theatre screen in anything under six figures. The nearest combinations are ultra-luxury flagships.',floor:'BMW i7 from $105,700 (+$4,750 theatre screen) · Maybach EQS SUV ≈ $180,000'},
+     tariff:'This is the 冰箱彩电大沙发 — “fridge, color TV, big sofa” — phenomenon: features Chinese buyers expect near $50k that cost Western buyers $105k–180k+. (800V fast-charging is the one such feature the West has brought down to ~$35k, via Korea’s E-GMP cars.)',
+     verdict:'Beyond price: Chinese brands broadly pack lounge-class features at a third to a half the cost of the only Western cars that offer them at all — and this one isn’t even a BYD.'}
   ];
-  const VERDICTS=[
-    'The <b>Inster</b> is pricier up front but its bigger battery wins on £/mile — proof the value gap is real both ways. BYD still sets the floor on sticker price.',
-    'The <b>MG4</b> (also a Chinese-owned brand, SAIC) is cheaper, far quicker and longer-ranged — the toughest matchup for BYD, and a reminder the value pressure is broadly Chinese, not BYD alone.',
-    'Near-tie on value: the <b>BYD Atto 3 Evo</b> edges the Niro on £/mile and adds an 800V architecture and a 0–62 nearly 2.5s quicker, for ~£3k more.',
-    'The headline result: the <b>BYD Seal</b> costs £7,740 more than the Model 3 yet still beats it on £/mile — an 82.5kWh battery and 79 extra miles of range. More car, less per mile.'
-  ];
-  let active=0;
-  const fmtP=v=>'£'+v.toLocaleString('en-GB');
-  function ppm(c){return c.price/c.range;}
-  function cardHTML(c,cls,best){
-    const p=ppm(c), win=(cls==='byd')===best?'win':'';
-    return '<div class="cmp-card '+cls+'">'
-      +'<div class="brandtag">'+(cls==='byd'?'BYD':'The rival')+'</div>'
+  function specCard(c,side){
+    if(c.none){
+      return '<div class="cmp-card none"><div class="none-mark">∅</div><div class="none-title">'+c.title+'</div><p>'+c.body+'</p><div class="none-floor">'+c.floor+'</div></div>';
+    }
+    const rows=c.rows.map(r=>'<div class="sr"><span class="k">'+r[0]+'</span><span class="val">'+r[1]+'</span></div>').join('');
+    return '<div class="cmp-card '+side+(c.win?' winner':'')+'">'
+      +(c.win?'<div class="win-ribbon">Best value</div>':'')
+      +'<div class="brandtag">'+c.badge+'</div>'
       +'<div class="model">'+c.m+'</div><div class="seg">'+c.s+'</div>'
-      +'<div class="price">'+fmtP(c.price)+'<small>starting, UK OTR</small></div>'
-      +'<div class="cmp-specs">'
-        +'<div class="sr"><span class="k">WLTP range</span><span class="val">'+c.range+' mi</span></div>'
-        +'<div class="sr"><span class="k">0–62 mph</span><span class="val">'+c.z+'s</span></div>'
-        +'<div class="sr"><span class="k">Usable battery</span><span class="val">'+c.kwh+' kWh</span></div>'
-        +'<div class="sr ppm '+win+'"><span class="k">£ per mile of range</span><span class="val">£'+p.toFixed(0)+'</span></div>'
-      +'</div>'
-      +'<div class="cmp-feats">'+c.f.map(x=>'<span>'+x+'</span>').join('')+'</div>'
+      +'<div class="price">'+c.price+'<small>'+c.usd+'</small></div>'
+      +'<div class="cmp-specs">'+rows+'</div>'
+      +'<div class="cmp-feats">'+c.feats.map(f=>'<span>'+f+'</span>').join('')+'</div>'
     +'</div>';
   }
   function render(i){
-    const d=DATA[i];
-    const bydBest=ppm(d.byd)<=ppm(d.rival);
+    const d=M[i];
     cardsEl.style.opacity=0;
     setTimeout(()=>{
-      cardsEl.innerHTML=cardHTML(d.byd,'byd',bydBest)+cardHTML(d.rival,'rival',bydBest);
+      cardsEl.innerHTML=specCard(d.left,'byd')+specCard(d.right,'rival');
       cardsEl.style.opacity=1;
-    },180);
-    verdEl.innerHTML=VERDICTS[i];
+    },170);
+    tariffEl.innerHTML='<span class="tf-ic">🛃</span>'+d.tariff;
+    verdEl.innerHTML=d.verdict;
     tabsEl.querySelectorAll('.cmp-tab').forEach((t,k)=>t.classList.toggle('on',k===i));
   }
-  DATA.forEach((d,i)=>{const b=document.createElement('button');b.className='cmp-tab';b.innerHTML=d.seg+'<span class="seg-sub">'+d.sub+'</span>';b.onclick=()=>{active=i;render(i);};tabsEl.appendChild(b);});
+  M.forEach((d,i)=>{const b=document.createElement('button');b.className='cmp-tab';b.innerHTML=d.tab+'<span class="seg-sub">'+d.sub+'</span>';b.onclick=()=>render(i);tabsEl.appendChild(b);});
   render(0);
 })();
 
