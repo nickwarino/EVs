@@ -229,6 +229,9 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .rl-fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:5px}
 .rl-flag{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.4}
 .refrace .race-btn{margin:6px auto 0;display:flex}
+.ref-speeds{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.ref-speedlbl{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:2px}
+.ref-speeds .cmp-tab{padding:6px 13px;font-size:12px}
 
 /* ---------- horizontal share bars ---------- */
 .hbars{display:flex;flex-direction:column;gap:20px}
@@ -382,8 +385,7 @@ svg.donut{width:200px;height:200px}
 
 /* ---------- world access map ---------- */
 .map-wrap{max-width:var(--maxwide);margin:30px auto 0}
-.map-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
-@media(max-width:760px){.map-grid{grid-template-columns:1fr}}
+.map-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
 .map-svg-box{background:var(--paper-warm);border:1px solid var(--rule);border-radius:8px;padding:10px;overflow:hidden}
 html[data-theme="dark"] .map-svg-box{background:#10100f}
 .map-svg{width:100%;height:auto;display:block}
@@ -393,13 +395,13 @@ html[data-theme="dark"] .map-svg-box{background:#10100f}
 .map-node circle.dot{transition:stroke-width .2s,r .2s}
 .map-node:hover circle.dot{stroke:var(--ink);stroke-width:2.5}
 .map-node.sel circle.dot{stroke:var(--ink);stroke-width:3}
-.map-node text{font-family:var(--sans);font-size:11px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round}
+.map-node text{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round}
 html[data-theme="dark"] .map-node text{stroke:#10100f}
 .map-detail{background:var(--paper-warm);border:1px solid var(--rule);border-radius:8px;padding:24px 22px;min-height:230px}
 .map-detail .md-tier{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:14px}
 .map-detail h4{font-size:24px;font-weight:800;margin-bottom:4px}
-.map-detail .md-stat{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-faint);margin-bottom:14px}
-.map-detail p{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin:0}
+.map-detail .md-stat{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-faint);margin-bottom:14px}
+.map-detail p{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0}
 .map-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-soft)}
 .map-legend .lg{display:inline-flex;align-items:center;gap:7px}
 .map-legend .dot{width:13px;height:13px;border-radius:50%}
@@ -1140,11 +1142,12 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="f-sub">A time-lapse: restoring ~400 km / 250 miles of range, four ways. Press play.</div>
     <div class="refrace">
       <div class="ref-clock" id="refClock">0:00</div>
-      <div class="ref-clocklbl">Elapsed (mm:ss)</div>
+      <div class="ref-clocklbl" id="refClockLbl">Elapsed · real time</div>
+      <div class="ref-speeds" id="refSpeeds"></div>
       <div id="raceLanes"></div>
       <button class="race-btn" id="refPlay">▶ Start the race</button>
     </div>
-    <figcaption>Times to replenish ~250 mi (400 km) of driving range. Gas pickup ≈ 3 min (pump + handling). NIO battery swap ≈ 3 min for a full pack. BYD's 1,000 kW Super e-Platform: 400 km in ~5 min (CLTC marketing peak). Tesla V3 Supercharger (250 kW) ≈ 18 min for ~250 mi. The headline: China's battery swap and megawatt charging have pulled EV "refueling" to within striking distance of a gas pump — while conventional fast charging still takes 3–6× longer. Clock is time-compressed for display.</figcaption>
+    <figcaption>Times to replenish ~250 mi (400 km) of driving range. Gas pickup ≈ 3 min (pump + handling). NIO battery swap ≈ 3 min for a full pack. BYD's 1,000 kW Super e-Platform: 400 km in ~5 min (CLTC marketing peak). Tesla V3 Supercharger (250 kW) ≈ 18 min for ~250 mi. <strong>Runs in real time by default</strong> — gas and swap finish at 3:00, BYD at 5:00, Tesla not until 18:00 — so you feel the gap. Use the speed toggle to fast-forward. The headline: China's battery swap and megawatt charging have pulled EV "refueling" to within striking distance of a gas pump, while conventional fast charging still takes 3–6× longer.</figcaption>
   </figure>
 
   <div class="pull reveal">"The cars didn't arrive and then wait for somewhere to charge. The grid was laid down to meet them — 4.7 million plugs, megawatt chargers, and robots that swap your battery in three minutes."</div>
@@ -1651,45 +1654,50 @@ function runCounter(el){
   render(0);
 })();
 
-/* ---------- refueling race ---------- */
+/* ---------- refueling race (real-time + speed toggle) ---------- */
 (function(){
   const stage=document.getElementById('raceLanes'); if(!stage) return;
-  const playBtn=document.getElementById('refPlay'), clockEl=document.getElementById('refClock');
-  // minutes to restore ~250 mi / 400 km of range
+  const playBtn=document.getElementById('refPlay'), clockEl=document.getElementById('refClock'),
+        speedsEl=document.getElementById('refSpeeds'), clockLbl=document.getElementById('refClockLbl');
   const LANES=[
     {name:'Gas pickup truck',sub:'US · fuel pump',mins:3,c:'#7d8893',ic:'⛽'},
     {name:'NIO battery swap',sub:'China · robot swaps the pack',mins:3,c:'#b5342c',ic:'🔋'},
     {name:'BYD megawatt charge',sub:'China · 1,000 kW Super e-Platform',mins:5,c:'#d4756e',ic:'⚡'},
     {name:'Tesla Supercharger',sub:'US · V3 250 kW',mins:18,c:'#5b6670',ic:'🔌'}
   ];
-  const MAXM=18, SECPERMIN=0.38; // ~7s for the slowest
-  function build(){
-    stage.innerHTML=LANES.map((l,i)=>
-      '<div class="rl-lane"><div class="rl-head"><span class="rl-ic">'+l.ic+'</span><span class="rl-name">'+l.name+'<small>'+l.sub+'</small></span><span class="rl-time" id="rlt'+i+'">0:00</span></div>'
-      +'<div class="rl-track"><div class="rl-fill" id="rlf'+i+'" style="background:'+l.c+'"></div><div class="rl-flag" id="rlg'+i+'">🏁</div></div></div>'
-    ).join('');
-  }
-  build();
-  let raf=null, t0=0;
+  const MAXM=18, SPEEDS=[1,2,3,5,10,30];
+  let raf=null, simMin=0, lastTs=0, running=false, speed=1;
+  stage.innerHTML=LANES.map((l,i)=>
+    '<div class="rl-lane"><div class="rl-head"><span class="rl-ic">'+l.ic+'</span><span class="rl-name">'+l.name+'<small>'+l.sub+'</small></span><span class="rl-time" id="rlt'+i+'">0:00</span></div>'
+    +'<div class="rl-track"><div class="rl-fill" id="rlf'+i+'" style="background:'+l.c+'"></div><div class="rl-flag">🏁</div></div></div>'
+  ).join('');
+  speedsEl.innerHTML='<span class="ref-speedlbl">Speed</span>'+SPEEDS.map(s=>'<button class="cmp-tab'+(s===1?' on':'')+'" data-s="'+s+'">'+(s===1?'Real time':s+'×')+'</button>').join('');
+  function setSpeedLbl(){clockLbl.textContent = speed===1 ? 'Elapsed · real time' : 'Elapsed · '+speed+'× speed';}
+  speedsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>{speed=+b.dataset.s;speedsEl.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));setSpeedLbl();});
   function fmtT(m){const s=Math.round(m*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
-  function reset(){LANES.forEach((l,i)=>{document.getElementById('rlf'+i).style.width='0%';document.getElementById('rlt'+i).textContent='0:00';document.getElementById('rlt'+i).classList.remove('done');});clockEl.textContent='0:00';}
-  function run(now){
-    if(!t0)t0=now;
-    const elapsedSec=(now-t0)/1000;
-    const simMin=elapsedSec/SECPERMIN;
-    clockEl.textContent=fmtT(Math.min(simMin,MAXM));
-    let allDone=true;
+  function render(m){
+    clockEl.textContent=fmtT(Math.min(m,MAXM));
     LANES.forEach((l,i)=>{
       const f=document.getElementById('rlf'+i), tl=document.getElementById('rlt'+i);
-      const frac=Math.min(1,simMin/l.mins);
+      const frac=Math.min(1,m/l.mins);
       f.style.width=(frac*100)+'%';
       if(frac>=1){tl.textContent='✓ '+fmtT(l.mins);tl.classList.add('done');}
-      else{tl.textContent=fmtT(simMin);allDone=false;}
+      else{tl.textContent=fmtT(m);tl.classList.remove('done');}
     });
-    if(simMin<MAXM&&!allDone){raf=requestAnimationFrame(run);}
-    else{clockEl.textContent=fmtT(MAXM);playBtn.textContent='↻ Replay';raf=null;}
   }
-  playBtn.onclick=()=>{if(raf){cancelAnimationFrame(raf);raf=null;}reset();t0=0;playBtn.textContent='❚❚ Running…';raf=requestAnimationFrame(run);};
+  function tick(now){
+    if(!running)return;
+    if(!lastTs)lastTs=now;
+    const dt=(now-lastTs)/1000; lastTs=now;
+    simMin+=dt*speed/60;          // 1 sim-minute = 60 real seconds at 1×
+    if(simMin>=MAXM){simMin=MAXM;running=false;render(simMin);playBtn.textContent='↻ Replay';raf=null;return;}
+    render(simMin);
+    raf=requestAnimationFrame(tick);
+  }
+  function start(){if(simMin>=MAXM)simMin=0;running=true;lastTs=0;playBtn.textContent='❚❚ Pause';if(!raf)raf=requestAnimationFrame(tick);}
+  function pause(){running=false;if(raf){cancelAnimationFrame(raf);raf=null;}playBtn.textContent='▶ Resume';}
+  playBtn.onclick=()=>{running?pause():start();};
+  setSpeedLbl(); render(0);
 })();
 
 /* ---------- guess-the-stat quiz ---------- */
@@ -1829,15 +1837,15 @@ function runCounter(el){
   // parents
   Object.keys(PARENTS).forEach(k=>{
     const p=PARENTS[k], g=el('g',{class:'map-node',transform:'translate('+p.x+','+p.y+')'});
-    g.appendChild(el('circle',{class:'dot',r:p.r,style:'fill:'+p.c+';fill-opacity:.92;stroke:#fff;stroke-width:2'}));
-    const tx=el('text',{'text-anchor':'middle',y:5,style:'fill:#fff;font-weight:800;font-size:13px;stroke:none'});tx.textContent=p.name.split(' ')[0];g.appendChild(tx);
+    g.appendChild(el('circle',{class:'dot',r:p.r,style:'fill:'+p.c+';fill-opacity:.92;stroke:#fff;stroke-width:2.5'}));
+    const tx=el('text',{'text-anchor':'middle',y:6,style:'fill:#fff;font-weight:800;font-size:18px;stroke:none'});tx.textContent=p.name.split(' ')[0];g.appendChild(tx);
     g.onclick=()=>sel(p,g); svg.appendChild(g);
   });
   // brands
   BRANDS.forEach(b=>{
     const g=el('g',{class:'map-node',transform:'translate('+b.x+','+b.y+')'});
-    g.appendChild(el('circle',{class:'dot',r:22,style:'fill:var(--paper);stroke:#b5342c;stroke-width:2.5'}));
-    const tx=el('text',{'text-anchor':'middle',y:4,style:'fill:var(--ink);font-weight:700;font-size:11px;stroke:none'});tx.textContent=b.name;g.appendChild(tx);
+    g.appendChild(el('circle',{class:'dot',r:26,style:'fill:var(--paper);stroke:#b5342c;stroke-width:2.5'}));
+    const tx=el('text',{'text-anchor':'middle',y:5,style:'fill:var(--ink);font-weight:700;font-size:14px;paint-order:stroke;stroke:var(--paper);stroke-width:3.5px'});tx.textContent=b.name;g.appendChild(tx);
     g.onclick=()=>sel(b,g); svg.appendChild(g);
   });
   sel(PARENTS.geely);
