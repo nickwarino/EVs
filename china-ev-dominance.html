@@ -237,6 +237,30 @@ svg.donut{width:200px;height:200px}
 .donut text{font-family:var(--serif);font-weight:800;font-size:44px;fill:var(--ink)}
 .donut text.sm{font-family:var(--sans);font-weight:600;font-size:11px;fill:var(--ink-faint)}
 
+/* ---------- asymmetry panel ---------- */
+.asym{max-width:var(--maxwide);margin:60px auto}
+.asym .a-kicker{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--china);margin-bottom:10px}
+.asym h3{font-size:clamp(26px,3.6vw,36px);font-weight:800;line-height:1.12;margin-bottom:10px}
+.asym .a-sub{font-family:var(--sans);font-size:14.5px;color:var(--ink-faint);margin-bottom:30px;max-width:680px;line-height:1.6}
+.asym-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+@media(max-width:680px){.asym-grid{grid-template-columns:1fr}}
+.asym-col{background:var(--paper);padding:30px 28px}
+.asym-col .dir{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.asym-col.closed{border-top:4px solid var(--west-deep)}
+.asym-col.open{border-top:4px solid var(--china)}
+.asym-col.closed .dir{color:var(--west-deep)}
+.asym-col.open .dir{color:var(--china)}
+.asym-col .verdict{font-family:var(--serif);font-size:23px;font-weight:800;line-height:1.2;margin:6px 0 18px}
+.asym-col.closed .verdict{color:var(--west-deep)}
+.asym-col.open .verdict{color:var(--china-deep)}
+.asym-item{border-top:1px dashed var(--rule);padding:14px 0}
+.asym-item:first-of-type{border-top:none}
+.asym-item .h{font-family:var(--sans);font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.asym-item .d{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-soft)}
+.asym-item .big{font-family:var(--serif);font-size:28px;font-weight:800;color:var(--china);display:block;line-height:1.1;margin:2px 0 4px}
+.asym-punch{font-family:var(--serif);font-size:clamp(20px,2.6vw,26px);font-style:italic;font-weight:500;line-height:1.4;text-align:center;color:var(--ink);margin:30px auto 0;max-width:760px}
+.asym-punch b{font-style:normal;font-weight:800;color:var(--china-deep)}
+
 /* ---------- padding / fact-check box ---------- */
 .padbox{max-width:var(--maxwide);margin:48px auto;background:#fbf6ee;border:1px solid #ecdcc4;border-left:5px solid var(--gold);border-radius:6px;padding:34px 34px 28px}
 @media(max-width:640px){.padbox{padding:24px 20px}}
@@ -383,6 +407,40 @@ svg.donut{width:200px;height:200px}
   </div>
 
   <div class="pull reveal">"In twelve months, a near-tie became a rout. The world's largest car market no longer has a foreign company in its top four."</div>
+
+  <div class="asym reveal">
+    <div class="a-kicker">The Lopsided Playing Field</div>
+    <h3>BYD won the crown with one market shut to it entirely</h3>
+    <p class="a-sub">The global sales figures understate the achievement. BYD became the world's best-selling EV maker while effectively banned from the United States — the planet's second-largest EV market. Tesla, by contrast, builds and sells freely inside China.</p>
+    <div class="asym-grid">
+      <div class="asym-col closed">
+        <div class="dir">🚫 BYD → North America</div>
+        <div class="verdict">Doors bolted shut</div>
+        <div class="asym-item">
+          <div class="h">United States — effectively prohibited</div>
+          <div class="d">A 100% tariff on Chinese EVs (2024, maintained 2025) plus a 25% auto tariff pushes the burden past 125%. The Connected Vehicle Rule (finalized Jan 2025) then bans Chinese-linked vehicle software from model-year 2027 and hardware by 2030 — <em>even if the car is built on US soil</em>. Not merely taxed: barred.</div>
+        </div>
+        <div class="asym-item">
+          <div class="h">Canada — slammed shut, then cracked open</div>
+          <div class="d">Matched the US with a 100% tariff in Oct 2024. Only in early 2026 did Ottawa ease it — to 6.1% on a capped quota of 49,000 vehicles (rising to 70,000 by 2030) in a canola-for-EVs trade deal. BYD has since confirmed a late-2026 Canadian launch.</div>
+        </div>
+      </div>
+      <div class="asym-col open">
+        <div class="dir">✓ Tesla → China</div>
+        <div class="verdict">Full run of the home market</div>
+        <div class="asym-item">
+          <div class="h">A wholly-owned Shanghai gigafactory</div>
+          <div class="d">Tesla is the only foreign automaker permitted to fully own its China plant — built in under a year in 2019 — and exports from it across Asia and Europe. No Chinese partner required, no quota.</div>
+        </div>
+        <div class="asym-item">
+          <div class="h">Selling deep inside BYD's backyard</div>
+          <span class="big">625,698</span>
+          <div class="d">Tesla vehicles sold in China in 2025 — 4.9% of the NEV market. Down 4.8%, but a volume BYD cannot reciprocate with a single legal sale in the US.</div>
+        </div>
+      </div>
+    </div>
+    <div class="asym-punch">The world's #1 EV maker is locked out of the world's #2 market — while its closest rival builds cars in the #1 market's largest city. <b>The crown was won on an uneven field.</b><sup class="fn"><a href="#src-17">17</a>,<a href="#src-18">18</a>,<a href="#src-7">7</a></sup></div>
+  </div>
 </section>
 
 <!-- ============================== CH 2: THE FACTORY ============================== -->
@@ -689,6 +747,11 @@ svg.donut{width:200px;height:200px}
       <li id="src-16"><a href="https://www.carscoops.com/2023/08/the-real-story-behind-chinas-graveyards-of-abandoned-evs/">Carscoops — The real story behind China's EV graveyards</a><span class="q">Secondary</span></li>
       <li><a href="https://www.bloomberg.com/features/2023-china-ev-graveyards/">Bloomberg — China's abandoned-EV graveyards</a><span class="q">Secondary</span></li>
       <li><a href="https://www.thedrive.com/news/the-real-story-of-that-chinese-ev-graveyard-isnt-what-you-were-told">The Drive — The real story of the Chinese EV graveyard</a><span class="q">Secondary</span></li>
+      <li id="src-17"><a href="https://www.aljazeera.com/economy/2024/9/23/us-plans-to-prohibit-key-chinese-software-hardware-in-connected-vehicles">Al Jazeera — US to prohibit Chinese software/hardware in connected vehicles</a><span class="q">Secondary</span></li>
+      <li id="src-18"><a href="https://www.theglobeandmail.com/canada/article-carney-canada-china-tariffs-trade-deal-electric-vehicles/">The Globe and Mail — Canada–China EV &amp; canola tariff deal</a><span class="q">Secondary</span></li>
+      <li><a href="https://insidechinaauto.com/2025/01/16/us-bans-connected-chinese-cars-from-2027/">Inside China Auto — US bans connected Chinese cars from 2027</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.electrive.com/2026/03/04/canada-eases-tariffs-on-limited-number-of-china-made-electric-vehicles/">Electrive — Canada eases tariffs on a limited number of China-made EVs</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.bakerinstitute.org/research/how-connected-vehicle-regulations-may-impact-us-automotive-imports">Baker Institute — How connected-vehicle rules may impact US auto imports</a><span class="q">Analysis</span></li>
     </ol>
 
     <div class="endline">Compiled June 12, 2026 · Full-year 2025 is the latest complete data cycle; Q1 2026 developments are noted where verified · Figures in USD converted at rates used by the cited sources · This page is a single self-contained HTML file with no external data dependencies.</div>
