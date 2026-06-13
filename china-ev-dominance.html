@@ -59,13 +59,19 @@ body{
 /* ---------- progress bar ---------- */
 #progress{position:fixed;top:0;left:0;height:3px;background:var(--china);width:0%;z-index:1000;transition:width .1s linear}
 
-/* ---------- side nav dots ---------- */
-#dots{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:14px}
-#dots a{width:9px;height:9px;border-radius:50%;background:#d4d0c8;display:block;transition:all .25s;position:relative}
-#dots a.active{background:var(--china);transform:scale(1.45)}
-#dots a span{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
-#dots a:hover span{opacity:1}
-@media(max-width:1100px){#dots{display:none}}
+/* ---------- floating table of contents ---------- */
+#tocBtn{position:fixed;top:16px;left:18px;z-index:960;width:42px;height:42px;border-radius:50%;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px -6px rgba(0,0,0,.3);transition:transform .2s,background .3s,color .3s,border-color .3s}
+#tocBtn:hover{transform:scale(1.08)}
+@media(max-width:1100px){#tocBtn{top:12px;left:12px;width:38px;height:38px;font-size:15px}}
+#toc{position:fixed;top:68px;left:18px;z-index:955;width:236px;max-height:74vh;overflow-y:auto;background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:10px;box-shadow:0 20px 54px -22px rgba(0,0,0,.45);transform:translateX(-122%);opacity:0;transition:transform .38s cubic-bezier(.22,1,.3,1),opacity .25s,background .3s,border-color .3s;font-family:var(--sans)}
+#toc.open{transform:none;opacity:1}
+@media(max-width:1100px){#toc{top:60px;left:12px}}
+.toc-head{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);padding:8px 12px 12px}
+#toc a{display:flex;gap:11px;align-items:baseline;padding:9px 12px;border-radius:9px;text-decoration:none;color:var(--ink-soft);font-size:13.5px;font-weight:600;transition:background .2s,color .2s}
+#toc a i{font-style:normal;font-size:11px;font-weight:800;color:var(--ink-faint);min-width:14px;text-align:center}
+#toc a:hover{background:var(--paper-warm);color:var(--ink)}
+#toc a.active{background:var(--china-soft);color:var(--china-deep)}
+#toc a.active i{color:var(--china)}
 
 /* ---------- hero ---------- */
 .hero{
@@ -507,6 +513,8 @@ html[data-theme="dark"] .prose p{color:var(--ink)}
 html[data-theme="dark"] .prose p.lede::first-letter{color:var(--china)}
 html[data-theme="dark"] .race-btn,html[data-theme="dark"] .cmp-tab{background:var(--paper);color:var(--ink)}
 html[data-theme="dark"] .map-detail{background:var(--paper-warm)}
+html[data-theme="dark"] #toc a.active{color:#e8a39d}
+html[data-theme="dark"] #toc a.active i{color:#e8a39d}
 html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero already dark */
 </style>
 <script>
@@ -519,17 +527,19 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
 <div id="progress"></div>
 <button id="themeToggle" aria-label="Toggle dark mode" title="Toggle light/dark">🌙</button>
 
-<nav id="dots" aria-label="Chapters">
-  <a href="#hero" data-sec="hero"><span>Top</span></a>
-  <a href="#crown" data-sec="crown"><span>The Crown</span></a>
-  <a href="#factory" data-sec="factory"><span>The Factory</span></a>
-  <a href="#chain-sec" data-sec="chain-sec"><span>The Supply Chain</span></a>
-  <a href="#money" data-sec="money"><span>The Money</span></a>
-  <a href="#value" data-sec="value"><span>The Value</span></a>
-  <a href="#machine" data-sec="machine"><span>The Machine</span></a>
-  <a href="#grid-sec" data-sec="grid-sec"><span>The Grid</span></a>
-  <a href="#caveat-sec" data-sec="caveat-sec"><span>The Caveats</span></a>
-  <a href="#method" data-sec="method"><span>Methodology</span></a>
+<button id="tocBtn" aria-label="Table of contents" title="Contents">☰</button>
+<nav id="toc" aria-label="Table of contents">
+  <div class="toc-head">Contents</div>
+  <a href="#hero" data-sec="hero"><i>·</i> Top</a>
+  <a href="#crown" data-sec="crown"><i>1</i> The Crown</a>
+  <a href="#factory" data-sec="factory"><i>2</i> The Factory</a>
+  <a href="#chain-sec" data-sec="chain-sec"><i>3</i> The Supply Chain</a>
+  <a href="#money" data-sec="money"><i>4</i> The Money</a>
+  <a href="#value" data-sec="value"><i>5</i> The Value</a>
+  <a href="#machine" data-sec="machine"><i>6</i> The Machine</a>
+  <a href="#grid-sec" data-sec="grid-sec"><i>7</i> The Grid</a>
+  <a href="#caveat-sec" data-sec="caveat-sec"><i>8</i> The Counter-Case</a>
+  <a href="#method" data-sec="method"><i>§</i> Methodology</a>
 </nav>
 
 <!-- ============================== HERO ============================== -->
@@ -1482,19 +1492,29 @@ function runCounter(el){
   addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
 })();
 
-/* ---------- side-nav active state ---------- */
-const secs = [...document.querySelectorAll('[id]')].filter(el =>
-  document.querySelector('#dots a[data-sec="' + el.id + '"]'));
-const navIO = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('#dots a').forEach(a => a.classList.remove('active'));
-      const link = document.querySelector('#dots a[data-sec="' + e.target.id + '"]');
-      if (link) link.classList.add('active');
-    }
-  });
-}, {rootMargin: '-40% 0px -55% 0px'});
-secs.forEach(s => navIO.observe(s));
+/* ---------- floating table of contents ---------- */
+(function(){
+  const btn=document.getElementById('tocBtn'), toc=document.getElementById('toc');
+  if(!btn||!toc) return;
+  const WIDE=1300;
+  function setOpen(o){toc.classList.toggle('open',o);btn.textContent=o?'✕':'☰';btn.setAttribute('aria-expanded',o);}
+  setOpen(innerWidth>=WIDE);
+  btn.addEventListener('click',e=>{e.stopPropagation();setOpen(!toc.classList.contains('open'));});
+  toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<WIDE)setOpen(false);}));
+  document.addEventListener('click',e=>{if(innerWidth<WIDE&&toc.classList.contains('open')&&!toc.contains(e.target)&&e.target!==btn)setOpen(false);});
+  // active-section highlighting
+  const secs=[].slice.call(document.querySelectorAll('[id]')).filter(el=>toc.querySelector('a[data-sec="'+el.id+'"]'));
+  const navIO=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        toc.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+        const link=toc.querySelector('a[data-sec="'+e.target.id+'"]');
+        if(link)link.classList.add('active');
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(s=>navIO.observe(s));
+})();
 </script>
 </body>
 </html>
