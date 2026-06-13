@@ -527,6 +527,7 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <a href="#money" data-sec="money"><span>The Money</span></a>
   <a href="#value" data-sec="value"><span>The Value</span></a>
   <a href="#machine" data-sec="machine"><span>The Machine</span></a>
+  <a href="#grid-sec" data-sec="grid-sec"><span>The Grid</span></a>
   <a href="#caveat-sec" data-sec="caveat-sec"><span>The Caveats</span></a>
   <a href="#method" data-sec="method"><span>Methodology</span></a>
 </nav>
@@ -590,7 +591,7 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
         </div>
       </div>
     </div>
-    <figcaption>BEV-only comparison; BYD additionally sold ~2.3M plug-in hybrids for ~4.6M total NEVs in 2025. Sources: Tesla SEC 8-K delivery report; BYD production &amp; sales filing; CnEVPost, Electrek, CNBC. Verified 3–0 across five constituent claims. Note: Tesla retook the <em>quarterly</em> BEV lead in Q1 2026 as BYD's domestic sales fell ~25% — see Chapter 7.</figcaption>
+    <figcaption>BEV-only comparison; BYD additionally sold ~2.3M plug-in hybrids for ~4.6M total NEVs in 2025. Sources: Tesla SEC 8-K delivery report; BYD production &amp; sales filing; CnEVPost, Electrek, CNBC. Verified 3–0 across five constituent claims. Note: Tesla retook the <em>quarterly</em> BEV lead in Q1 2026 as BYD's domestic sales fell ~25% — see Chapter 8.</figcaption>
   </figure>
 
   <figure class="viz reveal" id="raceFig">
@@ -947,9 +948,75 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
 </section>
 
 <!-- ============================== CH 7: CAVEATS ============================== -->
+<!-- ============================== CH 7: THE GRID ============================== -->
+<section class="chapter" id="grid-sec">
+  <div class="chapter-head reveal">
+    <div class="ch-kicker">Chapter Seven · The Ecosystem</div>
+    <h2>The Grid Beneath the Cars</h2>
+  </div>
+  <div class="prose">
+    <p class="lede reveal">A car is only as good as the place you can plug it in — and here China's lead is almost absurd. At the end of 2025 the country held <strong>more than 65% of all the public EV chargers on Earth</strong> — about 4.7 million of roughly 7 million — and built three-quarters of every new public charger added worldwide that year.<sup class="fn"><a href="#src-21">21</a></sup> Counting private points too, China passed <strong>19.3 million charging points</strong>, up 52% in a single year.<sup class="fn"><a href="#src-22">22</a></sup> The cars didn't arrive and then wait for somewhere to charge; the grid was laid down to meet them.</p>
+  </div>
+
+  <div class="bignum-row reveal">
+    <div class="bignum"><div class="n" data-count="65" data-suffix="%">0</div><div class="l">of the world's public EV chargers are in China — it built <strong>75%</strong> of 2025's global additions</div></div>
+    <div class="bignum"><div class="n" data-count="19.3" data-decimals="1" data-suffix="M">0</div><div class="l">charging points in China as of Nov 2025 — up <strong>52%</strong> year-on-year, ~3,560 public ones added <em>a day</em></div></div>
+    <div class="bignum"><div class="n" data-count="100" data-suffix="M+">0</div><div class="l">battery swaps performed by <strong>NIO alone</strong>, from 3,790 stations — about 3 minutes each</div></div>
+    <div class="bignum"><div class="n neutral">400<span style="font-size:.45em;color:var(--ink-faint)">km</span></div><div class="l">of range in a <strong>5-minute</strong> charge on BYD's 1,000&nbsp;kW "megawatt" platform</div></div>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 7a — The Charging Gap</div>
+    <div class="f-title">Public charging points: China vs. the West</div>
+    <div class="f-sub">Latest national counts. China's lead is on a different order of magnitude.</div>
+    <div class="hbars">
+      <div class="hbar"><div class="lab">China<small>4.6M public points, Nov 2025</small></div><div class="track"><div class="fill inside" data-w="100"><span class="pct">4.7M</span></div></div></div>
+      <div class="hbar"><div class="lab">Europe<small>~1.2M public points, 2025 est.</small></div><div class="track"><div class="fill" data-w="25.5" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">1.2M</span></div></div></div>
+      <div class="hbar"><div class="lab">United States<small>207,000 ports, early 2025</small></div><div class="track"><div class="fill" data-w="4.4" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">0.21M</span></div></div></div>
+    </div>
+    <figcaption>Bars scaled to China = 100%. Sources: IEA Global EV Outlook 2026 (China 4.7M, &gt;65% of world)<sup class="fn"><a href="#src-21">21</a></sup>; US DOE Alternative Fuels Data Center (207,227 ports); ACEA / EAFO and 2025 European projections (~1.2M). The US has &gt;70,000 DC fast ports; China holds the bulk of the world's 2.2M fast chargers. The national plan targets 28M charging facilities for 80M+ NEVs by 2027.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal">Then there is the speed. While the best Western fast chargers top out around 350&nbsp;kW (Ionity, Electrify America) and Tesla's newest V4 hits 500&nbsp;kW, BYD's <strong>1,000-volt "Super e-Platform"</strong> charges at up to 1,000&nbsp;kW — adding 400&nbsp;km of range in five minutes, a rate BYD markets as "1 second, 2 kilometres." Huawei and Zeekr have gone further still, to 1.2–1.5&nbsp;megawatts.<sup class="fn"><a href="#src-25">25</a></sup> China has set a national target of 100,000 ultra-fast public chargers by 2027.</p>
+  </div>
+
+  <figure class="viz reveal">
+    <div class="f-kicker">Fig. 7b — Peak Charging Power</div>
+    <div class="f-title">How fast the fastest chargers go (kW)</div>
+    <div class="f-sub">Top passenger-car charging power. Higher = more range per minute.</div>
+    <div class="hbars">
+      <div class="hbar"><div class="lab">BYD Super e-Platform<small>China · 1,000V, 400 km in 5 min</small></div><div class="track"><div class="fill inside" data-w="100"><span class="pct">1,000 kW</span></div></div></div>
+      <div class="hbar"><div class="lab">Tesla Supercharger V4<small>500 kW peak (Cybertruck); most ~325 kW</small></div><div class="track"><div class="fill" data-w="50" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">500 kW</span></div></div></div>
+      <div class="hbar"><div class="lab">Ionity / Electrify America<small>Western public fast-charge ceiling</small></div><div class="track"><div class="fill" data-w="35" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">350 kW</span></div></div></div>
+    </div>
+    <figcaption>BYD's car-side peak is ~2–3× the mainstream Western ceiling; its own chargers reach 1,360–1,500 kW, and Huawei/Zeekr offer 1.2–1.5 MW units. Caveat: BYD's flash-charging network is largely closed to non-BYD vehicles, and "400 km" is a CLTC marketing peak. Source: BYD via Electrek.<sup class="fn"><a href="#src-25">25</a></sup></figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="reveal"><strong>And then there is the thing the West barely does at all: swapping the battery.</strong> Instead of waiting to charge, you drive into a station and a robot replaces your depleted pack with a full one — in about three minutes, faster than a gas fill-up. NIO has now performed <strong>over 100 million swaps</strong> from 3,790 stations, once hitting 158,290 in a single day.<sup class="fn"><a href="#src-23">23</a></sup></p>
+  </div>
+
+  <div class="chain reveal">
+    <div class="link-card"><div class="ic">🚗</div><h5>DRIVE IN</h5><p>Pull onto the platform; no cable, no app fumbling — the station reads the car</p></div>
+    <div class="link-card"><div class="ic">🤖</div><h5>ROBOT SWAPS</h5><p>An automated rig drops the empty pack and bolts in a fully charged one</p></div>
+    <div class="link-card"><div class="ic">⚡</div><h5>~3 MINUTES</h5><p>Drive out with a full battery — quicker than filling a tank of petrol</p></div>
+    <div class="link-card"><div class="ic">🔋</div><h5>GRID BUFFER</h5><p>The removed packs recharge off-peak, soaking up cheap and surplus power</p></div>
+  </div>
+
+  <div class="prose">
+    <p class="reveal">Swapping also rewrites the price tag. Under NIO's <strong>Battery-as-a-Service</strong>, you buy the car but <em>lease</em> the battery — cutting up to <strong>RMB 108,000 (~$16,000) off the sticker</strong> and turning range into a monthly subscription. And it is no longer one company's gamble: battery giant <strong>CATL</strong> built 1,020 "Choco-Swap" stations in a single year and teamed with oil major Sinopec to target up to <strong>10,000 swap stations</strong>, with a national safety standard now in force.<sup class="fn"><a href="#src-24">24</a></sup> The state is treating refueling itself as shared infrastructure.</p>
+  </div>
+
+  <div class="pull reveal">"The cars didn't arrive and then wait for somewhere to charge. The grid was laid down to meet them — 4.7 million plugs, megawatt chargers, and robots that swap your battery in three minutes."</div>
+
+  <div class="note reveal"><strong>The honest counterweight:</strong> scale isn't the same as efficiency. National public-charger utilization runs under 10% — and as low as ~2% in tier-1 cities — well below the level operators need to profit, so much of this network loses money. Rural coverage trails (about 80% of townships), paid rural charging only begins in 2026, and battery swap, for all its momentum, is still a niche: NIO's headline "80% of trips by swap" is a highway-only, single-brand, holiday-peak figure. Vehicle-to-grid remains mostly pilots (30 projects across 9 cities), not deployed capacity.<sup class="fn"><a href="#src-22">22</a></sup></div>
+</section>
+
+<!-- ============================== CH 8: CAVEATS ============================== -->
 <section class="chapter" id="caveat-sec">
   <div class="chapter-head reveal">
-    <div class="ch-kicker">Chapter Seven · The Counter-Case</div>
+    <div class="ch-kicker">Chapter Eight · The Counter-Case</div>
     <h2>What Could Still Go Wrong</h2>
   </div>
   <div class="prose">
@@ -1031,6 +1098,11 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <li id="src-13"><a href="https://www.bloomberg.com/news/articles/2026-03-27/byd-delivers-steeper-than-expected-profit-drop-amid-ev-price-war">Bloomberg — BYD's steeper-than-expected profit drop</a><span class="q">Secondary</span></li>
       <li id="src-19"><a href="https://cnevpost.com/2026/02/04/global-ev-battery-market-share-2025/">CnEVPost / SNE Research — Global EV battery market share 2025</a><span class="q">Secondary</span></li>
       <li id="src-20"><a href="https://about.bnef.com/insights/clean-transport/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/">BloombergNEF — Battery pack prices fall to $108/kWh (Dec 2025)</a><span class="q">Primary</span></li>
+      <li id="src-21"><a href="https://www.evinfrastructurenews.com/ev-networks/iea-1-8-million-public-ev-chargepoints-added-globally-in-2025-china-accounts-for-65-">IEA Global EV Outlook 2026 — China &gt;65% of world public chargers</a><span class="q">Primary</span></li>
+      <li id="src-22"><a href="https://chinaevhome.com/2025/12/23/chinas-ev-charging-facilities-hits-19-32-million-by-nov-2025-up-52-yoy/">NEA / EVCIPA — China's 19.32M charging points, Nov 2025</a><span class="q">Secondary</span></li>
+      <li id="src-23"><a href="https://cnevpost.com/2026/02/06/nio-reaches-100-million-battery-swap-services/">CnEVPost — NIO reaches 100 million battery swaps</a><span class="q">Secondary</span></li>
+      <li id="src-24"><a href="https://cnevpost.com/2025/12/30/catl-reaches-1020-choco-swap-stations-raises-2026-target/">CnEVPost — CATL Choco-Swap network &amp; Sinopec 10,000-station plan</a><span class="q">Secondary</span></li>
+      <li id="src-25"><a href="https://electrek.co/2025/03/17/byd-confirms-1000v-super-e-platform-fast-charging-400km-5-minutes/">Electrek — BYD 1,000V Super e-Platform, 400 km in 5 min</a><span class="q">Secondary</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
       <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
