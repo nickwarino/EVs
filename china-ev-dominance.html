@@ -215,6 +215,21 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .race-ymarks span{cursor:pointer;padding:2px 4px;transition:color .2s}
 .race-ymarks span.on{color:var(--china)}
 
+/* ---------- refueling race ---------- */
+.refrace .ref-clock{font-family:var(--serif);font-size:clamp(40px,7vw,64px);font-weight:800;letter-spacing:-.02em;color:var(--ink);text-align:center;font-variant-numeric:tabular-nums;line-height:1;margin-bottom:4px}
+.refrace .ref-clocklbl{text-align:center;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:24px}
+.rl-lane{margin-bottom:20px}
+.rl-head{display:flex;align-items:center;gap:11px;margin-bottom:7px}
+.rl-ic{font-size:20px}
+.rl-name{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);flex:1;line-height:1.25}
+.rl-name small{display:block;font-weight:400;color:var(--ink-faint);font-size:11.5px}
+.rl-time{font-family:var(--sans);font-size:14px;font-weight:800;color:var(--ink-faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rl-time.done{color:var(--green)}
+.rl-track{position:relative;height:26px;background:var(--paper-warm);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.rl-fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:5px}
+.rl-flag{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.4}
+.refrace .race-btn{margin:6px auto 0;display:flex}
+
 /* ---------- horizontal share bars ---------- */
 .hbars{display:flex;flex-direction:column;gap:20px}
 .hbar{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:18px;align-items:center}
@@ -966,6 +981,7 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   </div>
   <div class="prose">
     <p class="lede reveal">A car is only as good as the place you can plug it in — and here China's lead is almost absurd. At the end of 2025 the country held <strong>more than 65% of all the public EV chargers on Earth</strong> — about 4.7 million of roughly 7 million — and built three-quarters of every new public charger added worldwide that year.<sup class="fn"><a href="#src-21">21</a></sup> Counting private points too, China passed <strong>19.3 million charging points</strong>, up 52% in a single year.<sup class="fn"><a href="#src-22">22</a></sup> The cars didn't arrive and then wait for somewhere to charge; the grid was laid down to meet them.</p>
+    <p class="reveal">And it isn't merely a big-country mirage. Adjust for population, or for the number of cars actually on the road, and China's charging network is <em>still</em> the densest of any major market — as the toggle below shows.</p>
   </div>
 
   <div class="bignum-row reveal">
@@ -975,16 +991,14 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="bignum"><div class="n neutral">400<span style="font-size:.45em;color:var(--ink-faint)">km</span></div><div class="l">of range in a <strong>5-minute</strong> charge on BYD's 1,000&nbsp;kW "megawatt" platform</div></div>
   </div>
 
-  <figure class="viz reveal">
-    <div class="f-kicker">Fig. 7a — The Charging Gap</div>
+  <figure class="viz reveal" id="chargeFig">
+    <div class="f-kicker">Fig. 7a — The Charging Gap, In Scale</div>
     <div class="f-title">Public charging points: China vs. the West</div>
-    <div class="f-sub">Latest national counts. China's lead is on a different order of magnitude.</div>
-    <div class="hbars">
-      <div class="hbar"><div class="lab">China<small>4.6M public points, Nov 2025</small></div><div class="track"><div class="fill inside" data-w="100"><span class="pct">4.7M</span></div></div></div>
-      <div class="hbar"><div class="lab">Europe<small>~1.2M public points, 2025 est.</small></div><div class="track"><div class="fill" data-w="25.5" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">1.2M</span></div></div></div>
-      <div class="hbar"><div class="lab">United States<small>207,000 ports, early 2025</small></div><div class="track"><div class="fill" data-w="4.4" style="background:linear-gradient(90deg,#6b7681,#8d97a2)"><span class="pct">0.21M</span></div></div></div>
-    </div>
-    <figcaption>Bars scaled to China = 100%. Sources: IEA Global EV Outlook 2026 (China 4.7M, &gt;65% of world)<sup class="fn"><a href="#src-21">21</a></sup>; US DOE Alternative Fuels Data Center (207,227 ports); ACEA / EAFO and 2025 European projections (~1.2M). The US has &gt;70,000 DC fast ports; China holds the bulk of the world's 2.2M fast chargers. The national plan targets 28M charging facilities for 80M+ NEVs by 2027.</figcaption>
+    <div class="f-sub">Raw totals flatter big countries — so here it is normalized too. China leads on every measure. Toggle:</div>
+    <div class="cmp-tabs" id="chgTabs"></div>
+    <div class="hbars" id="chgBars" style="margin-top:20px"></div>
+    <div class="cmp-tariff" id="chgNote" style="border-left-color:var(--china)"></div>
+    <figcaption>Bars rescale to the leader in each view. Denominators (end-2025): China 1.41B people, 366M cars, 43.97M NEVs on the road; Europe ~449M people, ~250M cars; US ~342M people, ~283M cars, ~7.5M EVs. A complementary measure — <strong>EVs per public charger</strong> — runs ~10 in China, ~13 in Europe and ~36 in the US (fewer = denser coverage). Sources: IEA GEVO 2026<sup class="fn"><a href="#src-21">21</a></sup>; NEA/EVCIPA<sup class="fn"><a href="#src-22">22</a></sup>; China NEV fleet &amp; 366M car parc<sup class="fn"><a href="#src-26">26</a></sup>; US DOE AFDC (207,227 ports); ACEA/EAFO (~1.2M, EU). US EV stock approximate.</figcaption>
   </figure>
 
   <div class="prose">
@@ -1017,6 +1031,19 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   <div class="prose">
     <p class="reveal">Swapping also rewrites the price tag. Under NIO's <strong>Battery-as-a-Service</strong>, you buy the car but <em>lease</em> the battery — cutting up to <strong>RMB 108,000 (~$16,000) off the sticker</strong> and turning range into a monthly subscription. And it is no longer one company's gamble: battery giant <strong>CATL</strong> built 1,020 "Choco-Swap" stations in a single year and teamed with oil major Sinopec to target up to <strong>10,000 swap stations</strong>, with a national safety standard now in force.<sup class="fn"><a href="#src-24">24</a></sup> The state is treating refueling itself as shared infrastructure.</p>
   </div>
+
+  <figure class="viz reveal" id="refFig">
+    <div class="f-kicker">Interactive — The Refueling Race</div>
+    <div class="f-title">How long to put 250 miles back in the tank?</div>
+    <div class="f-sub">A time-lapse: restoring ~400 km / 250 miles of range, four ways. Press play.</div>
+    <div class="refrace">
+      <div class="ref-clock" id="refClock">0:00</div>
+      <div class="ref-clocklbl">Elapsed (mm:ss)</div>
+      <div id="raceLanes"></div>
+      <button class="race-btn" id="refPlay">▶ Start the race</button>
+    </div>
+    <figcaption>Times to replenish ~250 mi (400 km) of driving range. Gas pickup ≈ 3 min (pump + handling). NIO battery swap ≈ 3 min for a full pack. BYD's 1,000 kW Super e-Platform: 400 km in ~5 min (CLTC marketing peak). Tesla V3 Supercharger (250 kW) ≈ 18 min for ~250 mi. The headline: China's battery swap and megawatt charging have pulled EV "refueling" to within striking distance of a gas pump — while conventional fast charging still takes 3–6× longer. Clock is time-compressed for display.</figcaption>
+  </figure>
 
   <div class="pull reveal">"The cars didn't arrive and then wait for somewhere to charge. The grid was laid down to meet them — 4.7 million plugs, megawatt chargers, and robots that swap your battery in three minutes."</div>
 
@@ -1113,6 +1140,7 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <li id="src-23"><a href="https://cnevpost.com/2026/02/06/nio-reaches-100-million-battery-swap-services/">CnEVPost — NIO reaches 100 million battery swaps</a><span class="q">Secondary</span></li>
       <li id="src-24"><a href="https://cnevpost.com/2025/12/30/catl-reaches-1020-choco-swap-stations-raises-2026-target/">CnEVPost — CATL Choco-Swap network &amp; Sinopec 10,000-station plan</a><span class="q">Secondary</span></li>
       <li id="src-25"><a href="https://electrek.co/2025/03/17/byd-confirms-1000v-super-e-platform-fast-charging-400km-5-minutes/">Electrek — BYD 1,000V Super e-Platform, 400 km in 5 min</a><span class="q">Secondary</span></li>
+      <li id="src-26"><a href="https://chinaevhome.com/2026/01/26/chinas-nev-fleet-tops-43-9-million-by-end-2025-penetration-exceeds-12-1/">ChinaEVHome / MPS — China's NEV fleet tops 43.9M; 366M total car parc, end-2025</a><span class="q">Secondary</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
       <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
@@ -1490,6 +1518,76 @@ function runCounter(el){
     fill.style.height=(prog*100)+'%';
   }
   addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
+})();
+
+/* ---------- charger chart (normalized toggle) ---------- */
+(function(){
+  const tabsEl=document.getElementById('chgTabs'), barsEl=document.getElementById('chgBars'), noteEl=document.getElementById('chgNote');
+  if(!tabsEl) return;
+  const ROWS=['China','Europe','United States'];
+  const SUBS=['4.6M public points · 1.41B people · 366M cars','~1.2M points · 449M people · ~250M cars','207k ports · 342M people · ~283M cars'];
+  const COLORS=['linear-gradient(90deg,var(--china-deep),var(--china))','linear-gradient(90deg,#6b7681,#8d97a2)','linear-gradient(90deg,#6b7681,#8d97a2)'];
+  const VIEWS=[
+    {key:'Total',v:[4700000,1200000,207227],fmt:x=>x>=1e6?(x/1e6).toFixed(2)+'M':Math.round(x/1000)+'k',
+     note:'<b>4.7 million</b> public chargers — more than the rest of the world combined, and about 22× the US total.'},
+    {key:'Per million people',v:[3336,2673,605],fmt:x=>Math.round(x).toLocaleString('en-US'),
+     note:'Adjusted for population China still leads — though Europe is close. The US has roughly <b>one-fifth</b> of China’s per-person density.'},
+    {key:'Per 1,000 cars',v:[12.8,4.8,0.73],fmt:x=>x.toFixed(1),
+     note:'Per car on the road, China has about <b>2.7×</b> Europe’s charger density and <b>~18×</b> the United States’.'}
+  ];
+  function render(i){
+    const view=VIEWS[i], max=Math.max.apply(null,view.v);
+    barsEl.innerHTML=ROWS.map((r,k)=>{
+      const w=Math.max(2,view.v[k]/max*100), inside=k===0?' inside':'';
+      return '<div class="hbar"><div class="lab">'+r+'<small>'+SUBS[k]+'</small></div><div class="track"><div class="fill'+inside+'" style="width:0;background:'+COLORS[k]+'" data-w="'+w+'"><span class="pct" style="opacity:1">'+view.fmt(view.v[k])+'</span></div></div></div>';
+    }).join('');
+    requestAnimationFrame(()=>barsEl.querySelectorAll('.fill').forEach(f=>{f.style.width=f.dataset.w+'%';}));
+    noteEl.innerHTML='<span class="tf-ic">📊</span>'+view.note;
+    tabsEl.querySelectorAll('.cmp-tab').forEach((t,k)=>t.classList.toggle('on',k===i));
+  }
+  VIEWS.forEach((vw,i)=>{const b=document.createElement('button');b.className='cmp-tab';b.textContent=vw.key;b.onclick=()=>render(i);tabsEl.appendChild(b);});
+  render(0);
+})();
+
+/* ---------- refueling race ---------- */
+(function(){
+  const stage=document.getElementById('raceLanes'); if(!stage) return;
+  const playBtn=document.getElementById('refPlay'), clockEl=document.getElementById('refClock');
+  // minutes to restore ~250 mi / 400 km of range
+  const LANES=[
+    {name:'Gas pickup truck',sub:'US · fuel pump',mins:3,c:'#7d8893',ic:'⛽'},
+    {name:'NIO battery swap',sub:'China · robot swaps the pack',mins:3,c:'#b5342c',ic:'🔋'},
+    {name:'BYD megawatt charge',sub:'China · 1,000 kW Super e-Platform',mins:5,c:'#d4756e',ic:'⚡'},
+    {name:'Tesla Supercharger',sub:'US · V3 250 kW',mins:18,c:'#5b6670',ic:'🔌'}
+  ];
+  const MAXM=18, SECPERMIN=0.38; // ~7s for the slowest
+  function build(){
+    stage.innerHTML=LANES.map((l,i)=>
+      '<div class="rl-lane"><div class="rl-head"><span class="rl-ic">'+l.ic+'</span><span class="rl-name">'+l.name+'<small>'+l.sub+'</small></span><span class="rl-time" id="rlt'+i+'">0:00</span></div>'
+      +'<div class="rl-track"><div class="rl-fill" id="rlf'+i+'" style="background:'+l.c+'"></div><div class="rl-flag" id="rlg'+i+'">🏁</div></div></div>'
+    ).join('');
+  }
+  build();
+  let raf=null, t0=0;
+  function fmtT(m){const s=Math.round(m*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+  function reset(){LANES.forEach((l,i)=>{document.getElementById('rlf'+i).style.width='0%';document.getElementById('rlt'+i).textContent='0:00';document.getElementById('rlt'+i).classList.remove('done');});clockEl.textContent='0:00';}
+  function run(now){
+    if(!t0)t0=now;
+    const elapsedSec=(now-t0)/1000;
+    const simMin=elapsedSec/SECPERMIN;
+    clockEl.textContent=fmtT(Math.min(simMin,MAXM));
+    let allDone=true;
+    LANES.forEach((l,i)=>{
+      const f=document.getElementById('rlf'+i), tl=document.getElementById('rlt'+i);
+      const frac=Math.min(1,simMin/l.mins);
+      f.style.width=(frac*100)+'%';
+      if(frac>=1){tl.textContent='✓ '+fmtT(l.mins);tl.classList.add('done');}
+      else{tl.textContent=fmtT(simMin);allDone=false;}
+    });
+    if(simMin<MAXM&&!allDone){raf=requestAnimationFrame(run);}
+    else{clockEl.textContent=fmtT(MAXM);playBtn.textContent='↻ Replay';raf=null;}
+  }
+  playBtn.onclick=()=>{if(raf){cancelAnimationFrame(raf);raf=null;}reset();t0=0;playBtn.textContent='❚❚ Running…';raf=requestAnimationFrame(run);};
 })();
 
 /* ---------- floating table of contents ---------- */
