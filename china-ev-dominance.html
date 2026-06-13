@@ -491,6 +491,46 @@ html[data-theme="dark"] .map-node text{stroke:#10100f}
 .tl-item .tl-body{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--ink-soft);margin-top:7px}
 .tl-item .tl-body b{color:var(--ink);font-weight:700}
 
+/* ---------- battery-swap animation ---------- */
+.swapanim{max-width:720px;margin:26px auto 0}
+.swapanim svg{width:100%;height:auto;display:block}
+.swapanim .sw-bay{fill:var(--paper-warm);stroke:var(--rule);stroke-width:1.5}
+.swapanim .sw-ground{stroke:var(--rule);stroke-width:2}
+.swapanim .sw-carbody{fill:var(--ink);opacity:.9}
+html[data-theme="dark"] .swapanim .sw-carbody{fill:#3a3530}
+.swapanim .sw-glass{fill:#9fb4c4;opacity:.55}
+.swapanim .sw-wheel{fill:#1a1a1a;stroke:#555;stroke-width:2}
+.swapanim .sw-label{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--ink);text-anchor:middle}
+.swapanim .sw-cap{font-family:var(--sans);font-size:11px;font-weight:600;fill:var(--ink-faint);text-anchor:middle;letter-spacing:.04em}
+
+/* ---------- guess-the-stat quiz ---------- */
+.quiz{max-width:660px;margin:0 auto;background:var(--paper-warm);border:1px solid var(--rule);border-radius:12px;padding:30px 28px}
+@media(max-width:560px){.quiz{padding:22px 18px}}
+.quiz-head{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--china);margin-bottom:6px}
+.quiz-title{font-size:24px;font-weight:800;line-height:1.2;margin-bottom:4px}
+.quiz-sub{font-family:var(--sans);font-size:13.5px;color:var(--ink-faint);margin-bottom:22px}
+.quiz-q .qq{font-family:var(--sans);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.4;min-height:48px}
+.quiz-val{font-family:var(--serif);font-size:40px;font-weight:800;color:var(--china);text-align:center;line-height:1}
+.quiz-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--rule);outline:none;margin:14px 0 4px}
+.quiz-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--china);cursor:pointer;border:3px solid var(--paper);box-shadow:0 1px 6px rgba(0,0,0,.35)}
+.quiz-slider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--china);cursor:pointer;border:3px solid var(--paper)}
+.quiz-slider:disabled{opacity:.5}
+.quiz-scale{display:flex;justify-content:space-between;font-family:var(--sans);font-size:11px;color:var(--ink-faint)}
+.quiz-actions{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.quiz-btn{font-family:var(--sans);font-size:13px;font-weight:700;border:1px solid var(--china);background:var(--china);color:#fff;border-radius:30px;padding:10px 22px;cursor:pointer;transition:opacity .2s}
+.quiz-btn:hover{opacity:.88}
+.quiz-btn.ghost{background:transparent;color:var(--china)}
+.quiz-prog{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-faint);margin-left:auto}
+.quiz-reveal{margin-top:18px;padding:18px 20px;border-radius:10px;background:var(--paper);border:1px solid var(--rule);border-left:4px solid var(--china);font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--ink-soft);opacity:0;max-height:0;overflow:hidden;transition:opacity .4s,max-height .4s,margin .4s}
+.quiz-reveal.show{opacity:1;max-height:300px}
+.quiz-reveal .ra{font-weight:800;color:var(--china-deep)}
+html[data-theme="dark"] .quiz-reveal .ra{color:#e8a39d}
+.quiz-bars{margin:12px 0 4px}
+.quiz-bars .qb{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:12.5px;font-weight:600}
+.quiz-bars .qb .ql{min-width:64px;color:var(--ink-faint)}
+.quiz-bars .qb .qt{height:14px;border-radius:7px;background:var(--rule);flex:1;position:relative;overflow:hidden}
+.quiz-bars .qb .qf{position:absolute;left:0;top:0;height:100%;border-radius:7px;width:0;transition:width .8s ease}
+
 /* reveal-on-scroll baseline */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
 .reveal.in-view{opacity:1;transform:none}
@@ -573,6 +613,22 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
 </header>
 
 <article>
+
+<!-- ============================== READER QUIZ ============================== -->
+<section class="chapter" style="padding-top:70px" id="quiz-sec">
+  <div class="quiz reveal" id="quiz">
+    <div class="quiz-head">Before you read · Test your gut</div>
+    <div class="quiz-title">How much do you think China leads?</div>
+    <div class="quiz-sub">Drag the slider to your guess, then reveal the answer. Three quick questions.</div>
+    <div class="quiz-q" id="quizBody"></div>
+    <div class="quiz-reveal" id="quizReveal"></div>
+    <div class="quiz-actions">
+      <button class="quiz-btn" id="quizRevealBtn">Reveal the answer</button>
+      <button class="quiz-btn ghost" id="quizNextBtn" style="display:none">Next question →</button>
+      <span class="quiz-prog" id="quizProg"></span>
+    </div>
+  </div>
+</section>
 
 <!-- ============================== CH 1: THE CROWN ============================== -->
 <section class="chapter" id="crown">
@@ -749,6 +805,19 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <div class="map-legend" id="mapLegend"></div>
     </div>
     <figcaption>Status as of mid-2026. Tariff/regulatory positions from IEA GEVO 2026, CSIS, the Globe and Mail, Electrive, Atlantic Council and government announcements. Node size roughly reflects EV-market importance, position is schematic. The US figure combines a 100%+ tariff with the connected-vehicle rule; "easing" reflects Canada's early-2026 quota deal.</figcaption>
+  </figure>
+
+  <figure class="viz reveal" style="background:var(--paper)" id="ownFig">
+    <div class="f-kicker">Interactive — It May Already Be in Your Driveway</div>
+    <div class="f-title">Who owns whom: the "Western" brands that are Chinese</div>
+    <div class="f-sub">A surprising amount of European and British car heritage now answers to Chinese parents. Tap a brand.</div>
+    <div class="map-wrap">
+      <div class="map-grid">
+        <div class="map-svg-box"><svg class="map-svg" id="ownSvg" viewBox="0 0 1000 520" role="img" aria-label="Ownership network of Chinese automakers and their Western brands"></svg></div>
+        <div class="map-detail" id="ownDetail"></div>
+      </div>
+    </div>
+    <figcaption>Lines link Chinese parent companies to brands they own or control; stakes are approximate and widely reported as of 2025–26 — confirm against current filings. Geely Holding is the standout (Volvo, Polestar, Lotus, Lynk &amp; Co, Zeekr, half of Smart, the London black-cab maker, plus ~17% of Aston Martin); SAIC owns MG. The Stellantis–Leapmotor tie is the reverse: a Western giant taking a stake (~20%) in a Chinese brand and selling it abroad. Sources: company filings, Geely/SAIC/Stellantis disclosures, Reuters.</figcaption>
   </figure>
 </section>
 
@@ -958,6 +1027,19 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="link-card"><div class="ic">🚢</div><h5>EXPORT</h5><p>1.05M BYD vehicles shipped overseas in 2025, up ~150%</p></div>
   </div>
 
+  <figure class="viz reveal" style="background:var(--paper)" id="anatFig">
+    <div class="f-kicker">Interactive — Anatomy of a BYD</div>
+    <div class="f-title">What "makes everything itself" actually looks like</div>
+    <div class="f-sub">Tap a part to see which piece BYD builds in-house — and why that means no one else's margin rides along.</div>
+    <div class="map-wrap">
+      <div class="map-grid">
+        <div class="map-svg-box"><svg class="map-svg" id="anatSvg" viewBox="0 0 1000 480" role="img" aria-label="Cutaway of a BYD EV with in-house components"></svg></div>
+        <div class="map-detail" id="anatDetail"></div>
+      </div>
+    </div>
+    <figcaption>A schematic cutaway. Hotspots mark the layers BYD designs and manufactures itself — the basis of its cost advantage. Most Western automakers buy several of these (cells, chips, power electronics) from outside suppliers, each taking a margin.</figcaption>
+  </figure>
+
   <figure class="photo reveal">
     <div class="frame">
       <img loading="lazy" alt="BYD Auto manufacturing plant in Rayong, Thailand" src="https://commons.wikimedia.org/wiki/Special:FilePath/BYD_Auto_(Thailand)_Co.,_Ltd._manufacturing_plant_in_Rayong,_Thailand.png">
@@ -1026,6 +1108,26 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="link-card"><div class="ic">🤖</div><h5>ROBOT SWAPS</h5><p>An automated rig drops the empty pack and bolts in a fully charged one</p></div>
     <div class="link-card"><div class="ic">⚡</div><h5>~3 MINUTES</h5><p>Drive out with a full battery — quicker than filling a tank of petrol</p></div>
     <div class="link-card"><div class="ic">🔋</div><h5>GRID BUFFER</h5><p>The removed packs recharge off-peak, soaking up cheap and surplus power</p></div>
+  </div>
+
+  <div class="swapanim reveal" id="swapAnim">
+    <svg viewBox="0 0 720 300" role="img" aria-label="Animated battery swap">
+      <line class="sw-ground" x1="20" y1="248" x2="700" y2="248"/>
+      <rect class="sw-bay" x="40" y="252" width="180" height="34" rx="6"/>
+      <text class="sw-cap" x="130" y="274">CHARGING BAY</text>
+      <rect class="sw-bay" x="500" y="252" width="180" height="34" rx="6"/>
+      <text class="sw-cap" x="590" y="274">READY PACKS</text>
+      <g id="swCar">
+        <rect class="sw-carbody" x="270" y="150" width="240" height="56" rx="14"/>
+        <path class="sw-carbody" d="M300 150 q40 -42 100 -42 q70 0 96 42 Z"/>
+        <rect class="sw-glass" x="332" y="120" width="110" height="32" rx="7"/>
+        <circle class="sw-wheel" cx="320" cy="210" r="22"/>
+        <circle class="sw-wheel" cx="462" cy="210" r="22"/>
+      </g>
+      <g id="swOld"><rect x="312" y="212" width="156" height="22" rx="6" fill="#c9892f"/><rect x="312" y="212" width="40" height="22" rx="6" fill="#e0a84e"/><text x="390" y="227" style="fill:#fff;font-weight:700;font-size:11px;text-anchor:middle;font-family:'Libre Franklin',sans-serif">depleted</text></g>
+      <g id="swNew" style="opacity:0"><rect x="312" y="212" width="156" height="22" rx="6" fill="#2e7d52"/><rect x="312" y="212" width="140" height="22" rx="6" fill="#43a06a"/><text x="390" y="227" style="fill:#fff;font-weight:700;font-size:11px;text-anchor:middle;font-family:'Libre Franklin',sans-serif">fully charged</text></g>
+      <text id="swLabel" class="sw-label" x="360" y="36">A full battery in about 3 minutes</text>
+    </svg>
   </div>
 
   <div class="prose">
@@ -1588,6 +1690,157 @@ function runCounter(el){
     else{clockEl.textContent=fmtT(MAXM);playBtn.textContent='↻ Replay';raf=null;}
   }
   playBtn.onclick=()=>{if(raf){cancelAnimationFrame(raf);raf=null;}reset();t0=0;playBtn.textContent='❚❚ Running…';raf=requestAnimationFrame(run);};
+})();
+
+/* ---------- guess-the-stat quiz ---------- */
+(function(){
+  const body=document.getElementById('quizBody'), reveal=document.getElementById('quizReveal'),
+        revealBtn=document.getElementById('quizRevealBtn'), nextBtn=document.getElementById('quizNextBtn'),
+        prog=document.getElementById('quizProg');
+  if(!body) return;
+  const Q=[
+    {q:'What share of the world’s EVs were built in China in 2025?',min:0,max:100,step:1,start:40,ans:75,
+     fmt:v=>v+'%',take:'About <span class="ra">75%</span> — roughly 16 of every 22 million electric cars made on Earth.'},
+    {q:'China’s share of the world’s public EV chargers?',min:0,max:100,step:1,start:30,ans:65,
+     fmt:v=>v+'%',take:'More than <span class="ra">65%</span> — over 4.7 million chargers, more than the rest of the world combined.'},
+    {q:'Cheapest BYD with self-driving (LiDAR) hardware costs about…',min:5000,max:60000,step:500,start:35000,ans:10300,
+     fmt:v=>'$'+Number(v).toLocaleString('en-US'),take:'About <span class="ra">$10,300</span> — the BYD Seagull. No Western automaker sells any new EV near that price.'}
+  ];
+  let i=0;
+  function draw(){
+    const d=Q[i];
+    body.innerHTML='<div class="qq">'+d.q+'</div><div class="quiz-val" id="qVal">'+d.fmt(d.start)+'</div>'
+      +'<input class="quiz-slider" id="qSlider" type="range" min="'+d.min+'" max="'+d.max+'" step="'+d.step+'" value="'+d.start+'">'
+      +'<div class="quiz-scale"><span>'+d.fmt(d.min)+'</span><span>'+d.fmt(d.max)+'</span></div>';
+    reveal.className='quiz-reveal'; reveal.innerHTML='';
+    revealBtn.style.display=''; nextBtn.style.display='none';
+    prog.textContent='Question '+(i+1)+' of '+Q.length;
+    const sl=document.getElementById('qSlider'), val=document.getElementById('qVal');
+    sl.addEventListener('input',()=>val.textContent=d.fmt(+sl.value));
+  }
+  function doReveal(){
+    const d=Q[i], sl=document.getElementById('qSlider'); sl.disabled=true;
+    const guess=+sl.value, span=d.max-d.min;
+    const gw=(guess-d.min)/span*100, aw=(d.ans-d.min)/span*100;
+    reveal.innerHTML='<div class="quiz-bars">'
+      +'<div class="qb"><span class="ql">You</span><span class="qt"><span class="qf" style="background:#8d97a2;width:0" data-w="'+gw+'"></span></span><span>'+d.fmt(guess)+'</span></div>'
+      +'<div class="qb"><span class="ql">Actual</span><span class="qt"><span class="qf" style="background:var(--china);width:0" data-w="'+aw+'"></span></span><span><b>'+d.fmt(d.ans)+'</b></span></div>'
+      +'</div>'+d.take;
+    reveal.classList.add('show');
+    requestAnimationFrame(()=>reveal.querySelectorAll('.qf').forEach(f=>f.style.width=f.dataset.w+'%'));
+    revealBtn.style.display='none';
+    nextBtn.style.display='';
+    nextBtn.textContent = (i<Q.length-1) ? 'Next question →' : 'Start reading ↓';
+  }
+  revealBtn.onclick=doReveal;
+  nextBtn.onclick=()=>{
+    if(i<Q.length-1){i++;draw();}
+    else{const el=document.getElementById('crown');if(el)el.scrollIntoView({behavior:'smooth'});}
+  };
+  draw();
+})();
+
+/* ---------- battery-swap animation ---------- */
+(function(){
+  const wrap=document.getElementById('swapAnim'); if(!wrap) return;
+  const car=document.getElementById('swCar'), old=document.getElementById('swOld'), neu=document.getElementById('swNew'), label=document.getElementById('swLabel');
+  const K_CAR=[{t:0,x:0,y:0,o:1},{t:800,x:0,y:-14,o:1},{t:3700,x:0,y:-14,o:1},{t:4300,x:0,y:0,o:1},{t:6000,x:0,y:0,o:1}];
+  const K_OLD=[{t:0,x:0,y:0,o:1},{t:1500,x:0,y:0,o:1},{t:2100,x:0,y:42,o:1},{t:3000,x:-250,y:42,o:1},{t:5200,x:-250,y:42,o:1},{t:5600,x:-250,y:42,o:0},{t:6000,x:0,y:0,o:0}];
+  const K_NEW=[{t:0,x:210,y:0,o:0},{t:2200,x:210,y:0,o:1},{t:3200,x:0,y:0,o:1},{t:5200,x:0,y:0,o:1},{t:5500,x:0,y:0,o:0},{t:6000,x:210,y:0,o:0}];
+  const LABELS=[[0,'A depleted battery rolls in'],[900,'Lift &amp; unlock'],[1600,'Drop the depleted pack'],[2300,'Roll it to the charging bay'],[3000,'Bring in a fresh, full pack'],[3800,'Seat &amp; lock'],[4400,'Done — drive off · about 3 minutes']];
+  const LOOP=6000;
+  function ease(f){return f<0.5?2*f*f:1-Math.pow(-2*f+2,2)/2;}
+  function val(kf,t){let a=kf[0],b=kf[kf.length-1];for(let j=0;j<kf.length-1;j++){if(t>=kf[j].t&&t<=kf[j+1].t){a=kf[j];b=kf[j+1];break;}}const sp=(b.t-a.t)||1,f=ease(Math.min(1,Math.max(0,(t-a.t)/sp)));return{x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f,o:a.o+(b.o-a.o)*f};}
+  function apply(el,v){el.setAttribute('transform','translate('+v.x.toFixed(1)+' '+v.y.toFixed(1)+')');el.style.opacity=v.o;}
+  let t0=0;
+  function frame(now){
+    if(!t0)t0=now;
+    const t=(now-t0)%LOOP;
+    apply(car,val(K_CAR,t));apply(old,val(K_OLD,t));apply(neu,val(K_NEW,t));
+    let lab=LABELS[0][1];for(const L of LABELS){if(t>=L[0])lab=L[1];}
+    label.innerHTML=lab;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------- anatomy of a BYD (hotspots) ---------- */
+(function(){
+  const svg=document.getElementById('anatSvg'); if(!svg) return;
+  const detail=document.getElementById('anatDetail'), NS='http://www.w3.org/2000/svg';
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  // car cutaway
+  svg.appendChild(el('rect',{x:250,y:320,width:480,height:32,rx:8,style:'fill:#b5342c;fill-opacity:.25'}));      // battery slab
+  svg.appendChild(el('rect',{x:230,y:250,width:560,height:74,rx:22,style:'fill:var(--ink);fill-opacity:.9'}));   // body
+  svg.appendChild(el('path',{d:'M340 250 q60 -64 130 -64 q92 0 120 64 Z',style:'fill:var(--ink);fill-opacity:.9'}));
+  svg.appendChild(el('rect',{x:392,y:200,width:150,height:46,rx:8,style:'fill:#9fb4c4;fill-opacity:.5'}));        // glass
+  svg.appendChild(el('circle',{cx:330,cy:360,r:42,fill:'#1a1a1a',stroke:'#555','stroke-width':3}));
+  svg.appendChild(el('circle',{cx:690,cy:360,r:42,fill:'#1a1a1a',stroke:'#555','stroke-width':3}));
+  const PARTS=[
+    {x:470,y:336,n:1,name:'Blade Battery (LFP cells)',d:'BYD designs and manufactures its own cobalt-free lithium-iron-phosphate Blade cells — the chemistry that now powers a majority of the world’s EVs. Most rivals buy cells from CATL, LG or Panasonic.'},
+    {x:560,y:215,n:2,name:'In-house chip & God’s Eye',d:'The Xuanji smart-driving chipset and the God’s Eye ADAS stack are BYD’s own silicon and software (alongside NVIDIA/Horizon compute on higher tiers) — not a bought-in driver-assistance system.'},
+    {x:660,y:352,n:3,name:'8-in-1 e-powertrain',d:'Motor, inverter, transmission, DC-DC, on-board charger and controllers are integrated into one in-house unit — fewer suppliers, fewer markups, tighter packaging.'},
+    {x:300,y:262,n:4,name:'Cell-to-body chassis',d:'The Blade pack is structural — fused into the body (cell-to-body), which stiffens the car, lowers weight and cuts cost versus a separate battery box bolted in.'},
+    {x:370,y:336,n:5,name:'Own cathode chemistry',d:'BYD reaches upstream into the cathode material and cell chemistry itself — vertical integration that runs from the mine-adjacent materials all the way to the finished car.'}
+  ];
+  function sel(p,node){
+    svg.querySelectorAll('.map-node').forEach(g=>g.classList.remove('sel')); if(node)node.classList.add('sel');
+    detail.innerHTML='<span class="md-tier" style="background:var(--china)">In-house · part '+p.n+'</span><h4>'+p.name+'</h4><p>'+p.d+'</p>';
+  }
+  PARTS.forEach(p=>{
+    const g=el('g',{class:'map-node',transform:'translate('+p.x+','+p.y+')'});
+    g.appendChild(el('circle',{class:'dot',r:16,style:'fill:#b5342c;fill-opacity:.92;stroke:#fff;stroke-width:2'}));
+    const tx=el('text',{'text-anchor':'middle',y:5,style:'fill:#fff;font-weight:800;stroke:none'});tx.textContent=p.n;g.appendChild(tx);
+    g.onclick=()=>sel(p,g); svg.appendChild(g);
+  });
+  sel(PARTS[0]);
+})();
+
+/* ---------- who owns whom (ownership network) ---------- */
+(function(){
+  const svg=document.getElementById('ownSvg'); if(!svg) return;
+  const detail=document.getElementById('ownDetail'), NS='http://www.w3.org/2000/svg';
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  const PARENTS={
+    geely:{x:250,y:230,r:40,name:'Geely Holding',c:'#b5342c',d:'China’s most acquisitive automaker. Owns or controls Volvo, Polestar, Lotus, Lynk & Co, Zeekr, half of Smart and the London black-cab maker (LEVC) — plus ~17% of Aston Martin.'},
+    saic:{x:760,y:170,r:34,name:'SAIC Motor',c:'#b5342c',d:'State-owned Shanghai giant. Owns the British MG marque (since 2007) and the Maxus/LDV van brand, and runs big JVs with VW and GM in China.'},
+    leap:{x:780,y:400,r:30,name:'Leapmotor',c:'#b5342c',d:'The reverse case: Western giant Stellantis took a ~20% stake and formed a 51%-led JV to sell this Chinese brand’s EVs across Europe and beyond.'}
+  };
+  const BRANDS=[
+    {x:90,y:120,p:'geely',name:'Volvo',o:'Sweden',d:'Volvo Cars — bought from Ford in 2010; Geely is the majority shareholder.'},
+    {x:250,y:70,p:'geely',name:'Polestar',o:'Sweden',d:'Performance-EV brand; Geely (via Volvo and directly) is the controlling shareholder.'},
+    {x:430,y:110,p:'geely',name:'Lotus',o:'Britain',d:'Iconic British sports-car maker; Geely owns ~51% and listed Lotus Technology in the US.'},
+    {x:120,y:330,p:'geely',name:'Lynk & Co',o:'China/Sweden',d:'Geely-Volvo joint brand sold in China and Europe.'},
+    {x:300,y:380,p:'geely',name:'Zeekr',o:'China',d:'Geely’s premium EV brand; one of the fastest-growing Chinese marques.'},
+    {x:450,y:330,p:'geely',name:'Smart',o:'Germany',d:'The Mercedes city-car brand, now a 50/50 Geely–Mercedes joint venture building EVs in China.'},
+    {x:470,y:230,p:'geely',name:'LEVC',o:'Britain',d:'The London Electric Vehicle Company — maker of London’s black cabs — is Geely-owned.'},
+    {x:430,y:30,p:'geely',name:'Aston Martin',o:'Britain',d:'Geely holds roughly a 17% stake, among its largest shareholders.'},
+    {x:920,y:90,p:'saic',name:'MG',o:'Britain',d:'The 100-year-old British sports-car badge — wholly owned by SAIC and now a top-selling Chinese export brand in Europe and Australia.'},
+    {x:930,y:240,p:'saic',name:'Maxus / LDV',o:'Britain',d:'Commercial-van brand owned by SAIC.'},
+    {x:620,y:430,p:'leap',name:'Stellantis',o:'Netherlands/US',d:'Owner of Jeep, Peugeot, Fiat, Chrysler — took a ~20% stake in Leapmotor and sells its EVs abroad through a JV.'}
+  ];
+  function sel(n,node){
+    svg.querySelectorAll('.map-node').forEach(g=>g.classList.remove('sel')); if(node)node.classList.add('sel');
+    const isP=!!n.r;
+    detail.innerHTML='<span class="md-tier" style="background:'+(isP?n.c:'#5b6670')+'">'+(isP?'Chinese parent':'Brand · '+n.o)+'</span><h4>'+n.name+'</h4><p>'+n.d+'</p>';
+  }
+  // lines first
+  BRANDS.forEach(b=>{const p=PARENTS[b.p];svg.appendChild(el('line',{x1:b.x,y1:b.y,x2:p.x,y2:p.y,style:'stroke:var(--rule);stroke-width:1.5'}));});
+  // parents
+  Object.keys(PARENTS).forEach(k=>{
+    const p=PARENTS[k], g=el('g',{class:'map-node',transform:'translate('+p.x+','+p.y+')'});
+    g.appendChild(el('circle',{class:'dot',r:p.r,style:'fill:'+p.c+';fill-opacity:.92;stroke:#fff;stroke-width:2'}));
+    const tx=el('text',{'text-anchor':'middle',y:5,style:'fill:#fff;font-weight:800;font-size:13px;stroke:none'});tx.textContent=p.name.split(' ')[0];g.appendChild(tx);
+    g.onclick=()=>sel(p,g); svg.appendChild(g);
+  });
+  // brands
+  BRANDS.forEach(b=>{
+    const g=el('g',{class:'map-node',transform:'translate('+b.x+','+b.y+')'});
+    g.appendChild(el('circle',{class:'dot',r:22,style:'fill:var(--paper);stroke:#b5342c;stroke-width:2.5'}));
+    const tx=el('text',{'text-anchor':'middle',y:4,style:'fill:var(--ink);font-weight:700;font-size:11px;stroke:none'});tx.textContent=b.name;g.appendChild(tx);
+    g.onclick=()=>sel(b,g); svg.appendChild(g);
+  });
+  sel(PARENTS.geely);
 })();
 
 /* ---------- floating table of contents ---------- */
