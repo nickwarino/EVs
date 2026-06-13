@@ -134,6 +134,19 @@ sup.fn a{color:var(--china);text-decoration:none}
 .bignum .n.neutral{color:var(--ink)}
 .bignum .l{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-soft);margin-top:12px;line-height:1.5}
 
+/* ---------- editorial photos ---------- */
+figure.photo{max-width:var(--maxwide);margin:64px auto;}
+figure.photo .frame{position:relative;width:100%;border-radius:6px;overflow:hidden;background:#17120f;aspect-ratio:16/9;box-shadow:0 18px 50px -22px rgba(0,0,0,.5)}
+figure.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 7s ease}
+figure.photo:hover img{transform:scale(1.045)}
+figure.photo .frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.45));pointer-events:none}
+figure.photo .cap-over{position:absolute;left:0;right:0;bottom:0;padding:26px 28px 20px;color:#f4f1ea;z-index:2}
+figure.photo .cap-over .ct{font-family:var(--serif);font-size:clamp(18px,2.2vw,24px);font-weight:600;line-height:1.3;max-width:620px;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+figure.photo figcaption{font-family:var(--sans);font-size:11.5px;color:var(--ink-faint);margin-top:11px;line-height:1.5;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+figure.photo figcaption .credit{color:var(--ink-faint)}
+figure.photo figcaption .credit a{color:var(--ink-faint);text-decoration:underline;text-decoration-color:#cfcabf}
+@media(max-width:640px){figure.photo .frame{aspect-ratio:4/3}figure.photo .cap-over{padding:18px 18px 16px}}
+
 /* ---------- figure scaffolding ---------- */
 figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm);border:1px solid var(--rule);border-radius:6px;padding:38px 38px 30px}
 @media(max-width:640px){figure.viz{padding:26px 18px 22px}}
@@ -224,6 +237,24 @@ svg.donut{width:200px;height:200px}
 .donut text{font-family:var(--serif);font-weight:800;font-size:44px;fill:var(--ink)}
 .donut text.sm{font-family:var(--sans);font-weight:600;font-size:11px;fill:var(--ink-faint)}
 
+/* ---------- padding / fact-check box ---------- */
+.padbox{max-width:var(--maxwide);margin:48px auto;background:#fbf6ee;border:1px solid #ecdcc4;border-left:5px solid var(--gold);border-radius:6px;padding:34px 34px 28px}
+@media(max-width:640px){.padbox{padding:24px 20px}}
+.padbox .pb-kicker{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.padbox h3{font-size:clamp(24px,3.2vw,30px);font-weight:800;line-height:1.15;margin-bottom:18px}
+.padbox p{font-family:var(--sans);font-size:15px;line-height:1.7;color:#3a3a3a;margin-bottom:18px}
+.padbox .pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:22px 0 6px;border-top:1px solid #ecdcc4}
+@media(max-width:640px){.padbox .pb-grid{grid-template-columns:1fr}}
+.padbox .pb-cell{padding:20px 22px;border-bottom:1px solid #ecdcc4}
+.padbox .pb-cell:nth-child(1){border-right:1px solid #ecdcc4}
+@media(max-width:640px){.padbox .pb-cell:nth-child(1){border-right:none}}
+.padbox .pb-cell .tag{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.padbox .pb-cell.real .tag{color:var(--china)}
+.padbox .pb-cell.myth .tag{color:var(--west-deep)}
+.padbox .pb-cell h5{font-family:var(--sans);font-size:15.5px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.padbox .pb-cell p{font-size:13.5px;line-height:1.65;margin:0;color:var(--ink-soft)}
+.padbox .pb-stat{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--china);display:block;margin:2px 0 6px}
+
 /* ---------- counterpoint cards ---------- */
 .caveats{max-width:var(--maxwide);margin:50px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
 .cav{background:var(--paper-warm);border:1px solid var(--rule);border-top:4px solid var(--west-deep);border-radius:6px;padding:26px 24px}
@@ -308,6 +339,15 @@ svg.donut{width:200px;height:200px}
     <div class="ch-kicker">Chapter One · Market Dominance</div>
     <h2>The Crown Changes Hands</h2>
   </div>
+
+  <figure class="photo reveal">
+    <div class="frame">
+      <img loading="lazy" alt="BYD Seal electric sedan, BYD's direct rival to the Tesla Model 3" src="https://commons.wikimedia.org/wiki/Special:FilePath/2023_BYD_Seal_front.jpg">
+      <div class="cap-over"><div class="ct">The BYD Seal — the company's direct answer to the Tesla Model 3, and a symbol of the year the crown changed hands.</div></div>
+    </div>
+    <figcaption><span>BYD's lineup now spans a $9,500 city car to executive sedans and supercars.</span><span class="credit">Photo: Rutger van der Maar, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via Wikimedia Commons</span></figcaption>
+  </figure>
+
   <div class="prose">
     <p class="lede reveal">For a decade, the electric car had one undisputed king. That era ended on January 2, 2026, when the full-year numbers landed: BYD sold <strong>2,256,714</strong> battery-electric vehicles in 2025 — up 27.9% — while Tesla delivered <strong>1,636,129</strong>, down 8.6% in its second consecutive annual decline. The gap: more than <strong>620,000 cars</strong>. For the first time in history, the world's best-selling pure-electric carmaker is Chinese.<sup class="fn"><a href="#src-3">3</a>,<a href="#src-4">4</a>,<a href="#src-5">5</a></sup> <span class="badge">Verified 3–0</span></p>
     <p class="reveal">The collapse was steepest at the finish line. Tesla's Q4 2025 deliveries fell to <strong>418,227</strong> — down 15.6% year-over-year, missing consensus.<sup class="fn"><a href="#src-3">3</a></sup> And the crown was not narrowly won: just one year earlier, in 2024, Tesla had clung to the annual title by fewer than 25,000 units (1,789,226 vs 1,764,992). In twelve months, a near-tie became a rout.</p>
@@ -433,6 +473,14 @@ svg.donut{width:200px;height:200px}
     <p class="reveal">Nor is this a lead the West expects to erase. Even in the IEA's own forward scenarios, China still supplies <strong>~90% of anode material, ~75% of cathode material, and two-thirds of all batteries in 2035</strong> — a decade from now, after every announced Western gigafactory is counted.<sup class="fn"><a href="#src-1">1</a></sup> <span class="badge">Verified 3–0</span></p>
   </div>
 
+  <figure class="photo reveal">
+    <div class="frame">
+      <img loading="lazy" alt="The cells of a BYD-style LFP Blade battery pack" src="https://commons.wikimedia.org/wiki/Special:FilePath/Blades_in_LFP_battery_pack.jpg">
+      <div class="cap-over"><div class="ct">Inside the Blade: the long, flat lithium-iron-phosphate cells that BYD made mainstream — now the chemistry behind a majority of the world's new EVs.</div></div>
+    </div>
+    <figcaption><span>LFP grew from under 10% of EV batteries in 2020 to over 55% in 2025.</span><span class="credit">Photo: BoldLuis, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 / Public Domain</a>, via Wikimedia Commons</span></figcaption>
+  </figure>
+
   <div class="pull reveal">"Market share can be lost in a model cycle. The refinery layer cannot. Even the IEA's 2035 scenario leaves two-thirds of the world's batteries in Chinese hands."</div>
 </section>
 
@@ -480,6 +528,15 @@ svg.donut{width:200px;height:200px}
     <div class="ch-kicker">Chapter Five · Product &amp; Value</div>
     <h2>More Car per Dollar</h2>
   </div>
+
+  <figure class="photo reveal">
+    <div class="frame">
+      <img loading="lazy" alt="BYD Seagull, a compact electric city car starting around $9,555" src="https://commons.wikimedia.org/wiki/Special:FilePath/2025_BYD_Seagull_EV_in_Sprout_Green,_front_left.jpg">
+      <div class="cap-over"><div class="ct">The BYD Seagull — roughly $9,555 to start, and the car that put advanced driver assistance within reach of an entry-level buyer.</div></div>
+    </div>
+    <figcaption><span>No US or European automaker sells any new EV near this price.</span><span class="credit">Photo: Ethan Llamas, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via Wikimedia Commons</span></figcaption>
+  </figure>
+
   <div class="prose">
     <p class="lede reveal">Dominance upstream becomes generosity downstream. In February 2025, BYD announced that <strong>"God's Eye,"</strong> its highway-and-city driver-assistance suite, would roll out across its <em>entire</em> lineup — an initial 21 models spanning BYD, Denza, Fangcheng Bao and Yangwang — running on its in-house Xuanji&nbsp;A3 chipset alongside NVIDIA Orin and Horizon Robotics compute.<sup class="fn"><a href="#src-6">6</a></sup> <span class="badge med">Verified 2–1</span></p>
     <p class="reveal">The shock was the price. God's Eye&nbsp;C comes <strong>at no extra cost on the Seagull</strong>, a city EV starting at ¥69,800 — about <strong>$9,555</strong>. Before that announcement, the cheapest car in China with comparable L2+ assistance was the Leapmotor B10 at ¥109,800 (~$15,140), and BYD's own ADAS floor had been ¥216,000 (~$30,000). In one keynote, BYD cut the price of admission to advanced driver assistance by roughly two-thirds.<sup class="fn"><a href="#src-6">6</a></sup></p>
@@ -527,6 +584,14 @@ svg.donut{width:200px;height:200px}
     <div class="link-card"><div class="ic">🚢</div><h5>EXPORT</h5><p>1.05M BYD vehicles shipped overseas in 2025, up ~150%</p></div>
   </div>
 
+  <figure class="photo reveal">
+    <div class="frame">
+      <img loading="lazy" alt="BYD Auto manufacturing plant in Rayong, Thailand" src="https://commons.wikimedia.org/wiki/Special:FilePath/BYD_Auto_(Thailand)_Co.,_Ltd._manufacturing_plant_in_Rayong,_Thailand.png">
+      <div class="cap-over"><div class="ct">BYD's plant in Rayong, Thailand — the model goes global: build the supply chain at home, then plant final assembly inside the tariff walls.</div></div>
+    </div>
+    <figcaption><span>Overseas factories help BYD step around the import duties rising against it.</span><span class="credit">Photo: iMoD Official, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>, via Wikimedia Commons</span></figcaption>
+  </figure>
+
   <div class="prose">
     <p class="reveal">The integration shows up as speed. BYD spent <strong>RMB&nbsp;63.4&nbsp;billion ($9.2B) on R&amp;D in 2025</strong> — up 17% in a year when its profits fell 19% — and employs more than <strong>120,000 engineers</strong>, with over 42,000 granted patents.<sup class="fn"><a href="#src-10">10</a>,<a href="#src-11">11</a></sup> When it decided every car should have city-capable driver assistance, the rollout took one product cycle, because the chips, cells, software and assembly lines all answer to the same company.</p>
     <div class="note reveal"><strong>What we did not verify:</strong> several of BYD's most spectacular engineering claims — the 1,000-volt Super-e platform, megawatt "flash" charging, next-generation Blade batteries with 1,000&nbsp;km range, cell-to-body construction, and its roll-on/roll-off car-carrier fleet — are widely reported but did not pass through this report's adversarial fact-check round. They are omitted from the figures above rather than presented as verified fact.</div>
@@ -548,6 +613,25 @@ svg.donut{width:200px;height:200px}
     <div class="cav"><div class="num">ii.</div><h4>Q1 2026: the crown wobbled</h4><p>China's domestic NEV sales fell almost 25% year-over-year in Q1 2026 (~2.01M units); BYD dropped ~25% and <strong>Tesla retook the quarterly BEV lead</strong>. Annual leadership for 2026 is genuinely contested — even as Chinese EV exports more than doubled again.</p></div>
     <div class="cav"><div class="num">iii.</div><h4>Inventory is piling up abroad</h4><p>CAAM-reported 2025 exports exceeded actual overseas <em>sales</em> by more than 25% — cars on ships and in lots, not in driveways. Export figures flatter the demand picture.</p></div>
     <div class="cav"><div class="num">iv.</div><h4>The tariff walls are rising</h4><p>EU countervailing duties (in force to end-2029) held Chinese imports below 20% of EU EV sales. Mexico raised tariffs from 20% to 50% in January 2026. Southeast Asian duty waivers expired in December 2025. The US market remains effectively closed.</p></div>
+  </div>
+
+  <div class="padbox reveal">
+    <div class="pb-kicker">A Reader's Question, Fact-Checked</div>
+    <h3>"How the numbers get padded" — and what the viral photos really show</h3>
+    <p>A common challenge runs: <em>I've seen aerial photos of airport-sized lots packed with thousands of unsold EVs — proof the sales figures are inflated.</em> The instinct is right; the evidence usually cited is not. There are two different things here, and only one of them holds up.</p>
+    <div class="pb-grid">
+      <div class="pb-cell real">
+        <div class="tag">● The real mechanism</div>
+        <h5>"Zero-mileage used cars"</h5>
+        <p>Automakers and dealers book a car as <em>sold</em> — registering and insuring it before any buyer exists — to hit targets and claim EV subsidies, then funnel the pristine, never-driven car into the used or export market. Reuters and CNBC documented Neta booking<span class="pb-stat">64,719 cars</span>this way over 15 months — more than half the 117,000 it reported. Zeekr was also implicated; Chinese state media called it out and Beijing moved to ban resale within six months of a "sale."</p>
+      </div>
+      <div class="pb-cell myth">
+        <div class="tag">▲ The misattribution</div>
+        <h5>The "EV graveyard" photos</h5>
+        <p>The viral images of thousands of cars rotting in fields are mostly from <strong>2019–2023</strong> and show abandoned <strong>ride-hailing and car-sharing fleets</strong> from startups that collapsed when subsidies were cut — not unsold 2025 inventory. Bloomberg, Carscoops and The Drive traced them to dead fleets; France 24 debunked a batch falsely placed in Europe. Citing them as proof of current fake sales invites an easy rebuttal.</p>
+      </div>
+    </div>
+    <p style="margin-top:18px">The honest version of the argument leans on the zero-mileage scandal plus the verified export-inventory overhang (counterpoint iii above) — not the old graveyard imagery. And note the limit of even the strong version: padding inflates <em>domestic sales reports</em>. It does not touch the supply-chain pillar — the &gt;80% of cells, 90% of anode material and 93% of magnets are measured at the factory and refinery, not from sales filings.<sup class="fn"><a href="#src-14">14</a>,<a href="#src-15">15</a>,<a href="#src-16">16</a></sup></p>
   </div>
 
   <div class="prose">
@@ -600,6 +684,11 @@ svg.donut{width:200px;height:200px}
       <li><a href="https://cnevpost.com/2026/02/04/global-ev-battery-market-share-2025/">CnEVPost — Global EV battery market share 2025</a><span class="q">Secondary</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
+      <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
+      <li id="src-15"><a href="https://evxl.co/2025/05/28/china-auto-industry-zero-mileage-used-car-sales/">EVXL — China's "zero-mileage" used-car sales</a><span class="q">Secondary</span></li>
+      <li id="src-16"><a href="https://www.carscoops.com/2023/08/the-real-story-behind-chinas-graveyards-of-abandoned-evs/">Carscoops — The real story behind China's EV graveyards</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.bloomberg.com/features/2023-china-ev-graveyards/">Bloomberg — China's abandoned-EV graveyards</a><span class="q">Secondary</span></li>
+      <li><a href="https://www.thedrive.com/news/the-real-story-of-that-chinese-ev-graveyard-isnt-what-you-were-told">The Drive — The real story of the Chinese EV graveyard</a><span class="q">Secondary</span></li>
     </ol>
 
     <div class="endline">Compiled June 12, 2026 · Full-year 2025 is the latest complete data cycle; Q1 2026 developments are noted where verified · Figures in USD converted at rates used by the cited sources · This page is a single self-contained HTML file with no external data dependencies.</div>
