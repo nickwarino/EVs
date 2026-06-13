@@ -193,7 +193,7 @@ figure.viz{max-width:var(--maxwide);margin:64px auto;background:var(--paper-warm
 .race{position:relative}
 .race-stage{position:relative;height:430px;margin:8px 0 6px}
 @media(max-width:640px){.race-stage{height:380px}}
-.race-bar{position:absolute;left:0;height:38px;display:flex;align-items:center;border-radius:0 5px 5px 0;transition:transform .8s cubic-bezier(.4,0,.2,1),width .8s cubic-bezier(.4,0,.2,1),opacity .5s;will-change:transform,width;overflow:visible}
+.race-bar{position:absolute;left:0;height:38px;display:flex;align-items:center;border-radius:0 5px 5px 0;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .45s;will-change:transform,width;overflow:visible}
 .race-bar .rb-name{position:absolute;right:calc(100% + 10px);font-family:var(--sans);font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
 .race-bar .rb-val{position:absolute;left:calc(100% + 10px);font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
 .race-bar .rb-logo{font-size:15px;margin-left:10px;filter:saturate(0) brightness(0) invert(1);opacity:.9}
@@ -412,6 +412,53 @@ html[data-theme="dark"] .map-node text{stroke:#10100f}
 .refuted-box li{font-family:var(--sans);font-size:13px;color:#9d978c;margin:0 0 10px 18px;line-height:1.6}
 .refuted-box s{color:#6b655c}
 .endline{font-family:var(--sans);font-size:11.5px;color:#6b655c;margin-top:60px;padding-top:24px;border-top:1px solid #2c2925;letter-spacing:.04em}
+
+/* ---------- live ticker ---------- */
+.ticker{max-width:var(--maxwide);margin:54px auto;background:linear-gradient(110deg,#170f0e,#241312);border-radius:10px;padding:34px 30px;text-align:center;color:#f4f1ea;position:relative;overflow:hidden}
+.ticker::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 130%,rgba(181,52,44,.3),transparent 60%);pointer-events:none}
+.ticker .tk-label{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#c98a85;margin-bottom:10px}
+.ticker .tk-num{font-family:var(--serif);font-size:clamp(46px,9vw,86px);font-weight:800;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#fff}
+.ticker .tk-sub{font-family:var(--sans);font-size:13.5px;color:#bdb6ab;margin-top:14px}
+.ticker .tk-sub b{color:#e0b3ae}
+
+/* ---------- battery stacked bar (CATL panel) ---------- */
+.batt{max-width:var(--maxwide);margin:30px auto 0}
+.batt-stack{display:flex;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--rule)}
+.batt-seg{height:100%;display:flex;align-items:center;justify-content:center;position:relative;min-width:0;transition:flex-grow 1.4s cubic-bezier(.22,1,.3,1);flex-grow:0;overflow:hidden}
+.in-view .batt-seg{flex-grow:var(--g)}
+.batt-seg .sg-in{font-family:var(--sans);font-size:12px;font-weight:700;color:#fff;white-space:nowrap;padding:0 4px;opacity:0;transition:opacity .5s 1s}
+.in-view .batt-seg .sg-in{opacity:1}
+.batt-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:18px;font-family:var(--sans);font-size:12.5px;color:var(--ink-soft)}
+.batt-legend .bl{display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.batt-legend .sw{width:12px;height:12px;border-radius:3px}
+.batt-legend .cnflag{color:var(--china);font-weight:700}
+
+/* ---------- line chart (battery price) ---------- */
+.linechart{position:relative}
+.linechart svg{width:100%;height:auto;display:block;overflow:visible}
+.lc-axis{stroke:var(--rule);stroke-width:1}
+.lc-grid{stroke:var(--rule);stroke-width:.5;opacity:.6}
+.lc-line{fill:none;stroke:var(--china);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2.2s ease}
+.in-view .lc-line{stroke-dashoffset:0}
+.lc-area{fill:url(#lcGrad);opacity:0;transition:opacity 1s 1s}
+.in-view .lc-area{opacity:1}
+.lc-dot{fill:var(--china);opacity:0;transition:opacity .4s}
+.in-view .lc-dot{opacity:1}
+.lc-lbl{font-family:var(--sans);font-size:11px;font-weight:700;fill:var(--ink)}
+.lc-tick{font-family:var(--sans);font-size:10.5px;fill:var(--ink-faint)}
+.lc-china{fill:var(--gold)}
+
+/* ---------- scrollytelling timeline ---------- */
+.tl{max-width:760px;margin:30px auto 0;position:relative;padding-left:38px}
+.tl::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:var(--rule);border-radius:2px}
+.tl-fill{position:absolute;left:9px;top:6px;width:3px;background:linear-gradient(var(--china),var(--china-deep));border-radius:2px;height:0;transition:height .2s linear;z-index:1}
+.tl-item{position:relative;padding:0 0 38px 0}
+.tl-item .tl-dot{position:absolute;left:-34px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:3px solid var(--rule);z-index:2;transition:border-color .4s,transform .4s}
+.tl-item.lit .tl-dot{border-color:var(--china);transform:scale(1.15)}
+.tl-item .tl-year{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--ink-faint);line-height:1;transition:color .4s}
+.tl-item.lit .tl-year{color:var(--china)}
+.tl-item .tl-body{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--ink-soft);margin-top:7px}
+.tl-item .tl-body b{color:var(--ink);font-weight:700}
 
 /* reveal-on-scroll baseline */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.3,1)}
@@ -642,6 +689,12 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
     <div class="bignum"><div class="n" data-count="1046083" data-format="comma">0</div><div class="l">BYD's own 2025 exports — past 1M for the first time, up <strong>~150%</strong></div></div>
   </div>
 
+  <div class="ticker reveal" id="evTicker">
+    <div class="tk-label">Live · since you opened this page</div>
+    <div class="tk-num" id="tkNum">0</div>
+    <div class="tk-sub">electric vehicles have rolled off Chinese assembly lines as you read — at roughly <b>16 million a year</b>, about <b>30 every minute</b>. <span id="tkBYD"></span></div>
+  </div>
+
   <div class="prose">
     <p class="reveal">The export story marks a structural shift, not a volume blip. In 2021, Chinese-made EVs sold abroad were mostly <em>foreign</em> brands — Teslas and Dacias built in Shanghai. By 2025, <strong>80% were Chinese brands</strong>. China stopped being the West's contract factory and became its competitor, with BYD alone shipping <strong>1,046,083</strong> vehicles overseas — up roughly 150% in a single year.<sup class="fn"><a href="#src-1">1</a>,<a href="#src-4">4</a></sup> <span class="badge">Verified 3–0</span></p>
   </div>
@@ -689,6 +742,33 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <div class="hbar"><div class="lab">Mineral refining, avg. across 19 of 20<small>IEA-tracked energy minerals where China is #1</small></div><div class="track"><div class="fill inside gold" data-w="70" title="IEA Critical Minerals Outlook 2025. Verified 3–0"><span class="pct">~70%</span></div></div></div>
     </div>
     <figcaption>Sources: IEA Global EV Outlook 2026<sup class="fn"><a href="#src-1">1</a></sup>; IEA Global Critical Minerals Outlook 2025<sup class="fn"><a href="#src-2">2</a></sup>; rare-earth rows from CSIS, Oct 2025<sup class="fn"><a href="#src-8">8</a></sup>. All bars verified 3–0 by independent fact-check panels. Concentration is increasing: the top-3 refiners' average share rose from 82% (2020) to 86% (2024), with ~90% of recent supply growth coming from the single top supplier.</figcaption>
+  </figure>
+
+  <figure class="viz reveal" style="background:var(--paper)" id="battFig">
+    <div class="f-kicker">Fig. 3b — The Battery Oligopoly</div>
+    <div class="f-title">Two Chinese companies make more than half the world's EV batteries</div>
+    <div class="f-sub">2025 global EV battery installations, 1,187 GWh total (+31.7% YoY). Six of the top ten makers are Chinese.</div>
+    <div class="batt">
+      <div class="batt-stack">
+        <div class="batt-seg" style="--g:39.2;background:#8f231d"><span class="sg-in">CATL 39.2%</span></div>
+        <div class="batt-seg" style="--g:16.4;background:#b5342c"><span class="sg-in">BYD 16.4%</span></div>
+        <div class="batt-seg" style="--g:5.3;background:#c85a52"><span class="sg-in">CALB</span></div>
+        <div class="batt-seg" style="--g:4.5;background:#d57e77"><span class="sg-in">Gotion</span></div>
+        <div class="batt-seg" style="--g:2.6;background:#e0a39d"></div>
+        <div class="batt-seg" style="--g:2.4;background:#ecbcb7"></div>
+        <div class="batt-seg" style="--g:9.2;background:#5b6670"><span class="sg-in">LG 9.2%</span></div>
+        <div class="batt-seg" style="--g:3.7;background:#7d8893"></div>
+        <div class="batt-seg" style="--g:3.7;background:#969ea7"></div>
+        <div class="batt-seg" style="--g:2.4;background:#b0b7bf"></div>
+        <div class="batt-seg" style="--g:10.6;background:#cdd2d8"><span class="sg-in">Others</span></div>
+      </div>
+      <div class="batt-legend">
+        <span class="bl"><span class="sw" style="background:#b5342c"></span><span class="cnflag">Chinese makers ≈ 70%</span></span>
+        <span class="bl"><span class="sw" style="background:#7d8893"></span>Korea &amp; Japan (LG, SK On, Panasonic, Samsung)</span>
+        <span class="bl"><span class="sw" style="background:#cdd2d8"></span>Others</span>
+      </div>
+    </div>
+    <figcaption>CATL + BYD alone = <strong>55.6%</strong> of the world's EV batteries (659.5 of 1,187 GWh). BYD makes its own cells in-house and still ranks #2 globally while also building cars. Source: SNE Research via CnEVPost.<sup class="fn"><a href="#src-19">19</a></sup></figcaption>
   </figure>
 
   <div class="prose">
@@ -742,6 +822,14 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <div class="rung"><div class="lab">Europe</div><div class="bar b-old" data-w="83"><span class="tag">≈$131 &nbsp;(+56%)</span></div></div>
     </div>
     <figcaption>Regional pack-price averages reflect chemistry mix (China is majority-LFP) and manufacturing scale, not identical-cell teardowns. Sources: BloombergNEF Dec 2025; corroborates IEA's ~30% Chinese battery cost advantage. Verified 3–0.</figcaption>
+  </figure>
+
+  <figure class="viz reveal" style="background:var(--paper)" id="priceFig">
+    <div class="f-kicker">Fig. 4b — The Floor Keeps Dropping</div>
+    <div class="f-title">Lithium-ion battery pack prices, 2013 → 2025</div>
+    <div class="f-sub">BloombergNEF volume-weighted global average, nominal $/kWh. The cost of the EV's priciest part fell ~85% in a dozen years — and China sits below the global line.</div>
+    <div class="linechart"><svg id="priceChart" viewBox="0 0 900 380" role="img" aria-label="Battery pack price decline 2013-2025"></svg></div>
+    <figcaption>2022's uptick reflects a spike in lithium and other metal prices; the decline resumed as those eased and LFP scaled. The gold marker is China's 2025 pack price ($84/kWh) — below the global average of $108. Source: BloombergNEF.<sup class="fn"><a href="#src-20">20</a></sup></figcaption>
   </figure>
 </section>
 
@@ -808,6 +896,20 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
   </div>
   <div class="prose">
     <p class="lede reveal">Why can BYD give away driver assistance on a $9,500 car and still out-earn Tesla? Because almost nothing in that car carries someone else's margin. BYD began life in 1995 as a battery maker; today it makes the cells, the cathode chemistry behind them, the power electronics, its own Xuanji ADAS chipset, the software stack — and it sells the surplus batteries to rivals. Each layer it owns is a markup it doesn't pay.</p>
+    <p class="reveal" style="margin-bottom:8px"><strong>Thirty years, battery workshop to world's largest EV maker.</strong> Scroll the timeline:</p>
+  </div>
+
+  <div class="tl reveal" id="bydTimeline">
+    <div class="tl-fill" id="tlFill"></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1995</div><div class="tl-body">Wang Chuanfu founds BYD in Shenzhen as a <b>rechargeable-battery maker</b>, supplying mobile-phone cells.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2003</div><div class="tl-body">BYD buys a struggling state carmaker (Qinchuan Auto) and <b>enters the car business</b> — batteries first, cars second.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2008</div><div class="tl-body">Launches the F3DM, the <b>world's first mass-produced plug-in hybrid</b>. Warren Buffett's Berkshire Hathaway buys ~10% for $230M.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-body">Unveils the <b>Blade Battery</b> — a cobalt-free LFP pack that resets the industry's safety-and-cost baseline.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-body">Becomes the <b>first major automaker to stop building pure combustion cars</b>, going all-in on EVs and plug-in hybrids.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-body">World's largest NEV maker (~3M sold) and begins shipping cars on <b>its own fleet of ro-ro car carriers</b>.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-body"><b>Out-earns Tesla on revenue</b> ($107B) and overtakes it in quarterly battery-electric sales.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-body">"God's Eye" driver assistance goes line-wide; the Super e-Platform debuts; BYD <b>seizes the global BEV crown</b> and tops 1M exports.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-body">Targets 1.5–1.6M exports and launches in Canada — even as a brutal home-market price war squeezes profits.</div></div>
   </div>
 
   <div class="chain reveal">
@@ -916,7 +1018,8 @@ html[data-theme="dark"] .scrollcue,html[data-theme="dark"] .hero{}/* hero alread
       <li id="src-11"><a href="https://cleantechnica.com/2026/03/30/byd-2025-annual-report-in-context/">CleanTechnica — BYD's 2025 annual report in context</a><span class="q">Analysis</span></li>
       <li id="src-12"><a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/exhibit991.htm">Tesla — Q4 &amp; FY2025 Update (SEC 8-K, EX-99.1)</a><span class="q">Primary</span></li>
       <li id="src-13"><a href="https://www.bloomberg.com/news/articles/2026-03-27/byd-delivers-steeper-than-expected-profit-drop-amid-ev-price-war">Bloomberg — BYD's steeper-than-expected profit drop</a><span class="q">Secondary</span></li>
-      <li><a href="https://cnevpost.com/2026/02/04/global-ev-battery-market-share-2025/">CnEVPost — Global EV battery market share 2025</a><span class="q">Secondary</span></li>
+      <li id="src-19"><a href="https://cnevpost.com/2026/02/04/global-ev-battery-market-share-2025/">CnEVPost / SNE Research — Global EV battery market share 2025</a><span class="q">Secondary</span></li>
+      <li id="src-20"><a href="https://about.bnef.com/insights/clean-transport/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/">BloombergNEF — Battery pack prices fall to $108/kWh (Dec 2025)</a><span class="q">Primary</span></li>
       <li><a href="https://www.atlanticcouncil.org/dispatches/europe-has-had-enough-of-chinas-export-surge/">Atlantic Council — Europe and China's export surge</a><span class="q">Secondary</span></li>
       <li><a href="https://www.cnbc.com/2025/12/30/china-electric-car-2026-price-war-evs-sales-global-expansion-slowdown-price-war-2025.html">CNBC — China's EV price war heading into 2026</a><span class="q">Secondary</span></li>
       <li id="src-14"><a href="https://www.cnbc.com/2025/07/21/china-ev-brands-zeekr-neta-inflated-car-sales-using-insurance-scheme.html">CNBC / Reuters — Zeekr &amp; Neta inflated sales via insurance scheme</a><span class="q">Secondary</span></li>
@@ -1065,36 +1168,30 @@ function runCounter(el){
     marksEl.querySelectorAll('span').forEach((s,k)=>s.classList.toggle('on',k===Math.round(t)));
   }
   // year marks
-  YEARS.forEach((y,k)=>{const s=document.createElement('span');s.textContent=y;s.onclick=()=>{stop();animateTo(k);};marksEl.appendChild(s);});
-  let t=0, raf=null, playing=false, started=false;
-  function frame(now){
-    if(!playing){raf=null;return;}
-    const dt=(now-frame.last)||16; frame.last=now;
-    t+=dt/1500;
-    if(t>=LAST){t=LAST;playing=false;playBtn.textContent='↻ Replay';}
-    render(t); scrub.value=t/LAST*100;
-    if(playing)raf=requestAnimationFrame(frame);else raf=null;
-  }
-  function play(){
-    if(t>=LAST)t=0;
-    playing=true;playBtn.textContent='❚❚ Pause';frame.last=0;
-    if(!raf)raf=requestAnimationFrame(frame);
-  }
-  function stop(){playing=false;playBtn.textContent='▶ Play';}
-  function animateTo(targetIdx){ // smooth glide to a year
-    playing=true;playBtn.textContent='❚❚ Pause';frame.last=0;
-    const dir=targetIdx>t?1:-1;
-    function g(now){
-      const dt=(now-g.last)||16; g.last=now;
-      t+=dir*dt/1200;
-      if((dir>0&&t>=targetIdx)||(dir<0&&t<=targetIdx)){t=targetIdx;playing=false;playBtn.textContent=(t>=LAST)?'↻ Replay':'▶ Play';render(t);scrub.value=t/LAST*100;return;}
-      render(t);scrub.value=t/LAST*100;
-      if(playing)requestAnimationFrame(g);
+  YEARS.forEach((y,k)=>{const s=document.createElement('span');s.textContent=y;s.onclick=()=>{glide(k);};marksEl.appendChild(s);});
+  let t=0, raf=null, mode='idle', target=0, last=0, started=false;
+  function cancel(){if(raf){cancelAnimationFrame(raf);raf=null;}}
+  function setBtn(){playBtn.textContent=(mode==='play')?'❚❚ Pause':(t>=LAST?'↻ Replay':'▶ Play');}
+  function tick(now){
+    if(!last)last=now;
+    let dt=now-last; last=now; if(dt>100)dt=100;
+    if(mode==='play'){
+      t+=dt/1500;
+      if(t>=LAST){t=LAST;mode='idle';}
+    }else if(mode==='glide'){
+      const dir=target>t?1:-1;
+      t+=dir*dt/1100;
+      if((dir>0&&t>=target)||(dir<0&&t<=target)){t=target;mode='idle';}
     }
-    requestAnimationFrame(g);
+    render(t); scrub.value=t/LAST*100; setBtn();
+    raf = (mode!=='idle') ? requestAnimationFrame(tick) : null;
   }
-  playBtn.onclick=()=>{playing?stop():play();};
-  scrub.oninput=()=>{stop();t=scrub.value/100*LAST;render(t);};
+  function play(){cancel(); if(t>=LAST)t=0; mode='play'; last=0; setBtn(); raf=requestAnimationFrame(tick);}
+  function pause(){cancel(); mode='idle'; setBtn();}
+  function glide(to){cancel(); target=to; mode='glide'; last=0; setBtn(); raf=requestAnimationFrame(tick);}
+  window.__raceGlide=glide;
+  playBtn.onclick=()=>{mode==='play'?pause():play();};
+  scrub.oninput=()=>{pause(); t=scrub.value/100*LAST; render(t); setBtn();};
   addEventListener('resize',()=>render(t));
   window.__startRace=function(){if(started)return;started=true;setTimeout(play,500);};
   render(0);
@@ -1219,6 +1316,73 @@ function runCounter(el){
   // legend
   Object.keys(TIERS).forEach(k=>{const s=document.createElement('span');s.className='lg';s.innerHTML='<span class="dot" style="background:'+TIERS[k].c+'"></span>'+TIERS[k].label;legendEl.appendChild(s);});
   select(N[0]);
+})();
+
+/* ---------- live ticker ---------- */
+(function(){
+  const num=document.getElementById('tkNum'); if(!num) return;
+  const byd=document.getElementById('tkBYD');
+  const PER_SEC=16000000/(365.25*24*3600); // ~0.507 EVs/sec
+  const start=Date.now();
+  function upd(){
+    const n=(Date.now()-start)/1000*PER_SEC;
+    num.textContent=Math.floor(n).toLocaleString('en-US');
+    const b=Math.floor(n*0.288);
+    byd.innerHTML='About <b>'+b.toLocaleString('en-US')+'</b> of them would be BYD’s.';
+  }
+  upd(); setInterval(upd,140);
+})();
+
+/* ---------- battery price line chart ---------- */
+(function(){
+  const svg=document.getElementById('priceChart'); if(!svg) return;
+  const NS='http://www.w3.org/2000/svg';
+  const D=[[2013,732],[2016,295],[2018,180],[2020,140],[2022,151],[2023,139],[2024,115],[2025,108]];
+  const CHINA=[2025,84];
+  const W=900,H=380,pl=54,pr=24,pt=24,pb=42, iw=W-pl-pr, ih=H-pt-pb;
+  const xs=2013, xe=2025, ymax=780;
+  const X=y=>pl+(y-xs)/(xe-xs)*iw, Y=v=>pt+(1-v/ymax)*ih;
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+  // gridlines + y ticks
+  [0,200,400,600,780].forEach(v=>{
+    svg.appendChild(el('line',{x1:pl,y1:Y(v),x2:W-pr,y2:Y(v),class:'lc-grid'}));
+    svg.appendChild(el('text',{x:pl-8,y:Y(v)+4,'text-anchor':'end',class:'lc-tick'})).textContent='$'+v;
+  });
+  // x ticks
+  [2013,2016,2019,2022,2025].forEach(y=>{const t=el('text',{x:X(y),y:H-16,'text-anchor':'middle',class:'lc-tick'});t.textContent=y;svg.appendChild(t);});
+  // area + line paths
+  let dpath='M'+D.map(p=>X(p[0])+' '+Y(p[1])).join(' L ');
+  const area=el('path',{class:'lc-area',d:dpath+' L '+X(xe)+' '+Y(0)+' L '+X(xs)+' '+Y(0)+' Z'});
+  svg.appendChild(area);
+  const grad=el('linearGradient',{id:'lcGrad',x1:0,y1:0,x2:0,y2:1});
+  grad.appendChild(el('stop',{offset:'0%','stop-color':'#b5342c','stop-opacity':'.28'}));
+  grad.appendChild(el('stop',{offset:'100%','stop-color':'#b5342c','stop-opacity':'0'}));
+  const defs=el('defs',{});defs.appendChild(grad);svg.appendChild(defs);
+  const line=el('path',{class:'lc-line',d:dpath,pathLength:'1'});svg.appendChild(line);
+  // dots + value labels for key points
+  D.forEach((p,i)=>{
+    svg.appendChild(el('circle',{class:'lc-dot',cx:X(p[0]),cy:Y(p[1]),r:4}));
+    if(i===0||i===D.length-1||p[0]===2020||p[0]===2022){
+      const t=el('text',{class:'lc-lbl',x:X(p[0]),y:Y(p[1])-12,'text-anchor':i===0?'start':'middle'});t.textContent='$'+p[1];svg.appendChild(t);
+    }
+  });
+  // China marker
+  svg.appendChild(el('circle',{class:'lc-dot lc-china',cx:X(CHINA[0]),cy:Y(CHINA[1]),r:5}));
+  const ct=el('text',{class:'lc-lbl lc-china',x:X(CHINA[0]),y:Y(CHINA[1])+20,'text-anchor':'end'});ct.textContent='China $84';svg.appendChild(ct);
+})();
+
+/* ---------- scrollytelling timeline ---------- */
+(function(){
+  const tl=document.getElementById('bydTimeline'); if(!tl) return;
+  const fill=document.getElementById('tlFill');
+  const items=[].slice.call(tl.querySelectorAll('.tl-item'));
+  function upd(){
+    const mid=innerHeight*0.58, r=tl.getBoundingClientRect();
+    items.forEach(it=>{const b=it.getBoundingClientRect();it.classList.toggle('lit', b.top<mid);});
+    const prog=Math.max(0,Math.min(1,(mid-r.top)/r.height));
+    fill.style.height=(prog*100)+'%';
+  }
+  addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
 })();
 
 /* ---------- side-nav active state ---------- */
